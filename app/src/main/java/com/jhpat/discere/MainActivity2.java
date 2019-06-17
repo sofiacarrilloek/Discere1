@@ -4,6 +4,7 @@ import android.app.Person;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -221,10 +222,16 @@ public class MainActivity2 extends AppCompatActivity{
         ID_USER = preferencia.getString("ID2", "NO EXISTE");
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
 
-        if (TIPO.equalsIgnoreCase("Coach")||TIPO.equalsIgnoreCase("Speaker"))
+        if (TIPO.equalsIgnoreCase("Coach"))
         {
             obtenIDTEACHER(ID_USER);
+            verTeacher(ID_USER);
 
+        }
+        if (TIPO.equalsIgnoreCase("Speaker"))
+        {
+            obtenIDTEACHER(ID_USER);
+            verTeacher(ID_USER);
         }
 
         if (TIPO.equalsIgnoreCase("Fellow")) {
@@ -387,12 +394,14 @@ public class MainActivity2 extends AppCompatActivity{
                     String fechaInicio[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
 
+
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Disponible","Disponible",tipo[i]));
+
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i]));
 
 
                     }
@@ -478,6 +487,70 @@ public class MainActivity2 extends AppCompatActivity{
     }//FIN
 
 
+
+
+
+    public void verTeacher (final String ID_USER)
+    {
+        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("user",ID_USER); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String fechaInicio[]=new String[tamanio];
+                    String fechaInicio2[]=new String[tamanio];
+                    String status[]=new String[tamanio];
+                    String tipo[]=new String[tamanio];
+                    String id_teacher[]=new String[tamanio];
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
+                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+
+                        fechaInicio2[i]=fechaInicio[i].substring(0, 10);
+                        if (status[i].equals("0"))
+                        {
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
+                        }
+                        if (status[i].equals("1"))
+                        {
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", id_teacher[i], tipo[i]));
+                    }
+
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }//FIN
 
 
 
