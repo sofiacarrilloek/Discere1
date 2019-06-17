@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -109,9 +110,11 @@ public class Login extends AppCompatActivity {
                 new AttemptLogin().execute();
 
                 datosc(user.getText().toString());
-
             }
         });
+
+
+
 
         //Don´t out sesion
         RBsesion = (CheckBox) findViewById(R.id.RBSecion);
@@ -197,6 +200,13 @@ public class Login extends AppCompatActivity {
                     i.putExtra("hola",EMAIL1);
                     finish();
                     startActivity(i);
+
+                    //---------------------
+                    Intent noti = new Intent(Login.this, contenedor_notificaciones.class);
+                    noti.putExtra("noti", EMAIL1);
+                    startActivity(noti);
+                    //----------------------
+
                     return json.getString(TAG_MESSAGE);
                 } else {
                     Log.d("Login Failure!", json.getString(TAG_MESSAGE));
