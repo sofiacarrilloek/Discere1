@@ -201,12 +201,6 @@ public class Login extends AppCompatActivity {
                     finish();
                     startActivity(i);
 
-                    //---------------------
-                    Intent noti = new Intent(Login.this, contenedor_notificaciones.class);
-                    noti.putExtra("noti", EMAIL1);
-                    startActivity(noti);
-                    //----------------------
-
                     return json.getString(TAG_MESSAGE);
                 } else {
                     Log.d("Login Failure!", json.getString(TAG_MESSAGE));
