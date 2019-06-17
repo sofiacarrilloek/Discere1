@@ -20,7 +20,6 @@
         <activity android:name=".ErrorConexion"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity_Agendar" />
-        <activity android:name=".Cuadro_personalizado" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,6 +52,8 @@
             android:name=".dialogo"
             android:label=" "
             android:theme="@style/cuadrod" />
+        <activity android:name=".contenedor_notificaciones"/>
+
     </application>
 
 </manifest>

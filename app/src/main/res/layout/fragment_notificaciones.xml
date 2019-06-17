@@ -6,9 +6,13 @@
     tools:context=".Fragment_notificaciones">
 
     <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/lista"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/reNoti"/>
+    </LinearLayout>
 
 </FrameLayout>

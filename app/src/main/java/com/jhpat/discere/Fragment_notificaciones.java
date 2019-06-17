@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Fragment_notificaciones extends Fragment {
-    ListView listViewN;
+    CardView CardViewN;
     ArrayList<String> listaNotificaciones;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -71,7 +72,7 @@ public class Fragment_notificaciones extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista =inflater.inflate(R.layout.fragment_notificaciones, container, false);
-        listViewN = (ListView)vista.findViewById(R.id.lista);
+        CardViewN = (CardView) vista.findViewById(R.id.car_noti);
 
 
         return vista;
