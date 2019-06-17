@@ -108,7 +108,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             onOutSesion();
             return true;
         } else if (id == R.id.nav_share) {
-
+            notificacion();
+            return true;
         } else if (id == R.id.nav_send) {
 
         }
@@ -137,6 +138,10 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Intent intent= new Intent(pantalla_principal.this,Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+    public void notificacion(){
+        Intent inten = new Intent(getApplicationContext(),contenedor_notificaciones.class);
+        startActivity(inten);
     }
 
     public void ver(View view){

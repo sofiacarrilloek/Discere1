@@ -1,0 +1,25 @@
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/loading"
+        android:layout_width="130dp"
+        android:layout_height="165dp"
+        android:layout_below="@id/texto"
+        android:gravity="center"
+        app:srcCompat="@drawable/desconexion" />
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Oh no falta conexion!"
+        android:textSize="18pt" />
+</LinearLayout>

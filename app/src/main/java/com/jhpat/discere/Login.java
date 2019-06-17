@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -49,7 +52,7 @@ public class Login extends AppCompatActivity {
     // "http://xxx.xxx.x.x:1234/cas/login.php";
 
     private static final String LOGIN_URL = "http://puntosingular.mx/cas/login.php";
-
+            private int DURACION_SPLASH=3000;
     // La respuesta del JSON es
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -65,7 +68,29 @@ public class Login extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
 
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo!=null&&networkInfo.isConnectedOrConnecting()){
+
+            Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_SHORT).show();
+        }else{
+            new Handler().postDelayed(new Runnable(){
+                public void run(){
+                    // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
+                    Intent intent = new Intent(Login.this, ErrorConexion.class);
+                    startActivity(intent);
+                    finish();
+                };
+            }, DURACION_SPLASH);
+            Toast.makeText(getApplicationContext(),"Falta Internet",Toast.LENGTH_SHORT).show();
+        }
+        if (obtenerestadoc()){
+            Intent i = new Intent(Login.this, pantalla_principal.class);
+            startActivity(i);
+            finish();
+        }
         if (obtenerestadoc()){
             Intent i = new Intent(Login.this, pantalla_principal.class);
             startActivity(i);
