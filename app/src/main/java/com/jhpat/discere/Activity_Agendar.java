@@ -47,6 +47,8 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
     ProgressDialog progreso;
     private String usuario;
     String tip;
+    String email;
+    String nombre,apellido;
     //importante
     JSONObject jsonObject;
     RequestQueue request;
@@ -62,7 +64,7 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
 
         request= Volley.newRequestQueue(this);
         cargarP();
-        Toast.makeText(getApplicationContext(),"HOLA"+usuario+"Tipo"+tip,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"HOLA"+usuario+"Tipo"+tip+" El Email: "+email+" "+nombre+" "+apellido,Toast.LENGTH_LONG).show();
 
     }
     //receptor
@@ -135,7 +137,9 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         usuario= preferencia.getString("ID2", "NO EXISTE");
         tip=preferencia.getString("TIPO2", "holaperro");
-
+        email=preferencia.getString("EMAIL2","No hay email");
+        nombre=preferencia.getString("NAME2","HOLA Crack");
+        apellido=preferencia.getString("LAST_NAME2","hola");
     }//Fin cargar preferencias
 
     private void cargarWebService() {
@@ -149,7 +153,7 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
         String x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
         String x_2=te_1.getText().toString()+" "+mas+":00.000000";
 
-        String URL="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2;
+        String URL="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
 
 
 
