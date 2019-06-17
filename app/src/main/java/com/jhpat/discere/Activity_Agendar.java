@@ -144,7 +144,7 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this,"se a resgistrado correctamente",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Se ha resgistrado correctamente",Toast.LENGTH_SHORT).show();
         progreso.hide();
     }
 }

@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,10 +89,9 @@ class HwAdapter extends BaseAdapter {
 
         }
 
-
         dayView = (TextView) v.findViewById(R.id.date);
-        String[] separatedTime = day_string.get(position).split("-");
 
+        String[] separatedTime = day_string.get(position).split("-");
 
         gridvalue = separatedTime[2].replaceFirst("^0*", "");
         if ((Integer.parseInt(gridvalue) > 1) && (position < firstDay)) {
@@ -179,7 +179,6 @@ class HwAdapter extends BaseAdapter {
 
 
 
-
     public void setEventView(View v, int pos, TextView txt){
 
         int len=HomeCollection.date_collection_arr.size();
@@ -188,6 +187,8 @@ class HwAdapter extends BaseAdapter {
             String date=cal_obj.date;
             //Tipo
             String tipo = cal_obj.description;
+            String disponible = cal_obj.name;
+
 
             int len1=day_string.size();
             if (len1>pos) {
@@ -200,18 +201,45 @@ class HwAdapter extends BaseAdapter {
                     } else {
                         v.setBackgroundColor(Color.parseColor("#343434"));
 
-                        if (tipo.equalsIgnoreCase("Coaching")) {
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Ocupado"))
+                        {
                             v.setBackgroundResource(R.drawable.circulo_coachaceptada);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
-                        if (tipo.equalsIgnoreCase("Speaking"))
+                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Ocupado"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
                             txt.setTextColor(Color.parseColor("#696969"));
-                        } }
+                        }
+
+                        if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Coach")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+                        if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+                        if (tipo.equalsIgnoreCase("Coach")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+
+                    }
 
                 }
-            }
+            }//
 
 
         }

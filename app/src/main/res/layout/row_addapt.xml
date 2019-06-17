@@ -70,10 +70,19 @@
         android:layout_below="@+id/tv_class"
         android:textSize="16dp"
         android:id="@+id/tv_section"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn1"
+        android:layout_below="@+id/tv_section"
+        android:text="ACEPTAR"
+        />
+
     <View
         android:layout_width="match_parent"
         android:background="#8f8e8e"
-        android:layout_below="@+id/tv_section"
+        android:layout_below="@+id/btn1"
         android:id="@+id/visdf"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"

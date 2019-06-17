@@ -133,16 +133,19 @@ public class MainActivity2 extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
-              //  ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
+              ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
                 //Toast.makeText(MainActivity2.this, "Me tocaste pervertido :'0 "+HwAdapter.day_string.get(position), Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(MainActivity2.this, dialogo.class);
+              /* Intent i = new Intent(MainActivity2.this, dialogo.class);
                 i.putExtra("Rnombre", nombreE);
                 i.putExtra("Rfecha", fecham);
                 i.putExtra("RhoraI", horaIE);
                 i.putExtra("RhoraF", horaFE);
 
                 obtenerFecha(fecham);
-                startActivity(i);
+                startActivity(i);*/
+              //  Toast.makeText(MainActivity2.this, "Me tocaste pervertido :'0 "+HwAdapter.day_string.get(position), Toast.LENGTH_SHORT).show();
+
+
             }
 
         });
@@ -212,64 +215,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-
-
-    public void datosc (String Correo)
-    {
-        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
-        // HomeCollection.date_collection_arr.add( new HomeCollection("2019-07-08" ,"Diwali","Holiday","this is holiday"));
-
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-                    //fechaFinal=jsonObject.getJSONArray("datos").getJSONObject(1).getString("end_date");
-                    // sTipo=jsonObject.getJSONArray("datos").getJSONObject(0).getString("type");
-                    int tamanio =jsonObject.getJSONArray("datos").length();
-                    String fechaInicio[]=new String[tamanio];
-                    String tipo[]=new String[tamanio];
-
-                    for (int i=0; i<tamanio; i++)
-                    {
-                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
-                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
-
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Evento: "+tipo[i],"Holiday","this is holiday"));
-
-
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
-    }//FIN
-
-
-
     private  void cargarP()
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
@@ -284,6 +229,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         if (TIPO.equalsIgnoreCase("Fellow")) {
             obtenIDFELLOW(ID_USER);
+            datosTeacher("");
 
         }
 
@@ -354,19 +300,19 @@ public class MainActivity2 extends AppCompatActivity{
                     id_teacher=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_teacher");
 
 
-                    datosLessonsTeacher(id_teacher);
+        datosLessonsTeacher(id_teacher);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
 
-            }
+}
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+    @Override
+    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-            }
-        });
+    }
+});
 
 
     }//FIN0
@@ -399,10 +345,7 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-
-
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"","",tipo[i]));
-
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i]));
 
                     }
 
@@ -449,7 +392,7 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Evento"+i,"",tipo[i]));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Disponible","Disponible",tipo[i]));
 
 
                     }
@@ -469,4 +412,73 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN
+
+
+
+    public void datosTeacher (final String Correo)
+    {
+        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("correo",Correo); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String fechaInicio[]=new String[tamanio];
+                    String fechaInicio2[]=new String[tamanio];
+                    String status[]=new String[tamanio];
+                    String tipo[]=new String[tamanio];
+                    String id_teacher[]=new String[tamanio];
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
+                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+
+                        fechaInicio2[i]=fechaInicio[i].substring(0, 10);
+                        if (status[i].equals("0"))
+                        {
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
+                        }
+                        if (status[i].equals("1"))
+                        {
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", id_teacher[i], tipo[i]));
+                        }
+
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }//FIN
+
+
+
+
+
 }
