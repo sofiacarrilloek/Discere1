@@ -35,7 +35,7 @@ public class contenedor_notificaciones extends AppCompatActivity {
         listDatos = new ArrayList<String>();
 
 
-        datoNoti("sofia.carrillo@cbtis72.edu.mx");
+        datoNoti("yaret.cante@cbtis72.edu.mx");
 
     }
 
