@@ -90,9 +90,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Fragment miFragment=null;
         boolean fragmentSeleccionado=false;
         if (id == R.id.nav_home) {
-            miFragment = new fragment_principal();
-
-            fragmentSeleccionado = true;
+            panta();
         }else if (id == R.id.nav_camera) {
             miFragment = new profile_principal();
             actionMenu.setVisibility(View.GONE);
@@ -150,6 +148,10 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     }
     public void agendar(View view){
         Intent intent= new Intent(pantalla_principal.this,Activity_Agendar.class);
+        startActivity(intent);
+    }
+    public void panta(){
+        Intent intent=new Intent(pantalla_principal.this,pantalla_principal.class);
         startActivity(intent);
     }
     @Override

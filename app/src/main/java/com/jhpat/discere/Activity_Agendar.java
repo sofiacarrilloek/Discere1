@@ -3,7 +3,10 @@ package com.jhpat.discere;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,10 +23,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.jhpat.discere.Login.TIPO1;
 
 public class Activity_Agendar extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener{
     EditText te_1,te_2;
@@ -34,8 +45,12 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
     String Minutos;
     //barra de progreso
     ProgressDialog progreso;
-
+    private String usuario;
+    String tip;
+    String email;
+    String nombre,apellido;
     //importante
+    JSONObject jsonObject;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
 
@@ -48,6 +63,8 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
         te_2=findViewById(R.id.t_2);
 
         request= Volley.newRequestQueue(this);
+        cargarP();
+        Toast.makeText(getApplicationContext(),"HOLA"+usuario+"Tipo"+tip+" El Email: "+email+" "+nombre+" "+apellido,Toast.LENGTH_LONG).show();
 
     }
     //receptor
@@ -115,6 +132,15 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
 
 
     //receptor
+    private  void cargarP()
+    {
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        usuario= preferencia.getString("ID2", "NO EXISTE");
+        tip=preferencia.getString("TIPO2", "holaperro");
+        email=preferencia.getString("EMAIL2","No hay email");
+        nombre=preferencia.getString("NAME2","HOLA Crack");
+        apellido=preferencia.getString("LAST_NAME2","hola");
+    }//Fin cargar preferencias
 
     private void cargarWebService() {
         //barra de dialogo
@@ -127,7 +153,7 @@ public class Activity_Agendar extends AppCompatActivity implements Response.List
         String x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
         String x_2=te_1.getText().toString()+" "+mas+":00.000000";
 
-        String URL="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+id+"&type="+tipo+"&title="+titulo+"&start="+x_1+"&end_="+x_2;
+        String URL="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
 
 
 
