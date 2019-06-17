@@ -1,9 +1,12 @@
 package com.jhpat.discere;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -21,6 +24,7 @@ public class contenedor_notificaciones extends AppCompatActivity {
     JSONObject jsonObject1;
     ArrayList<String> listDatos;
     RecyclerView recycler;
+    String EMAIL;
 
 
     @Override
@@ -34,12 +38,18 @@ public class contenedor_notificaciones extends AppCompatActivity {
 
         listDatos = new ArrayList<String>();
 
+        cargarP();
 
-        datoNoti("sofia.carrillo@cbtis72.edu.mx");
 
     }
 
+    private  void cargarP()
+    {
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        EMAIL = preferencia.getString("EMAIL2", "No Existe");
+        datoNoti(EMAIL);
 
+    }
 
     public void datoNoti (String Correo)
     {
@@ -57,28 +67,29 @@ public class contenedor_notificaciones extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
 
-                try {
-                    jsonObject1 = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
 
-                    //fechaFinal=jsonObject.getJSONArray("datos").getJSONObject(1).getString("end_date");
-                    // sTipo=jsonObject.getJSONArray("datos").getJSONObject(0).getString("type");
-                    int tamanio =jsonObject1.getJSONArray("datos").length();
-                    String message[]=new String[tamanio];
+                    try {
+                        jsonObject1 = new JSONObject(new String(responseBody));
+                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+                        //fechaFinal=jsonObject.getJSONArray("datos").getJSONObject(1).getString("end_date");
+                        // sTipo=jsonObject.getJSONArray("datos").getJSONObject(0).getString("type");
+                        int tamanio = jsonObject1.getJSONArray("datos").length();
+                        String message[] = new String[tamanio];
 
 
-                    for (int i=0; i<tamanio; i++)
-                    {
-                        message[i]=jsonObject1.getJSONArray("datos").getJSONObject(i).getString("message");
-                        listDatos.add(message[i]);
+                        for (int i = 0; i < tamanio; i++) {
+                            message[i] = jsonObject1.getJSONArray("datos").getJSONObject(i).getString("message");
+                            listDatos.add(message[i]);
 
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 Adaptar_notificaciones adapter = new Adaptar_notificaciones(listDatos);
                 recycler.setAdapter(adapter);
 
