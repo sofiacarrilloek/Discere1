@@ -48,7 +48,7 @@ public class MainActivity2 extends AppCompatActivity{
     private String horaFE;
     private String mandafecha;
     private Context context;
-    String id_fellow, id_teacher, ID_USER, TIPO;
+    String ID_USER, TIPO;
 
     ArrayList<String> listDatos;
     RecyclerView recycler;
