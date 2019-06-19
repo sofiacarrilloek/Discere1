@@ -244,31 +244,47 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-    public void obtenIDFELLOW (String ID_USER)
-    {
-        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
-        // HomeCollection.date_collection_arr.add( new HomeCollection("2019-07-08" ,"Diwali","Holiday","this is holiday"));
+
+                    public void obtenIDFELLOW (String ID_USER)
+                    {
+                        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+
+                        AsyncHttpClient conexion = new AsyncHttpClient();
+                        final String url ="http://puntosingular.mx/cas/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+                        final RequestParams requestParams =new RequestParams();
+                        requestParams.add("id_user",ID_USER); //envio el parametro
+
+                        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_user",ID_USER); //envio el parametro
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                try {
+                                    String CONSULTA="";
 
+                                    jsonObject = new JSONObject(new String(responseBody));
+                                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                                    int tamanio =jsonObject.getJSONArray("datos").length();
+                                    String id_fellows[] = new String[tamanio];
+                                    int cuentaOr=0;
+                                    String OR;
 
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    id_fellow=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_fellow");
+                                    OR=", ";
 
+                                    for (int i=0; i<tamanio; i++) {
+                                        id_fellows[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
-                    datosLessons(id_fellow);
+                                        CONSULTA = CONSULTA + id_fellows[i];
+                                        if (cuentaOr<tamanio-1) {
+                                            CONSULTA= CONSULTA + OR;
+                                        }
+
+                                        cuentaOr++;
+                    }
+
+                    datosLessons(CONSULTA);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -283,7 +299,7 @@ public class MainActivity2 extends AppCompatActivity{
         });
 
 
-    }//FIN OBTENIDFELLOW
+}//FIN OBTENIDFELLOW
 
     public void obtenIDTEACHER (String ID_USER)
     {
@@ -302,12 +318,27 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    id_teacher=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_teacher");
+                    String CONSULTA="";
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String id_teachers[] = new String[tamanio];
+                    int cuentaOr=0;
+                    String OR;
 
+                    OR=", ";
 
-        datosLessonsTeacher(id_teacher);
+                    for (int i=0; i<tamanio; i++) {
+                        id_teachers[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
+
+                        CONSULTA = CONSULTA + id_teachers[i];
+                        if (cuentaOr < tamanio - 1) {
+                            CONSULTA = CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
+
+                    }
+
+        datosLessonsTeacher(CONSULTA);
 
     } catch (JSONException e) {
         e.printStackTrace();
