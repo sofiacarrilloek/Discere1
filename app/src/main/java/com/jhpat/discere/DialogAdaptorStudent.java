@@ -110,15 +110,12 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
                 Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
-
-
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "Error: "+error, Toast.LENGTH_SHORT).show();
 
             }
         });

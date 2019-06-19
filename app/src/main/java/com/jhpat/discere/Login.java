@@ -53,7 +53,7 @@ public class Login extends AppCompatActivity {
     // "http://xxx.xxx.x.x:1234/cas/login.php";
 
     private static final String LOGIN_URL = "http://puntosingular.mx/cas/login.php";
-            private int DURACION_SPLASH=3000;
+            private int DURACION_SPLASH=1000;
     // La respuesta del JSON es
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -80,6 +80,7 @@ public class Login extends AppCompatActivity {
             new Handler().postDelayed(new Runnable(){
                 public void run(){
                     // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
+
                     Intent intent = new Intent(Login.this, ErrorConexion.class);
                     startActivity(intent);
                     finish();
@@ -87,11 +88,7 @@ public class Login extends AppCompatActivity {
             }, DURACION_SPLASH);
             Toast.makeText(getApplicationContext(),"Falta Internet",Toast.LENGTH_SHORT).show();
         }
-        if (obtenerestadoc()){
-            Intent i = new Intent(Login.this, pantalla_principal.class);
-            startActivity(i);
-            finish();
-        }
+
         if (obtenerestadoc()){
             Intent i = new Intent(Login.this, pantalla_principal.class);
             startActivity(i);
