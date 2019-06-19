@@ -244,9 +244,9 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-
-                    public void obtenIDFELLOW (String ID_USER)
-                    {
+    public void obtenIDFELLOW (String ID_USER)
+    {
+        //Para el fellow
                         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
                         AsyncHttpClient conexion = new AsyncHttpClient();
@@ -303,6 +303,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void obtenIDTEACHER (String ID_USER)
     {
+        //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
         AsyncHttpClient conexion = new AsyncHttpClient();
@@ -353,11 +354,12 @@ public class MainActivity2 extends AppCompatActivity{
 });
 
 
-    }//FIN0
+    }//FIN OBTEN_ID_TEACHER
 
 
     public void datosLessons (String Correo)
     {
+        //PARA EL FELLOW
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
@@ -401,10 +403,11 @@ public class MainActivity2 extends AppCompatActivity{
         });
 
 
-    }//FIN
+    }//FIN DATOS LESSONS
 
     public void datosLessonsTeacher (String Correo)
     {
+        //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_fecha_lessons.ph
@@ -451,12 +454,13 @@ public class MainActivity2 extends AppCompatActivity{
         });
 
 
-    }//FIN
+    }//FIN  DATOS LESSONS TEACHER
 
 
 
     public void datosTeacher (final String Correo)
     {
+        //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
@@ -515,7 +519,7 @@ public class MainActivity2 extends AppCompatActivity{
         });
 
 
-    }//FIN
+    }//FIN DATOS TEACHER
 
 
 
@@ -523,6 +527,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void verTeacher (final String ID_USER)
     {
+        //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
@@ -581,7 +586,7 @@ public class MainActivity2 extends AppCompatActivity{
         });
 
 
-    }//FIN
+    }//FIN VER TEACHER
 
 
 
