@@ -49,6 +49,7 @@ public class MainActivity2 extends AppCompatActivity{
     private String mandafecha;
     private Context context;
     String ID_USER, TIPO;
+    String lolitox;
 
     ArrayList<String> listDatos;
     RecyclerView recycler;
@@ -134,17 +135,15 @@ public class MainActivity2 extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
-              ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
-                //Toast.makeText(MainActivity2.this, "Me tocaste pervertido :'0 "+HwAdapter.day_string.get(position), Toast.LENGTH_SHORT).show();
-              /* Intent i = new Intent(MainActivity2.this, dialogo.class);
+             // ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
+              Intent i = new Intent(MainActivity2.this, dialogo.class);
                 i.putExtra("Rnombre", nombreE);
                 i.putExtra("Rfecha", fecham);
                 i.putExtra("RhoraI", horaIE);
                 i.putExtra("RhoraF", horaFE);
 
                 obtenerFecha(fecham);
-                startActivity(i);*/
-              //  Toast.makeText(MainActivity2.this, "Me tocaste pervertido :'0 "+HwAdapter.day_string.get(position), Toast.LENGTH_SHORT).show();
+                startActivity(i);
 
 
             }
@@ -483,6 +482,10 @@ public class MainActivity2 extends AppCompatActivity{
                     String status[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
+                    String email[]=new String[tamanio];
+
+
+
 
                     for (int i=0; i<tamanio; i++)
                     {
@@ -492,6 +495,13 @@ public class MainActivity2 extends AppCompatActivity{
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
 
                         fechaInicio2[i]=fechaInicio[i].substring(0, 10);
+
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+
+                        lolitox=email[i];
+
+
+
                         if (status[i].equals("0"))
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
@@ -550,6 +560,7 @@ public class MainActivity2 extends AppCompatActivity{
                     String status[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
+                    String email[]=new String[tamanio];
 
                     for (int i=0; i<tamanio; i++)
                     {
@@ -558,8 +569,14 @@ public class MainActivity2 extends AppCompatActivity{
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
 
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+
+                        lolitox=email[i];
+
+
                         fechaInicio2[i]=fechaInicio[i].substring(0, 10);
                         if (status[i].equals("0"))
+
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
                         }

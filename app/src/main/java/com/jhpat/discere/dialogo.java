@@ -31,7 +31,7 @@ import javax.mail.internet.MimeMessage;
 
 import cz.msebera.android.httpclient.Header;
 
-public class dialogo extends AppCompatActivity {
+public class dialogo extends MainActivity2 {
 
     public String nombre_1_1;
     private static final String ARG_PARAM1 = "param1";
@@ -101,7 +101,7 @@ public class dialogo extends AppCompatActivity {
                     try{
                         Message message = new MimeMessage(session);
                         message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL1));
+                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(lolitox));
                         message.setSubject(sub);
                         message.setContent(msg, "text/html; charset=utf-8");
                         Transport.send(message);
