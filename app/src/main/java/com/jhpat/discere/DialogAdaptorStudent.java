@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,19 +63,19 @@ class DialogAdaptorStudent extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View listViewItem = inflater.inflate(R.layout.row_addapt, null, true);
+        View listViewItem = inflater.inflate(R.layout.cdialogo, null, true);
 
-        TextView tvTitle=(TextView)listViewItem.findViewById(R.id.tv_name);
-        final TextView tvSubject=(TextView)listViewItem.findViewById(R.id.tv_type);
-        TextView tvDuedate=(TextView)listViewItem.findViewById(R.id.tv_desc);
-        final TextView tvDescription=(TextView)listViewItem.findViewById(R.id.tv_class);
-        Button boton = (Button)listViewItem.findViewById(R.id.btn1);
+        TextView tvTitle=(TextView)listViewItem.findViewById(R.id.fellow);
+        final TextView tvSubject=(TextView)listViewItem.findViewById(R.id.date);
+        TextView tvDuedate=(TextView)listViewItem.findViewById(R.id.time);
+    //    final TextView tvDescription=(TextView)listViewItem.findViewById(R.id.tv_class);
+        Button boton = (Button)listViewItem.findViewById(R.id.btnaceptar);
 
 
         tvTitle.setText("Title : "+alCustom.get(position).getTitles());
         tvSubject.setText("Subject: "+alCustom.get(position).getSubjects());
         tvDuedate.setText("Due Date : "+alCustom.get(position).getDuedates());
-        tvDescription.setText("Description : "+alCustom.get(position).getDescripts());
+      //  tvDescription.setText("Description : "+alCustom.get(position).getDescripts());
         boton.setOnClickListener(new View.OnClickListener()
                                  {
                                      @Override
@@ -84,6 +85,10 @@ class DialogAdaptorStudent extends BaseAdapter {
                                          ID_TEACHER=alCustom.get(position).getSubjects();
                                          Toast.makeText(context, "SELECCIONADO: "+ID_TEACHER, Toast.LENGTH_SHORT).show();
                                          actualizarStatus(ID_TEACHER, "1");
+
+
+
+
 
                                      }
                                  }

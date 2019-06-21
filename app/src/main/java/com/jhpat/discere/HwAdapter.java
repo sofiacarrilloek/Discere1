@@ -243,14 +243,7 @@ class HwAdapter extends BaseAdapter {
 
 
         }
-       /* int le=PendienteSesion.date_collection_ar.size();
-        for (int j = 0; j < le; j++) {
-            PendienteSesion calobj = PendienteSesion.date_collection_ar.get(j);
-            String datePe = calobj.dateP;
-            if(day_string.get(pos).equals(datePe)){
-                v.setBackgroundResource(R.drawable.rounded_calender2);
-            }
-            */
+
 
     }
 

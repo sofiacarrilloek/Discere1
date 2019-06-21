@@ -135,8 +135,8 @@ public class MainActivity2 extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
-             // ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
-              Intent i = new Intent(MainActivity2.this, dialogo.class);
+            // ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
+             Intent i = new Intent(MainActivity2.this, dialogo.class);
                 i.putExtra("Rnombre", nombreE);
                 i.putExtra("Rfecha", fecham);
                 i.putExtra("RhoraI", horaIE);
@@ -318,6 +318,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 try {
+                    jsonObject = new JSONObject(new String(responseBody));
                     String CONSULTA="";
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String id_teachers[] = new String[tamanio];
