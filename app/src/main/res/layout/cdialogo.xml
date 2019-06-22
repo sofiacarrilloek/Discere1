@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/platicando" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tvTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/fellow"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="54dp"
         android:gravity="center"
         android:text="TextView"
         android:textSize="20sp" />
@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/date"
         android:layout_width="match_parent"
-        android:layout_height="31dp"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
         android:textSize="20sp" />

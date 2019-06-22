@@ -135,15 +135,15 @@ public class MainActivity2 extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
-            // ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
-             Intent i = new Intent(MainActivity2.this, dialogo.class);
+            ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
+            /* Intent i = new Intent(MainActivity2.this, dialogo.class);
                 i.putExtra("Rnombre", nombreE);
                 i.putExtra("Rfecha", fecham);
                 i.putExtra("RhoraI", horaIE);
                 i.putExtra("RhoraF", horaFE);
 
                 obtenerFecha(fecham);
-                startActivity(i);
+                startActivity(i);*/
 
 
             }
@@ -495,6 +495,7 @@ public class MainActivity2 extends AppCompatActivity{
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
 
+
                         fechaInicio2[i]=fechaInicio[i].substring(0, 10);
 
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
@@ -505,11 +506,11 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (status[i].equals("0"))
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i]));
                         }
                         if (status[i].equals("1"))
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", id_teacher[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i]));
                         }
 
 
@@ -579,11 +580,11 @@ public class MainActivity2 extends AppCompatActivity{
                         if (status[i].equals("0"))
 
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", id_teacher[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i]));
                         }
                         if (status[i].equals("1"))
                         {
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", id_teacher[i], tipo[i]));
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i]));
                     }
 
 
