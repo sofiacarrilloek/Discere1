@@ -385,7 +385,7 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i]));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i],""));
 
                     }
 
@@ -435,7 +435,7 @@ public class MainActivity2 extends AppCompatActivity{
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i]));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado","",tipo[i], "") );
 
 
                     }
@@ -506,11 +506,11 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (status[i].equals("0"))
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i], id_teacher[i]));
                         }
                         if (status[i].equals("1"))
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i], id_teacher[i]));
                         }
 
 
@@ -580,11 +580,11 @@ public class MainActivity2 extends AppCompatActivity{
                         if (status[i].equals("0"))
 
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i], id_teacher[i]));
                         }
                         if (status[i].equals("1"))
                         {
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i]));
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i], id_teacher[i]));
                     }
 
 

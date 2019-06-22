@@ -3,7 +3,9 @@ package com.jhpat.discere;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,7 +49,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public static List<String> day_string;
     String ID_TEACHER, CLLC;
     Session session = null;
-    String EMAIL;
+    String EMAIL, NAME;
     ProgressDialog pdialog = null;
     String subC ="Sesión Discere";
     String msgC ="Lo sentimos, tú sesión ha sido rechazada";
@@ -90,7 +92,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         Button boton = (Button)listViewItem.findViewById(R.id.btnaceptar);
 
 
-        tvTitle.setText("Name : "+alCustom.get(position).getTypes());
+        tvTitle.setText("Id_teacher : "+alCustom.get(position).getTypes());
         tvSubject.setText("Email: "+alCustom.get(position).getSubjects());
         EMAIL=alCustom.get(position).getSubjects();
         tvDuedate.setText("Date : "+alCustom.get(position).getDuedates());
@@ -101,7 +103,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                                      public void onClick(View v)
                                      {
 
-                                         ID_TEACHER=alCustom.get(position).getSubjects();
+                                         ID_TEACHER=alCustom.get(position).getTypes();
                                          Toast.makeText(context, "SELECCIONADO: "+ID_TEACHER, Toast.LENGTH_SHORT).show();
                                          actualizarStatus(ID_TEACHER, "1");
 
@@ -185,6 +187,14 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     }//FIN
+
+    private  void cargarP()
+    {
+        SharedPreferences preferencia =context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+
+        NAME = preferencia.getString("NAME2", "NO EXISTE");
+
+    }//Fin cargar preferencias
 
 }
 
