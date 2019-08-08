@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,7 +25,7 @@ public class contenedor_notificaciones extends AppCompatActivity {
     JSONObject jsonObject1;
     ArrayList<String> listDatos;
     RecyclerView recycler;
-    String EMAIL;
+    String id01;
 
 
     @Override
@@ -46,8 +47,8 @@ public class contenedor_notificaciones extends AppCompatActivity {
     private  void cargarP()
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        EMAIL = preferencia.getString("EMAIL2", "No Existe");
-        datoNoti(EMAIL);
+        id01 = preferencia.getString("ID2", "No Existe");
+        datoNoti(id01);
 
     }
 
@@ -72,14 +73,20 @@ public class contenedor_notificaciones extends AppCompatActivity {
                         jsonObject1 = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
 
-                        //fechaFinal=jsonObject.getJSONArray("datos").getJSONObject(1).getString("end_date");
-                        // sTipo=jsonObject.getJSONArray("datos").getJSONObject(0).getString("type");
+
                         int tamanio = jsonObject1.getJSONArray("datos").length();
                         String message[] = new String[tamanio];
 
 
                         for (int i = 0; i < tamanio; i++) {
                             message[i] = jsonObject1.getJSONArray("datos").getJSONObject(i).getString("message");
+                             if(message[i]=="1"){
+                                 message[i]= "Sesión aceptada";
+                             }
+                            if (message[i]=="2"){
+                                message[i]="Sesión rechazada";
+                            }
+
                             listDatos.add(message[i]);
 
                         }
@@ -88,7 +95,6 @@ public class contenedor_notificaciones extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                 Adaptar_notificaciones adapter = new Adaptar_notificaciones(listDatos);
                 recycler.setAdapter(adapter);
