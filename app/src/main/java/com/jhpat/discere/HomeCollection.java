@@ -8,14 +8,17 @@ class HomeCollection {
     public String subject="";
     public String description="";
 
+    public String idteacher="";
 
     public static ArrayList<HomeCollection> date_collection_arr;
-    public HomeCollection(String date, String name, String subject, String description){
+    public HomeCollection(String date, String name, String subject, String description, String idteacher){
 
         this.date=date;
         this.name=name;
         this.subject=subject;
         this.description= description;
+        this.idteacher=idteacher;
+
 
     }
 }

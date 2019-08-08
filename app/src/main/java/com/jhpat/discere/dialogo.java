@@ -31,22 +31,27 @@ import javax.mail.internet.MimeMessage;
 
 import cz.msebera.android.httpclient.Header;
 
-public class dialogo extends AppCompatActivity {
+
+public class dialogo extends MainActivity2 {
 
     public String nombre_1_1;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView nombre, apellido, email,nombre_1,apellido_1;
+
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
     JSONObject jsonObject;
 
-    public  static String ID_USUARIO;
+
+
+    public  static String  USUARIO, ID_USUARIO;
+
     Session session = null;
     ProgressDialog pdialog = null;
     Context context = null;
     String reciep ="adrian241619@gmail.com";
     String sub ="Sesión Discere";
-    String msg ="Tú sesión ha sido aceptada";
+    String msg ="Tienes una solicitud de sesión";
     Session sessionC = null;
     ProgressDialog pdialogC = null;
     Context contextC = null;
@@ -64,7 +69,8 @@ public class dialogo extends AppCompatActivity {
 
 
         recibirDatos();
-        cargarP();
+
+
         context = this;
 
 
@@ -101,7 +107,7 @@ public class dialogo extends AppCompatActivity {
                     try{
                         Message message = new MimeMessage(session);
                         message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL1));
+                        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(lolitox));
                         message.setSubject(sub);
                         message.setContent(msg, "text/html; charset=utf-8");
                         Transport.send(message);
@@ -209,74 +215,6 @@ public class dialogo extends AppCompatActivity {
         date.setText("Date: "+ fecha);
         timeset.setText("Time: " + horaInicio + " - " + horaFin );
     }
-    public void datosc (String Correo)
-    {
 
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/usuario.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
-
-                if (statusCode==200) // Lo mismo que con LOGIN
-                {
-
-
-                    try {
-                        jsonObject = new JSONObject(new String(responseBody));
-                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
-
-                        email.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("email"));
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                else
-                {
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
-            {
-
-
-
-            }
-
-
-
-
-        });
-
-
-    }//FIN DATOSSC
-
-    private  void cargarP()
-    {
-        SharedPreferences preferencia = getApplicationContext().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        EMAIL1 = preferencia.getString("EMAIL2", "NO EXISTE");
-
-
-
-        datosc(EMAIL1);
-
-
-
-
-
-
-    }//Fin cargar preferencias
 }
+

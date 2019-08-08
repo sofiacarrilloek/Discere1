@@ -243,14 +243,7 @@ class HwAdapter extends BaseAdapter {
 
 
         }
-       /* int le=PendienteSesion.date_collection_ar.size();
-        for (int j = 0; j < le; j++) {
-            PendienteSesion calobj = PendienteSesion.date_collection_ar.get(j);
-            String datePe = calobj.dateP;
-            if(day_string.get(pos).equals(datePe)){
-                v.setBackgroundResource(R.drawable.rounded_calender2);
-            }
-            */
+
 
     }
 
@@ -264,6 +257,8 @@ class HwAdapter extends BaseAdapter {
                 maplist.put("hnames",HomeCollection.date_collection_arr.get(j).name);
                 maplist.put("hsubject",HomeCollection.date_collection_arr.get(j).subject);
                 maplist.put("descript",HomeCollection.date_collection_arr.get(j).description);
+                maplist.put("date",HomeCollection.date_collection_arr.get(j).date);
+                maplist.put("idteacher",HomeCollection.date_collection_arr.get(j).idteacher);
                 JSONObject json1 = new JSONObject(maplist);
                 jbarrays.put(json1);
             }
@@ -299,6 +294,8 @@ class HwAdapter extends BaseAdapter {
                 pojo.setTitles(jsonObject.optString("hnames"));
                 pojo.setSubjects(jsonObject.optString("hsubject"));
                 pojo.setDescripts(jsonObject.optString("descript"));
+                pojo.setDuedates(jsonObject.optString("date"));
+                pojo.setTypes(jsonObject.optString("idteacher"));
 
                 alCustom.add(pojo);
 
