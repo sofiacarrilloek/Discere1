@@ -24,7 +24,7 @@ public class contenedor_notificaciones extends AppCompatActivity {
     JSONObject jsonObject1;
     ArrayList<String> listDatos;
     RecyclerView recycler;
-    String EMAIL;
+    String ID01;
 
 
     @Override
@@ -46,8 +46,8 @@ public class contenedor_notificaciones extends AppCompatActivity {
     private  void cargarP()
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        EMAIL = preferencia.getString("EMAIL2", "No Existe");
-        datoNoti(EMAIL);
+        ID01 = preferencia.getString("ID2", "No Existe");
+        datoNoti(ID01);
 
     }
 
@@ -58,7 +58,7 @@ public class contenedor_notificaciones extends AppCompatActivity {
         AsyncHttpClient conexioNoti = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/obtener_notificacion.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("email",Correo); //envio el parametro
+        requestParams.add("id",Correo); //envio el parametro
 
         conexioNoti.post(url, requestParams, new AsyncHttpResponseHandler() {
 
