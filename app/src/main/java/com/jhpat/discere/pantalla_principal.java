@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -15,11 +16,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.jhpat.discere.Tabla.Prueba;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -30,7 +33,10 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class pantalla_principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,profile_principal.OnFragmentInteractionListener,fragment_principal.OnFragmentInteractionListener, Fragment_skype.OnFragmentInteractionListener{
-    private TextView N,C;
+    private TextView N;
+    private TextView C;
+    private String id,c,n,ape;
+    private Button button;
     String usuario,TIPO1,nombre;
     FloatingActionMenu actionMenu;
     com.github.clans.fab.FloatingActionButton ver,Agendar;
@@ -49,6 +55,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         actionMenu=(FloatingActionMenu) findViewById(R.id.fab);
         actionMenu.setClosedOnTouchOutside(true);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -66,12 +73,20 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
 
-        cargarP();
+
+        cargarp2();
         obtenTipo(usuario);
+
+
+        N.setText(c);
+        C.setText(n+" "+ape);
 
     }
 
-
+public void pasar(){
+    Intent inten = new Intent(getApplicationContext(), Prueba.class);
+    startActivity(inten);
+}
             @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -96,6 +111,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             actionMenu.setVisibility(View.GONE);
             fragmentSeleccionado=true;
         } else if (id == R.id.nav_gallery) {
+            pasar();
 
         } else if (id == R.id.nav_skype){
             Skype();
@@ -147,7 +163,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         startActivity(inten);
     }
     public void agendar(View view){
-        Intent intent= new Intent(pantalla_principal.this,Activity_Agendar.class);
+        Intent intent= new Intent(pantalla_principal.this,TabsActivity.class);
         startActivity(intent);
     }
     public void panta(){
@@ -157,72 +173,17 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
-    public void datosc (String Correo)
-    {
 
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/usuario.php"; //la url del web service
-        // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
-
-                if (statusCode==200) // Lo mismo que con LOGIN
-                {
-
-
-                    try {
-                        jsonObject = new JSONObject(new String(responseBody));
-                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
-                        C.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("name"));
-                        N.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("email"));
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(pantalla_principal.this, ""+e, Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                else
-                {
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
-            {
-
-                Toast.makeText(pantalla_principal.this, "No se pudo conectar al servidor", Toast.LENGTH_SHORT).show();
-
-            }
-
-
-
-
-        });
-
-
-
-
-    }//FIN DATOSSC
-    private  void cargarP()
-    {
+    public void cargarp2(){
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        usuario= preferencia.getString("ID2", "NO EXISTE");
-        nombre=preferencia.getString("EMAIL2","NO EXISTE");
-        datosc(usuario);
-    }//Fin cargar preferencias
+        id=preferencia.getString("ID2", "NO EXISTE");
+        n=preferencia.getString("NAME2", "no hay nombre");
+        c=preferencia.getString("EMAIL2","No hay email");
+        ape=preferencia.getString("LAST_NAME2", "");
+
+
+    }
+
 
 
     public void obtenTipo (String Correo)

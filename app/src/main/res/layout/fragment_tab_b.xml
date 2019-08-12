@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TabBFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="0dp"
@@ -29,12 +28,12 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                app:cardBackgroundColor="#B40404">
+                app:cardBackgroundColor="#0174DF">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Schedules for Sesions"
+                    android:text="Sesion fellow"
                     android:textColor="#FFFFFF" />
             </android.support.v7.widget.CardView>
             //Linea del titulo
@@ -75,33 +74,20 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/t_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:inputType="date"
-                            android:focusable="false"/>
+                        <Spinner
+                            android:id="@+id/SpinnerFellows"
+                            android:layout_width="262dp"
+                            android:layout_height="50dp"></Spinner>
 
                         <TextView
                             android:layout_width="3dp"
                             android:layout_height="wrap_content" />
 
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="#555252" />
-
                         <TextView
                             android:layout_width="3dp"
                             android:layout_height="wrap_content" />
 
-                        <Button
-                            android:id="@+id/b_1"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:background="@drawable/c_1"
-                            android:onClick="onClick"/>
+
 
                     </LinearLayout>
 
@@ -133,11 +119,10 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/t_2"
+                            android:id="@+id/NombreAudio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:inputType="date"
                             android:focusable="false"/>
 
                         <TextView
@@ -154,11 +139,10 @@
                             android:layout_height="wrap_content" />
 
                         <Button
-                            android:id="@+id/b_2"
+                            android:id="@+id/BuscarAudio"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:background="@drawable/r_1"
-                            android:onClick="onClick"/>
+                            android:background="@android:drawable/ic_search_category_default"/>
 
                     </LinearLayout>
 
@@ -188,11 +172,11 @@
                 android:layout_height="15dp" />
 
             <Button
-                android:id="@+id/add"
+                android:id="@+id/añadirA"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:background="@drawable/buttom_rounded"
+                android:background="@drawable/buttom_rounded2"
                 android:text="Add"
                 android:textColor="#FFF"
                 android:onClick="onClick"/>

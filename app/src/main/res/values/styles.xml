@@ -24,9 +24,10 @@
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/black</item>
     </style>
-    <style name= "cuadrod" parent = "Theme.AppCompat.Light.Dialog">
-        <item name = "windowActionBar">false</item>
-        <item name = "windowNoTitle">true</item>
+
+    <style name="cuadrod" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

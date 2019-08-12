@@ -67,13 +67,8 @@ public class Fragment_skype extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_skype, container, false);
-        WebView webView = (WebView)v.findViewById(R.id.webview);
-        webView .getSettings().setJavaScriptEnabled(true);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1557699871&rver=7.1.6819.0&wp=MBI_SSL&wreply=https%3A%2F%2Flw.skype.com%2Flogin%2Foauth%2Fproxy%3Fclient_id%3D572381%26redirect_uri%3Dhttps%253A%252F%252Fweb.skype.com%252FAuth%252FPostHandler%26state%3D21e65ba2-770d-4f77-a7b4-97f39b32cd44%26site_name%3Dlw.skype.com&lc=1033&id=293290&mkt=es-MX&psi=skype&lw=1&cobrandid=2befc4b5-19e3-46e8-8347-77317a16a5a5&client_flight=ReservedFlight33%2CReservedFlight67");
 
-        return v;
+        return null;
     }
 
 

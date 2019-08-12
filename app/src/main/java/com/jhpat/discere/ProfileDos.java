@@ -85,13 +85,12 @@ public class ProfileDos extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-
-
+                editarDatos(ID1);
+                Intent intent= new  Intent(ProfileDos.this,profile_principal.class);
+                startActivity(intent);
                // editarDatos(ID_USUARIO);
-               editarDatos(ID1);
 
-               /* Intent intent= new  Intent(ProfileDos.this,profile_principal.class);
-                startActivity(intent);*/
+
 
             }
         });//Boton_actualizar fin
@@ -374,9 +373,9 @@ public class ProfileDos extends AppCompatActivity
                 if (statusCode==200) // Lo mismo que con LOGIN
                 {
                     Toast.makeText(ProfileDos.this, "Changes saved", Toast.LENGTH_SHORT).show();
-                   /* Intent i = new Intent(ProfileDos.this, profile_principal.class);
+                    Intent i = new Intent(ProfileDos.this, profile_principal.class);
                     startActivity(i);
-                    finish();*/
+                    finish();
                     }
                     else
                 {
@@ -402,7 +401,6 @@ public class ProfileDos extends AppCompatActivity
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         ID1 = preferencia.getString("ID2", "NO EXISTE");
 
-        ID_USUARIO=ID1;
         datosc(ID1);
     }//Fin cargar preferencias
 

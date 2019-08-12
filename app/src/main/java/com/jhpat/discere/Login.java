@@ -75,7 +75,6 @@ public class Login extends AppCompatActivity {
 
         if(networkInfo!=null&&networkInfo.isConnectedOrConnecting()){
 
-            Toast.makeText(getApplicationContext(),"Conectado",Toast.LENGTH_SHORT).show();
         }else{
             new Handler().postDelayed(new Runnable(){
                 public void run(){
@@ -86,7 +85,7 @@ public class Login extends AppCompatActivity {
                     finish();
                 };
             }, DURACION_SPLASH);
-            Toast.makeText(getApplicationContext(),"Falta Internet",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"There is no connection",Toast.LENGTH_SHORT).show();
         }
 
         if (obtenerestadoc()){
@@ -198,7 +197,6 @@ public class Login extends AppCompatActivity {
                     finish();
                     startActivity(i);
 
-
                     return json.getString(TAG_MESSAGE);
                 } else {
                     Log.d("Login Failure!", json.getString(TAG_MESSAGE));
@@ -242,6 +240,7 @@ public class Login extends AppCompatActivity {
         editor.putString("TEL2", TEL1);
 
         editor.commit();
+
 
     }
 

@@ -11,23 +11,28 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:noHistory="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:noHistory="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ErrorConexion"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Tabla.Prueba"></activity>
+        <activity
+            android:name=".TabsActivity"
+            android:label="@string/title_activity_tab_agendar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ErrorConexion"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity_Agendar" />
         <activity android:name=".Login">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <provider
@@ -54,8 +59,7 @@
             android:name=".dialogo"
             android:label=" "
             android:theme="@style/cuadrod" />
-        <activity android:name=".contenedor_notificaciones"/>
-
+        <activity android:name=".contenedor_notificaciones" />
     </application>
 
 </manifest>
