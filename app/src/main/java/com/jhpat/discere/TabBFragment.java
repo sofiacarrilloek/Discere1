@@ -1,6 +1,8 @@
 package com.jhpat.discere;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,17 +12,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class TabBFragment extends Fragment {
@@ -28,6 +37,14 @@ public class TabBFragment extends Fragment {
     Spinner spinner;
     AsyncHttpClient client;
     View vista;
+    Button buscarA,añadirA;
+    TextView nombreA;
+
+    private int VALOR_RETORNO = 1;
+    private ProgressDialog progreso;
+    RequestQueue requestQueue;
+    Bitmap bitmap;
+    StringRequest stringRequest;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -45,12 +62,27 @@ public class TabBFragment extends Fragment {
         vista = inflater.inflate(R.layout.fragment_tab_b, container, false);
         spinner = (Spinner) vista.findViewById(R.id.SpinnerFellows);
         client = new AsyncHttpClient();
+        añadirA = (Button) vista.findViewById(R.id.añadirA);
+        nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
+        buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
+        buscarA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscarAudio();
+
+            }
+        });
+
+
 
         llenarSpinner();
 
 
         return vista;
     }
+
+
+
 
     public void llenarSpinner(){
         String url="http://puntosingular.mx/cas/obtener_fellows.php";
@@ -78,19 +110,17 @@ public class TabBFragment extends Fragment {
                 n.setName(jsonArray.getJSONObject(i).getString("name"));
                 lista.add(n);
             }
+            ArrayAdapter<Nombres> adapter = new ArrayAdapter<Nombres>(this.getActivity(), android.R.layout.simple_spinner_item,lista);
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            spinner.setAdapter(adapter);
+
 
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public void onClick(View view) {
-        cargarAudio();
-    }
 
-    private void cargarAudio() {
-
-    }
 
     private class Nombres{
         private int id;
@@ -122,6 +152,30 @@ public class TabBFragment extends Fragment {
         @Override
         public String toString(){
             return name;
+        }
+
+
+    }
+
+    public void buscarAudio() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("audio/*");
+        startActivityForResult(Intent.createChooser(intent, "Choose File"), VALOR_RETORNO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED) {
+            //Cancelado por el usuario
+        }
+        if ((resultCode == RESULT_OK) && (requestCode == VALOR_RETORNO )) {
+            //Procesar el resultado
+            Uri uri = data.getData(); //obtener el uri content
+            File file= new File(uri.getPath());
+            nombreA.setText(nombreA.getText()+""+file);
+
+            Toast.makeText(getContext(),"Seleccionado",Toast.LENGTH_LONG).show();
         }
     }
 
