@@ -20,13 +20,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
 import com.jhpat.discere.Tabla.Prueba;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +48,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     FloatingActionMenu actionMenu;
     com.github.clans.fab.FloatingActionButton ver,Agendar;
     JSONObject jsonObject;
+    private String id2,id3,id4,id5,id6;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +93,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     }
 
 public void pasar(){
-    Intent inten = new Intent(getApplicationContext(), Prueba.class);
+    Intent inten = new Intent(getApplicationContext(), Prueba .class);
     startActivity(inten);
 }
             @Override
@@ -180,7 +189,7 @@ public void pasar(){
         n=preferencia.getString("NAME2", "no hay nombre");
         c=preferencia.getString("EMAIL2","No hay email");
         ape=preferencia.getString("LAST_NAME2", "");
-
+        //Toast.makeText(getApplicationContext(),"El id del usuario es"+id,Toast.LENGTH_LONG).show();
 
     }
 
@@ -267,6 +276,12 @@ if(TIPO1.equals("Fellow")){
         editor.commit();
 
     }
+
+    //parte de la tabla
+
+
+
+
 
 
 }

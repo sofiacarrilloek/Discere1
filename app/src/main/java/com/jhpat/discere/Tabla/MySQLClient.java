@@ -21,7 +21,7 @@ import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 public class MySQLClient {
 
     private final Context c;
-    private String id;
+    private String id_;
     private SimpleTableDataAdapter adapter;
     private String Data_RETRIVE_URL="";
 
@@ -30,10 +30,10 @@ public class MySQLClient {
         cargarDatosTabla();
     }
     public void cargarDatosTabla(){
-        SharedPreferences preferencia =c.getSharedPreferences("Credenciales2", Context.MODE_PRIVATE);
-        id=preferencia.getString("Id_A", "NO EXISTE");
-        Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id+"";
-        Toast.makeText(c.getApplicationContext(),"hola"+id,Toast.LENGTH_LONG).show();
+        SharedPreferences preferencia =c.getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
+        id_=preferencia.getString("preferencia1", "NO EXISTE");
+        Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";
+        // Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
     }
 
 
