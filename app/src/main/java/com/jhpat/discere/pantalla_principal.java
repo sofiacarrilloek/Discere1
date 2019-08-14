@@ -84,7 +84,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
         cargarp2();
-        obtenTipo(usuario);
+
 
 
         N.setText(c);
@@ -189,6 +189,7 @@ public void pasar(){
         n=preferencia.getString("NAME2", "no hay nombre");
         c=preferencia.getString("EMAIL2","No hay email");
         ape=preferencia.getString("LAST_NAME2", "");
+        obtenTipo(c);
         //Toast.makeText(getApplicationContext(),"El id del usuario es"+id,Toast.LENGTH_LONG).show();
 
     }
@@ -215,6 +216,7 @@ public void pasar(){
                         jsonObject = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                         final String TIPO= jsonObject.getJSONArray("tipo").getJSONObject(0).getString("id_role");
+                        //Toast.makeText(getApplicationContext(),"hola"+TIPO,Toast.LENGTH_LONG).show();
 
                         if (TIPO.equalsIgnoreCase("17"))
                         {
@@ -272,7 +274,6 @@ if(TIPO1.equals("Fellow")){
         SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("TIPO2", TIPO1);
-
         editor.commit();
 
     }
