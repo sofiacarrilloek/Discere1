@@ -1,10 +1,12 @@
 package com.jhpat.discere.Tabla;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -45,6 +47,10 @@ public class Prueba extends AppCompatActivity {
 
        //Toast.makeText(getApplicationContext(),"hola "+id,Toast.LENGTH_LONG).show();
 
+    }
+    public void siguiente_tabla(View view){
+        Intent abrir_tabla2=new Intent (Prueba.this, Taudio_defect.class);
+        startActivity(abrir_tabla2);
     }
     public void cargarp2(){
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);

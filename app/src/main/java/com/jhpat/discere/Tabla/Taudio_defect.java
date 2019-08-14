@@ -1,10 +1,12 @@
 package com.jhpat.discere.Tabla;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ public class Taudio_defect extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tabla_audio_defect);
 
         DX1 = (EditText) findViewById(R.id.Duration1);
         DPX1 = (EditText) findViewById(R.id.DP1);
@@ -50,6 +52,10 @@ public class Taudio_defect extends AppCompatActivity {
         DDX3 = (EditText) findViewById(R.id.DD3);
         datosc("709");
 
+    }
+    public void regresarX (View view){
+        Intent abrir_tabla2=new Intent (Taudio_defect.this, Prueba.class);
+        startActivity(abrir_tabla2);
     }
 
     public void datosc(String Correo) {
