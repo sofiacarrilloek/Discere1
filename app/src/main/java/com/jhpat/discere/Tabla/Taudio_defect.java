@@ -66,8 +66,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
-        DaVoidtosTabla();
-
+        datosc("709");
         //
 
     }
@@ -105,7 +104,7 @@ public class Taudio_defect extends AppCompatActivity {
                         jsonObject = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
 
-                       /* int tamanio=0;
+                        int tamanio=0;
                         tamanio = jsonObject.getJSONArray("datos").length();
                         String type="";
                         String duration [] = new String[tamanio];
@@ -124,12 +123,17 @@ public class Taudio_defect extends AppCompatActivity {
                             type=defect_type[i]+"\n";
                         }
 
+
+
                        // _________________________________________________________________________________________________________
                         DX2.setText(""+tamanio);
                        DPX2.setText(""+type);
                        /* DTX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_type"));
                         DDX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_description"));
 */
+
+
+
 
 
                     } catch (JSONException e) {
@@ -153,12 +157,6 @@ public class Taudio_defect extends AppCompatActivity {
 
     }//FIN DATOSSC
 
-    public void DaVoidtosTabla(){
-        SharedPreferences preferencia =getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
-        String id_=preferencia.getString("preferencia1", "NO EXISTE");
-        datosc(id_);
-        // Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
-    }
 
 }
 
