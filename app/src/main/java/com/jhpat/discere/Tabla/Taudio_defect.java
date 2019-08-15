@@ -7,6 +7,7 @@ import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -35,7 +36,7 @@ public class Taudio_defect extends AppCompatActivity {
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
 
 
-    EditText DX1, DPX1, DTX1, DDX1;
+    TextView DX1, DPX1, DTX1, DDX1;
     EditText DX2, DPX2, DTX2, DDX2;
     EditText DX3, DPX3, DTX3, DDX3;
 
@@ -44,20 +45,12 @@ public class Taudio_defect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabla_audio_defect);
 
-        DX1 = (EditText) findViewById(R.id.Duration1);
-        DPX1 = (EditText) findViewById(R.id.DP1);
-        DTX1 = (EditText) findViewById(R.id.DT1);
-        DDX1 = (EditText) findViewById(R.id.DD1);
+        DX1 = (TextView) findViewById(R.id.Duration1);
+        DPX1 = (TextView) findViewById(R.id.DP1);
+        DTX1 = (TextView) findViewById(R.id.DT1);
+        DDX1 = (TextView) findViewById(R.id.DD1);
 
-        DX2 = (EditText) findViewById(R.id.Duration2);
-        DPX2 = (EditText) findViewById(R.id.DP2);
-        DTX2 = (EditText) findViewById(R.id.DT2);
-        DDX2 = (EditText) findViewById(R.id.DD2);
 
-        DX3 = (EditText) findViewById(R.id.Duration3);
-        DPX3 = (EditText) findViewById(R.id.DP3);
-        DTX3 = (EditText) findViewById(R.id.DT3);
-        DDX3 = (EditText) findViewById(R.id.DD3);
 
         pieChart = findViewById(R.id.pieChart);
         PieDataSet pieDataSet = new PieDataSet(Entries(),"");
@@ -66,6 +59,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
+
         datosc("709");
         //
 
@@ -107,6 +101,9 @@ public class Taudio_defect extends AppCompatActivity {
                         int tamanio=0;
                         tamanio = jsonObject.getJSONArray("datos").length();
                         String type="";
+                        String type2="";
+                        String type3="";
+                        String type4="";
                         String duration [] = new String[tamanio];
                         String defect_priority [] = new String[tamanio];
                         String defect_type [] = new String[tamanio];
@@ -120,14 +117,22 @@ public class Taudio_defect extends AppCompatActivity {
                             defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
                             defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
 
-                            type=type+defect_type[i]+"\n";
+                            type=type+duration[i]+"\n"+"\n";
+                            type2=type2+defect_priority[i]+"\n"+"\n";
+                            type3=type3+defect_type[i]+"\n"+"\n";
+                            type4=type4+defect_description[i]+"\n"+"\n";
                         }
 
 
 
                        // _________________________________________________________________________________________________________
-                        DX2.setText(""+tamanio);
-                       DPX2.setText(""+type);
+
+
+                        DX1.setText(""+type);
+                        DPX1.setText(""+type2);
+                        DTX1.setText(""+type3);
+                        DDX1.setText(""+type4);
+
                        /* DTX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_type"));
                         DDX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_description"));
 */
