@@ -120,7 +120,7 @@ public class Taudio_defect extends AppCompatActivity {
                             defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
                             defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
 
-                            type=defect_type[i]+"\n";
+                            type=type+defect_type[i]+"\n";
                         }
 
 
