@@ -58,6 +58,7 @@ public class Taudio_defect extends AppCompatActivity {
         DPX3 = (EditText) findViewById(R.id.DP3);
         DTX3 = (EditText) findViewById(R.id.DT3);
         DDX3 = (EditText) findViewById(R.id.DD3);
+
         pieChart = findViewById(R.id.pieChart);
         PieDataSet pieDataSet = new PieDataSet(Entries(),"");
         pieDataSet.setColors(colorClassArray);
@@ -65,7 +66,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
-        datosc("709");
+
         //
 
     }
@@ -103,13 +104,14 @@ public class Taudio_defect extends AppCompatActivity {
                         jsonObject = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
 
-                        int tamanio=0;
+                       /* int tamanio=0;
                         tamanio = jsonObject.getJSONArray("datos").length();
                         String type="";
                         String duration [] = new String[tamanio];
                         String defect_priority [] = new String[tamanio];
                         String defect_type [] = new String[tamanio];
                         String defect_description [] = new String[tamanio];
+
 
                         for (int i=0; i<tamanio; i++)
                         {
@@ -118,12 +120,8 @@ public class Taudio_defect extends AppCompatActivity {
                             defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
                             defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
 
-
                             type=defect_type[i]+"\n";
-
                         }
-
-
 
                        // _________________________________________________________________________________________________________
                         DX2.setText(""+tamanio);
@@ -131,9 +129,6 @@ public class Taudio_defect extends AppCompatActivity {
                        /* DTX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_type"));
                         DDX2.setText(jsonObject.getJSONArray("datos").getJSONObject(1).getString("defect_description"));
 */
-
-
-
 
 
                     } catch (JSONException e) {
@@ -145,6 +140,7 @@ public class Taudio_defect extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
@@ -152,8 +148,16 @@ public class Taudio_defect extends AppCompatActivity {
         });
 
 
+
+
     }//FIN DATOSSC
 
+    public void DaVoidtosTabla(){
+        SharedPreferences preferencia =getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
+        String id_=preferencia.getString("preferencia1", "NO EXISTE");
+        datosc(id_);
+        // Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
+    }
 
 }
 

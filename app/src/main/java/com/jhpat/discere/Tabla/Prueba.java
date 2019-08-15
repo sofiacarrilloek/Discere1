@@ -133,7 +133,7 @@ public class Prueba extends AppCompatActivity {
                         editor.putString("preferencia1",id4);
                         editor.apply();
 
-                         ///Toast.makeText(getApplicationContext(),"HOla"+id4,Toast.LENGTH_LONG).show();
+                         Toast.makeText(getApplicationContext(),"HOla"+id4,Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
