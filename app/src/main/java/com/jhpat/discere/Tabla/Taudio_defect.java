@@ -66,6 +66,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
+        DaVoidtosTabla();
 
         //
 
