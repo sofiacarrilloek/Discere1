@@ -61,7 +61,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
 
-        cargarp2();
+        datosc("707");
         //
 
     }
@@ -79,12 +79,12 @@ public class Taudio_defect extends AppCompatActivity {
         return entries;
 
     }
-    public void cargarp2(){
+    /*public void cargarp2(){
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         id=preferencia.getString("ID2", "NO EXISTE");
         datosc("http://puntosingular.mx/cas/tabla/elchido?user="+id+"");
 
-    }
+    }*/
     public void datosc(String Correo) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
