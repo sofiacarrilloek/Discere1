@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".Tabla.Grafica"></activity>
-        <activity android:name=".Tabla.Prueba" />
+        <activity android:name=".Tabla.Prueba"
+            android:theme="@style/AppTheme.NoActionBar"
+        />
         <activity
             android:name=".TabsActivity"
             android:label="@string/title_activity_tab_agendar"
