@@ -60,7 +60,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
 
-        datosc("709");
+        datosc("correo");
         //
 
     }
@@ -161,6 +161,20 @@ public class Taudio_defect extends AppCompatActivity {
 
 
     }//FIN DATOSSC
+    private void guardarPreferencias_tabla(String ID)
+    {
+
+        SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferencia.edit();
+        //editor.clear();
+        editor.putString("Id_A", ID);
+        //Toast.makeText(getApplicationContext(),"SE a guardado"+ID,Toast.LENGTH_LONG).show();
+
+
+
+
+    }
 
 
 }
