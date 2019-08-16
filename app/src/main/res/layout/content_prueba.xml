@@ -14,7 +14,18 @@
     <de.codecrafters.tableview.TableView
         android:id="@+id/tableview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="344dp" >
 
+
+    </de.codecrafters.tableview.TableView>
+
+    <Button
+        android:id="@+id/GF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="138dp"
+        android:text="Graficar" />
 </RelativeLayout>
