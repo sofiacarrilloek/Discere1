@@ -22,17 +22,17 @@ public class Grafico extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grafico);
 
-        /*Bundle datos = this.getIntent().getExtras();
+        Bundle datos = this.getIntent().getExtras();
         String xd = datos.getString("tam");
         if(xd.equals("707")){
+            dataV.add(new PieEntry(200,"Critical"));
+            dataV.add(new PieEntry(300,"Desirable"));
 
         }
         if(xd.equals("711")){
             dataV.add(new PieEntry(300,"Syntax"));
         }
-        */
-        dataV.add(new PieEntry(300,"Critical"));
-        dataV.add(new PieEntry(400,"Desirable"));
+
         pieChart = findViewById(R.id.pieChartt);
         PieDataSet pieDataSet = new PieDataSet(dataV,"");
         pieDataSet.setColors(colorClassArray);
