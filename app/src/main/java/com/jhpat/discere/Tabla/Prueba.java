@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.jhpat.discere.Grafico;
 import com.jhpat.discere.R;
 
 import org.json.JSONArray;
@@ -105,6 +107,22 @@ public class Prueba extends AppCompatActivity {
         });
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
+//
+                Button cv;
+
+                cv =  (Button)findViewById(R.id.GF);
+
+                cv.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent (v.getContext(), Grafico.class);
+                        intent.putExtra("tam", id2);
+                        startActivity(intent);
+                    }
+                });
+        //
+
     }
 
 
