@@ -14,7 +14,7 @@ public class Adaptar_notificaciones extends RecyclerView.Adapter<Adaptar_notific
 
 
     public Adaptar_notificaciones(ArrayList<String> listDatos){ this.listDatos = listDatos;}
-
+//FA
     @Override
     public Adaptar_notificaciones.ViewHolderDatos onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

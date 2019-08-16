@@ -29,6 +29,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import com.jhpat.discere.Tabla.Prueba;
+import com.jhpat.discere.Tabla.Taudio_defect;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -60,7 +61,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-         Agendar=(FloatingActionButton) findViewById(R.id.agendar);
+        Agendar=(FloatingActionButton) findViewById(R.id.agendar);
         actionMenu=(FloatingActionMenu) findViewById(R.id.fab);
         actionMenu.setClosedOnTouchOutside(true);
 
@@ -92,11 +93,11 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
     }
 
-public void pasar(){
-    Intent inten = new Intent(getApplicationContext(), Prueba .class);
-    startActivity(inten);
-}
-            @Override
+    public void pasar(){
+        Intent inten = new Intent(getApplicationContext(), Prueba.class);
+        startActivity(inten);
+    }
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -115,12 +116,14 @@ public void pasar(){
         boolean fragmentSeleccionado=false;
         if (id == R.id.nav_home) {
             panta();
+            return true;
         }else if (id == R.id.nav_camera) {
             miFragment = new profile_principal();
             actionMenu.setVisibility(View.GONE);
             fragmentSeleccionado=true;
         } else if (id == R.id.nav_gallery) {
             pasar();
+            return true;
 
         } else if (id == R.id.nav_skype){
             Skype();
@@ -131,7 +134,7 @@ public void pasar(){
             onOutSesion();
             return true;
         } else if (id == R.id.nav_share) {
-            notificacion();
+            pant();
             return true;
         } else if (id == R.id.nav_send) {
 
@@ -151,7 +154,7 @@ public void pasar(){
         if (launchIntent != null){
             startActivity(launchIntent);
         }else{
-            Toast.makeText(this,"You do not have the Skype application :(",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"You do not have the Skype application 😞",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -177,6 +180,10 @@ public void pasar(){
     }
     public void panta(){
         Intent intent=new Intent(pantalla_principal.this,pantalla_principal.class);
+        startActivity(intent);
+    }
+    public void pant(){
+        Intent intent=new Intent(pantalla_principal.this, Taudio_defect.class);
         startActivity(intent);
     }
     @Override
@@ -231,17 +238,17 @@ public void pasar(){
                             TIPO1="Speaker";
                         }
 
-                       guardarPreferencias2();
-if(TIPO1.equals("Fellow")){
-    Agendar.setColorNormal(Color.GRAY);
-    Agendar.setClickable(false);
-    Agendar.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getApplicationContext(),"¡Solo los Speakers y los Coachs pueden agendar!",Toast.LENGTH_LONG).show();
-        }
-    });
-}
+                        guardarPreferencias2();
+                        if(TIPO1.equals("Fellow")){
+                            Agendar.setColorNormal(Color.GRAY);
+                            Agendar.setClickable(false);
+                            Agendar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(),"¡Solo los Speakers y los Coachs pueden agendar!",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
 
                     }
@@ -286,4 +293,3 @@ if(TIPO1.equals("Fellow")){
 
 
 }
-

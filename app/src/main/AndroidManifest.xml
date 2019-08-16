@@ -52,6 +52,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ProfileDos" />
+        <activity android:name=".Tabla.Taudio_defect" />
         <activity android:name=".Profile_Password" />
         <activity android:name=".pantalla_sesiones" />
         <activity android:name=".MainActivity2" />
