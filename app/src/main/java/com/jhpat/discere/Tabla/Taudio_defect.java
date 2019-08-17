@@ -61,7 +61,7 @@ public class Taudio_defect extends AppCompatActivity {
         pieChart.setHoleRadius(10);
         pieChart.invalidate();
 
-        datosc("707");
+       cargarPreferencias();
         //
 
     }
@@ -85,13 +85,13 @@ public class Taudio_defect extends AppCompatActivity {
         datosc("http://puntosingular.mx/cas/tabla/elchido?user="+id+"");
 
     }*/
-    public void datosc(String Correo) {
+    public void datosc(String ID_AUDIO_ANALYST) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url = "http://puntosingular.mx/cas/audio_defect.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams = new RequestParams();
-        requestParams.add("correo", Correo); //envio el parametro
+        requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
@@ -168,15 +168,15 @@ public class Taudio_defect extends AppCompatActivity {
 
 
     }//FIN DATOSSC
-    private void guardarPreferencias_tabla(String ID)
+    private void cargarPreferencias()
     {
 
         SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
+        String id_Analyst = preferencia.getString("Id_A", "NO EXISTE");
 
-        SharedPreferences.Editor editor = preferencia.edit();
-        //editor.clear();
-        editor.putString("Id_A", ID);
-        //Toast.makeText(getApplicationContext(),"SE a guardado"+ID,Toast.LENGTH_LONG).show();
+        datosc(id_Analyst);
+
+
 
 
 
