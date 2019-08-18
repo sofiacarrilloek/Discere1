@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".Tabla.Taudio_defect">
 
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -19,10 +24,7 @@
             ></TextView>
 
 
-        <ScrollView android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            >
 
 
         <HorizontalScrollView android:layout_width="match_parent"
@@ -96,10 +98,10 @@
 
                 </LinearLayout>
                 <LinearLayout android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="600dp"
                     android:orientation="horizontal">
                     <LinearLayout android:layout_width="50dp"
-                        android:layout_height="200dp"
+                        android:layout_height="600dp"
                         android:orientation="vertical"
                         android:background="@color/colorLOL"
 
@@ -112,7 +114,7 @@
 
                     </LinearLayout>
                     <LinearLayout android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_height="600dp"
                         android:orientation="vertical"
                         android:background="@color/colorLOL"
                         >
@@ -121,12 +123,13 @@
                             android:id="@+id/Duration1"
                             android:layout_width="180dp"
                             android:layout_height="180dp"
+
                             android:layout_gravity="center"
 
                             />
                     </LinearLayout>
                     <LinearLayout android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_height="600dp"
                         android:orientation="vertical"
                         android:background="@color/colorLOL"
                         >
@@ -139,7 +142,7 @@
                             />
                     </LinearLayout>
                     <LinearLayout android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_height="600dp"
                         android:orientation="vertical"
                         android:background="@color/colorLOL"
                         >
@@ -152,7 +155,7 @@
                             />
                     </LinearLayout>
                     <LinearLayout android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_height="600dp"
                         android:orientation="vertical"
                         android:background="@color/colorLOL"
                         >
@@ -180,7 +183,7 @@
 
 
         </HorizontalScrollView>
-        </ScrollView>
+
 
 
         <LinearLayout android:layout_width="match_parent"
@@ -197,6 +200,7 @@
         </LinearLayout>
 
     </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
 
