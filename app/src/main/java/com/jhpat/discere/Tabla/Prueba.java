@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -91,7 +92,7 @@ public class Prueba extends AppCompatActivity {
                         editor.clear();
                         editor.putString("Id_A", id2);
                         editor.commit();
-                        Toast.makeText(getApplicationContext(),"Hola"+id2,Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Hola"+id2,Toast.LENGTH_LONG).show();
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -108,9 +109,9 @@ public class Prueba extends AppCompatActivity {
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
 //
-                Button cv;
+                FloatingActionButton cv;
 
-                cv =  (Button)findViewById(R.id.GF);
+                cv =  (FloatingActionButton) findViewById(R.id.GF);
 
                 cv.setOnClickListener(new View.OnClickListener() {
 

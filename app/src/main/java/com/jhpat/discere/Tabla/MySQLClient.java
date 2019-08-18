@@ -33,7 +33,7 @@ public class MySQLClient {
         SharedPreferences preferencia =c.getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
         id_=preferencia.getString("Id_A", "NO EXISTE");
         Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";
-         Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
+         //Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
     }
 
 

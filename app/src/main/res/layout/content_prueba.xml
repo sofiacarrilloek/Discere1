@@ -13,19 +13,23 @@
 
     <de.codecrafters.tableview.TableView
         android:id="@+id/tableview"
-        android:layout_width="wrap_content"
-        android:layout_height="344dp" >
+        android:layout_width="395dp"
+        android:layout_height="539dp">
 
 
     </de.codecrafters.tableview.TableView>
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/GF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="166dp"
-        android:layout_marginBottom="138dp"
-        android:text="Graficar" />
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/colorPrimary"
+        android:clickable="true"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@drawable/grafica" />
+
 </RelativeLayout>
