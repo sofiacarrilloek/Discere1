@@ -1,6 +1,7 @@
 package com.jhpat.discere;
 
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -86,11 +87,8 @@ public class ProfileDos extends AppCompatActivity
             public void onClick(View v) {
 
                 editarDatos(ID1);
-                Intent intent= new  Intent(ProfileDos.this,profile_principal.class);
+                Intent intent=new Intent(ProfileDos.this, pantalla_principal.class);
                 startActivity(intent);
-               // editarDatos(ID_USUARIO);
-
-
 
             }
         });//Boton_actualizar fin
@@ -99,10 +97,10 @@ public class ProfileDos extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Intent intent= new  Intent(ProfileDos.this,profile_principal.class);
-                startActivity(intent);
-                Toast.makeText(ProfileDos.this, "Unsaved data", Toast.LENGTH_SHORT).show();
 
+                Toast.makeText(ProfileDos.this, "Unsaved data", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(ProfileDos.this,pantalla_principal.class);
+                startActivity(intent);
 
             }
         });//Boton_cancelar prro fin
@@ -133,7 +131,7 @@ public class ProfileDos extends AppCompatActivity
     }
 
     @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if(requestCode==100){
@@ -282,73 +280,6 @@ public class ProfileDos extends AppCompatActivity
 
 
 
-
-
-
-    public void datosc (String Correo)
-    {
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/usuario.php"; //la url del web service
-        // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
-
-                if (statusCode==200) // Lo mismo que con LOGIN
-                {
-
-
-                    try {
-                        jsonObject = new JSONObject(new String(responseBody));
-                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
-                        nombre.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("name"));
-                        apellido.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("last_name"));
-                        correoe.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("email"));
-                        genero.setText( jsonObject.getJSONArray("datos").getJSONObject(0).getString("gender"));
-                        tel.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("telephone_number"));
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(ProfileDos.this, ""+e, Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                else
-                {
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
-            {
-
-                Toast.makeText(ProfileDos.this, "No se pudo conectar al servidor", Toast.LENGTH_SHORT).show();
-
-            }
-
-
-
-
-        });
-
-
-
-
-    }//FIN DATOSSC
-
-
     public void editarDatos(final String id_usu)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
@@ -356,12 +287,21 @@ public class ProfileDos extends AppCompatActivity
         final RequestParams requestParams =new RequestParams();
 
         //ENVIO LOS PARAMETROS
+        NAME1=nombre.getText().toString();
+        EMAIL1=correoe.getText().toString();
+        LAST_NAME1=apellido.getText().toString();
+        GENDER1=genero.getText().toString();
+        TEL1=tel.getText().toString();
+        guardarPreferencias();
         requestParams.add("correo",correoe.getText().toString());
         requestParams.add("id_",id_usu);
         requestParams.add("nombre",nombre.getText().toString());
         requestParams.add("apellido",apellido.getText().toString());
         requestParams.add("genero",genero.getText().toString());
         requestParams.add("nTelefono",tel.getText().toString());
+
+
+
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
@@ -373,11 +313,9 @@ public class ProfileDos extends AppCompatActivity
                 if (statusCode==200) // Lo mismo que con LOGIN
                 {
                     Toast.makeText(ProfileDos.this, "Changes saved", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(ProfileDos.this, profile_principal.class);
-                    startActivity(i);
-                    finish();
-                    }
-                    else
+
+                }
+                else
                 {
 
                 }
@@ -387,10 +325,6 @@ public class ProfileDos extends AppCompatActivity
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(ProfileDos.this, "ERROR", Toast.LENGTH_SHORT).show();
             }
-
-
-
-
         });
 
     }//FIN EDITAR USUARIO
@@ -400,8 +334,39 @@ public class ProfileDos extends AppCompatActivity
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         ID1 = preferencia.getString("ID2", "NO EXISTE");
+        String vEmail= preferencia.getString("EMAIL2", "NO EXISTE"),
+                VName= preferencia.getString("NAME2", "NO EXISTE"),
+                VLastName= preferencia.getString("LAST_NAME2", "NO EXISTE"),
+                vPhone= preferencia.getString("TEL2", "NO EXISTE"),
+                vGen=preferencia.getString("GENDER2", "NO EXISTE");
 
-        datosc(ID1);
+
+        nombre.setText(VName);
+        apellido.setText(VLastName);
+        correoe.setText(vEmail);
+        genero.setText(vGen);
+        tel.setText(vPhone);
+
+        //   datosc(ID1);
     }//Fin cargar preferencias
+
+    private void guardarPreferencias()
+    {
+
+        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferencia.edit();
+        //editor.clear();
+
+        editor.putString("NAME2", NAME1);
+        editor.putString("LAST_NAME2", LAST_NAME1);
+        editor.putString("GENDER2", GENDER1);
+        editor.putString("ID2", ID1);
+        editor.putString("PASSWORD2", PASSWORD1);
+        editor.putString("EMAIL2", EMAIL1);
+        editor.putString("TEL2", TEL1);
+
+        editor.commit();
+    }
 
 }
