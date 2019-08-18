@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Profile_Password extends AppCompatActivity {
     EditText et_password, et_cpassword, et_cpassword_2;
-    Button btn_actualizarCon;
+    Button btn_actualizarCon, btn_cancelCon;
 
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
 
@@ -32,8 +32,18 @@ public class Profile_Password extends AppCompatActivity {
         et_cpassword = (EditText)findViewById(R.id.et_cpass);
         et_cpassword_2=(EditText)findViewById(R.id.et_cpass_2);
         btn_actualizarCon= (Button) findViewById(R.id.btn_updateCon);
+        btn_cancelCon= (Button) findViewById(R.id.btn_cancel_con);
 
 
+        btn_cancelCon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Profile_Password.this, "Cancel", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(Profile_Password.this,pantalla_principal.class);
+                startActivity(intent);
+
+            }
+        });
 
         btn_actualizarCon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +53,8 @@ public class Profile_Password extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     public void editarContraseña(String id_usu)
@@ -66,9 +78,8 @@ public class Profile_Password extends AppCompatActivity {
                 if (statusCode==200) // Lo mismo que con LOGIN
                 {
                     Toast.makeText(Profile_Password.this, "Change saved", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(Profile_Password.this, profile_principal.class);
-                    startActivity(i);
-                    finish();
+                    Intent intent=new Intent(Profile_Password.this,pantalla_principal.class);
+                    startActivity(intent);
                 }
                 else
                 {
@@ -107,6 +118,9 @@ public class Profile_Password extends AppCompatActivity {
             if(pas1.equals(pas2))
             {
                 editarContraseña(ID1);
+                guardarPreferencias(pas2);
+
+
 
             }else
             {
@@ -122,4 +136,16 @@ public class Profile_Password extends AppCompatActivity {
 
 
     }//Fin cargar preferencias
+
+    private void guardarPreferencias(String PASSWORD1)
+    {
+
+        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferencia.edit();
+        editor.putString("password", PASSWORD1);
+        editor.commit();
+
+    }
+
 }

@@ -42,7 +42,7 @@ public class profile_principal extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-View vista;
+    View vista;
     FloatingActionMenu actionMenu;
     private OnFragmentInteractionListener mListener;
 
@@ -77,20 +77,12 @@ View vista;
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-
-
-
     }
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       vista =inflater.inflate(R.layout.fragment_profile_principal, container, false);
+        vista =inflater.inflate(R.layout.fragment_profile_principal, container, false);
         Button Imangenpas = (Button) vista.findViewById(R.id.button_Edit) ;
         Button btnpas = (Button) vista.findViewById(R.id.button_Password);
         nombre = (TextView)vista.findViewById(R.id.tv_name);
@@ -107,7 +99,7 @@ View vista;
                 Intent intent = new Intent (v.getContext(), ProfileDos.class);
                 startActivityForResult(intent, 0);
 
-     }
+            }
         });
 
         btnpas.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +107,9 @@ View vista;
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), Profile_Password.class);
                 startActivityForResult(intent, 0);
-
             }
         });
-       return vista;
-
-
+        return vista;
 
     }
 
@@ -164,96 +153,19 @@ View vista;
     }
 
 
-    public void datosc (String Correo, final String t)
-    {
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/usuario.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
-
-                if (statusCode==200) // Lo mismo que con LOGIN
-                {
-
-
-                    try {
-                        jsonObject = new JSONObject(new String(responseBody));
-                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
-
-                        nombre.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("name"));
-                       // nombre.setText("Tipo: "+t);
-                        apellido.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("last_name"));
-                        nombre_1.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("name"));
-                        apellido_1.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("last_name"));
-                        email.setText(jsonObject.getJSONArray("datos").getJSONObject(0).getString("email"));
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                else
-                {
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
-            {
-
-
-
-            }
-
-
-
-
-        });
-
-
-    }//FIN DATOSSC
-
-
-
-
-
     private  void cargarP()
     {
         SharedPreferences preferencia = this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         ID1 = preferencia.getString("ID2", "NO EXISTE");
-        String tipo = preferencia.getString("TIPO2", "NO EXISTE");
+        String Name= preferencia.getString("NAME2", "NO EXISTE");
+        String Last_Name= preferencia.getString("LAST_NAME2", "NO EXISTE");
+        String emailV= preferencia.getString("EMAIL2", "NO EXISTE");
 
-
-        datosc(ID1, tipo);
-
-
-
-
+        nombre.setText(Name);
+        nombre_1.setText(Name);
+        apellido_1.setText(Last_Name);
+        apellido.setText(Last_Name);
+        email.setText(emailV);
 
     }//Fin cargar preferencias
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

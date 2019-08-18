@@ -27,8 +27,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="300px"
-                    android:layout_height="120dp"
+                    android:layout_width="65dp"
+                    android:layout_height="35dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="50px"
                     android:src="@drawable/user_1" />
@@ -164,14 +164,14 @@
             android:orientation="vertical">
 
             <Button
-                android:layout_marginTop="15dp"
                 android:id="@+id/button_Password"
                 android:layout_width="207dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_rounded"
-                android:text="Change Passwor"
+                android:text="Change Password"
                 android:textColor="#fff"
                 android:textSize="15sp" />
             <Button
