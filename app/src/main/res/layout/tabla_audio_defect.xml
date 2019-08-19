@@ -129,14 +129,19 @@
                         android:background="@color/colorLOL"
                         android:orientation="vertical">
 
+
+                        <ScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
                         <TextView
                             android:id="@+id/Duration1"
                             android:layout_width="180dp"
                             android:layout_height="250dp"
                             android:layout_gravity="center"
-                            android:scrollbars="vertical"
-
                             />
+                        </ScrollView>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -145,14 +150,18 @@
                         android:background="@color/colorLOL"
                         android:orientation="vertical">
 
+                        <ScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
                         <TextView
                             android:id="@+id/DP1"
                             android:layout_width="180dp"
                             android:layout_height="250dp"
                             android:layout_gravity="center"
-                            android:scrollbars="vertical"
 
                             />
+                        </ScrollView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -161,14 +170,19 @@
                         android:background="@color/colorLOL"
                         android:orientation="vertical">
 
+                        <ScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
                         <TextView
                             android:id="@+id/DT1"
                             android:layout_width="180dp"
                             android:layout_height="250dp"
                             android:layout_gravity="center"
-                            android:scrollbars="vertical"
+
 
                             />
+                        </ScrollView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -176,15 +190,18 @@
                         android:layout_height="250dp"
                         android:background="@color/colorLOL"
                         android:orientation="vertical">
+                        <ScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
 
                         <TextView
                             android:id="@+id/DD1"
                             android:layout_width="180dp"
                             android:layout_height="250dp"
                             android:layout_gravity="center"
-
-
                             />
+                        </ScrollView>
                     </LinearLayout>
 
                 </LinearLayout>
