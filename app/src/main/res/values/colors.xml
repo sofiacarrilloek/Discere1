@@ -14,5 +14,12 @@
     <color name="color_speakerAceptada">#548035</color>
     <color name="color_coachAceptada">#2F5496</color>
     <color name="colorLOL">#E2E1E1</color>
+    <color name="color_critical">#fe6383</color>
+    <color name="color_important">#63ff84</color>
+    <color name="color_relevant">#7fff63</color>
+    <color name="color_pertinent">#8663fc</color>
+    <color name="color_desirable">#6387ff</color>
+
+
 
 </resources>

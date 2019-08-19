@@ -7,21 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".Tabla.Taudio_defect">
 
-    <ScrollView android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        >
-
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
+
+
+
+
+
         <TextView android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Speech Analyst Detail"
             android:layout_marginTop="15dp"
             android:textSize="24dp"
-            ></TextView>
+            >
+
+        </TextView>
 
 
 
@@ -97,73 +99,88 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent"
-                    android:layout_height="600dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
                     android:orientation="horizontal">
-                    <LinearLayout android:layout_width="50dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="250dp"
                         android:background="@color/colorLOL"
+                        android:orientation="vertical"
 
                         >
-                        <TextView android:layout_width="wrap_content"
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
                             android:layout_gravity="center"
-                            />
+                            android:textSize="20dp" />
 
                     </LinearLayout>
-                    <LinearLayout android:layout_width="200dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
                         android:background="@color/colorLOL"
-                        >
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/Duration1"
                             android:layout_width="180dp"
-                            android:layout_height="600dp"
-
+                            android:layout_height="250dp"
                             android:layout_gravity="center"
+                            android:scrollbars="vertical"
 
                             />
                     </LinearLayout>
-                    <LinearLayout android:layout_width="200dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
                         android:background="@color/colorLOL"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
-                            android:layout_width="180dp"
-                            android:layout_height="600dp"
-                            android:layout_gravity="center"
                             android:id="@+id/DP1"
+                            android:layout_width="180dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:scrollbars="vertical"
 
                             />
                     </LinearLayout>
-                    <LinearLayout android:layout_width="200dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
                         android:background="@color/colorLOL"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
-                            android:layout_width="180dp"
-                            android:layout_height="600dp"
-                            android:layout_gravity="center"
                             android:id="@+id/DT1"
+                            android:layout_width="180dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:scrollbars="vertical"
 
                             />
                     </LinearLayout>
-                    <LinearLayout android:layout_width="200dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
                         android:background="@color/colorLOL"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
-                            android:layout_width="180dp"
-                            android:layout_height="600dp"
-                            android:layout_gravity="center"
                             android:id="@+id/DD1"
+                            android:layout_width="180dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+
 
                             />
                     </LinearLayout>
@@ -177,11 +194,6 @@
 
 
             </LinearLayout>
-
-
-
-
-
         </HorizontalScrollView>
 
 
@@ -189,18 +201,22 @@
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
             >
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pieChart"
-                android:layout_width="match_parent"
-                android:layout_height="345dp"
-                android:layout_weight="1" />
+            <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                                >
+                <com.razerdp.widget.animatedpieview.AnimatedPieView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/pieView"/>
+            </ScrollView>
+
+
         </LinearLayout>
 
     </LinearLayout>
-    </ScrollView>
+
 
 </LinearLayout>
 
