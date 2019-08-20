@@ -8,11 +8,8 @@
     tools:context=".Grafico"
     android:orientation="vertical">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChartt"
+    <com.razerdp.widget.animatedpieview.AnimatedPieView
         android:layout_width="match_parent"
-        android:layout_height="345dp"
-        android:layout_weight="1">
-
-    </com.github.mikephil.charting.charts.PieChart>
+        android:layout_height="match_parent"
+        android:id="@+id/pieView2"/>
 </LinearLayout>

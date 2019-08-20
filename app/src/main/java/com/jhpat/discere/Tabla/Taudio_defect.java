@@ -177,14 +177,9 @@ public class Taudio_defect extends AppCompatActivity {
                         p_d=t_p*t_desirable;
                         p_i=t_p*t_important;
                         p_p=t_p*t_pertinent;
-                        p_r=t_p*t_pertinent;
+                        p_r=t_p*t_relevant;
 
                         dibujaGrafica(p_c,p_d,p_i, p_p, p_r );
-
-
-
-
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -221,17 +216,31 @@ public class Taudio_defect extends AppCompatActivity {
 
         AnimatedPieView animatedPieView = findViewById(R.id.pieView);
         AnimatedPieViewConfig config = new AnimatedPieViewConfig();
-        config.addData(new SimplePieInfo(v_Critical, Color.parseColor(color_critical), CRITICAL));
-        config.addData(new SimplePieInfo(v_Desirable, Color.parseColor(color_desirable), DESIRABLE));
-        config.addData(new SimplePieInfo(v_Important, Color.parseColor(color_important), IMPORTANT));
-        config.addData(new SimplePieInfo(v_Pertinent, Color.parseColor(color_pertinent), PERTINENT));
-        config.addData(new SimplePieInfo(v_Relevant, Color.parseColor(color_relevant), RELEVANT));
-
+        if (v_Critical>0)
+        {
+            config.addData(new SimplePieInfo(v_Critical, Color.parseColor(color_critical), CRITICAL+" "+v_Critical/100+"%"));
+        }
+        if (v_Desirable>0)
+        {
+            config.addData(new SimplePieInfo(v_Desirable, Color.parseColor(color_desirable), DESIRABLE+" "+v_Desirable/100+"%"));
+        }
+        if (v_Important>0)
+        {
+            config.addData(new SimplePieInfo(v_Important, Color.parseColor(color_important), IMPORTANT+" "+v_Important/100+"%"));
+        }
+        if (v_Pertinent>0)
+        {
+            config.addData(new SimplePieInfo(v_Pertinent, Color.parseColor(color_pertinent), PERTINENT+" "+v_Pertinent/100+"%"));
+        }
+        if (v_Relevant>0) {
+            config.addData(new SimplePieInfo(v_Relevant, Color.parseColor(color_relevant), RELEVANT + " " + v_Relevant / 100 + "%"));
+        }
 
         config.duration(1000);
         config.drawText(true);
         config.strokeMode(false);
-        config.textSize(52);
+        config.textSize(25);
+
         config.selectListener(new OnPieSelectListener<IPieInfo>() {
             @Override
             public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
