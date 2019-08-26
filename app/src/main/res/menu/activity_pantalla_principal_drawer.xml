@@ -21,6 +21,10 @@
             android:icon="@drawable/skype"
             android:title="Skype"/>
         <item
+            android:id="@+id/listenaudio"
+            android:icon="@drawable/auriculares"
+            android:title="listen to audio" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ayuda"
             android:title="Help" />

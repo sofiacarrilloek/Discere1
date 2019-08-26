@@ -177,9 +177,9 @@
                 android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttom_rounded2"
-                android:text="Add"
-                android:textColor="#FFF"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:text="Upload"
+                android:textColor="#FFF" />
 
             <TextView
                 android:layout_width="3dp"

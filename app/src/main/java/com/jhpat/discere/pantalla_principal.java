@@ -40,7 +40,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class pantalla_principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,profile_principal.OnFragmentInteractionListener,fragment_principal.OnFragmentInteractionListener, Fragment_skype.OnFragmentInteractionListener{
+public class pantalla_principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,profile_principal.OnFragmentInteractionListener,fragment_principal.OnFragmentInteractionListener, Fragment_skype.OnFragmentInteractionListener, StreamingAudio.OnFragmentInteractionListener{
     private TextView N;
     private TextView C;
     private String id,c,n,ape;
@@ -128,7 +128,10 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_skype){
             Skype();
             return true;
-        } else if (id == R.id.nav_slideshow) {
+        }else if (id == R.id.listenaudio){
+            miFragment = new StreamingAudio();
+            fragmentSeleccionado = true;
+        }else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_out) {
             onOutSesion();
