@@ -27,8 +27,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="65dp"
-                    android:layout_height="35dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="50px"
                     android:src="@drawable/user_1" />
@@ -68,97 +68,108 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="120px">
+android:layout_marginTop="20dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="100px"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Email"
                     android:textColor="@color/colorTitle"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="Email"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitle"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:text="email@hola.com"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginRight="20px"
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="10px"
-                android:background="@color/colorTitle"></View>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitle"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="Name"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitle"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
                     android:text="email@hola.com"
-                    android:id="@+id/tv_name"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginRight="20px"
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="10px"
-                android:background="@color/colorTitle"></View>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTitle"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="Last name"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textColor="@color/colorTitle"
                     android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:id="@+id/tv_lastname"
-                    android:text="email@hola.com"/>
+                    android:textStyle="normal" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginRight="20px"
                 android:layout_marginTop="10px"
+                android:layout_marginRight="20px"
+                android:layout_marginBottom="10px"
+                android:background="@color/colorTitle"></View>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/colorTitle"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email@hola.com"
+                    android:textColor="@color/colorTitle"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10px"
+                android:layout_marginRight="20px"
+                android:layout_marginBottom="10px"
+                android:background="@color/colorTitle"></View>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last name"
+                    android:textColor="@color/colorTitle"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email@hola.com"
+                    android:textColor="@color/colorTitle"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="10px"
+                android:layout_marginRight="20px"
                 android:layout_marginBottom="10px"
                 android:background="@color/colorTitle"></View>
         </LinearLayout>
 
         <LinearLayout
-            android:paddingTop="60px"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">

@@ -10,7 +10,8 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         app:cardBackgroundColor="#B45555"
-        android:id="@+id/cart">
+        android:id="@+id/cart"
+        app:cardCornerRadius="20dp">
 
         <TextView
             android:layout_width="370dp"
