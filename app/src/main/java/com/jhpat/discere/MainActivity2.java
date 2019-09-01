@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,7 +57,7 @@ public class MainActivity2 extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
+/*
 //------------------------------------------------------------------------------------------
         recycler= (RecyclerView) findViewById(R.id.Recyclerid);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -78,7 +77,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         AdaptarDatos adapter = new AdaptarDatos(listDatos);
         recycler.setAdapter(adapter);
-//------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------*/
         //Aqui llamamo al metodo
 
 
