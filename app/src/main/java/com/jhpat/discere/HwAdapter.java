@@ -212,6 +212,31 @@ class HwAdapter extends BaseAdapter {
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
 
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+
+
                         if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Disponible"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
@@ -234,17 +259,10 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
-
-
                     }
-
                 }
             }//
-
-
         }
-
-
     }
 
     public void getPositionList(String date, final Activity act){

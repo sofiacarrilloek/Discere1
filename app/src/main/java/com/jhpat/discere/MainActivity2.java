@@ -54,9 +54,6 @@ public class MainActivity2 extends AppCompatActivity{
     ArrayList<String> listDatos;
     RecyclerView recycler;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +132,7 @@ public class MainActivity2 extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
-            ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
+                ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
             /* Intent i = new Intent(MainActivity2.this, dialogo.class);
                 i.putExtra("Rnombre", nombreE);
                 i.putExtra("Rfecha", fecham);
@@ -235,7 +232,8 @@ public class MainActivity2 extends AppCompatActivity{
 
         if (TIPO.equalsIgnoreCase("Fellow")) {
             obtenIDFELLOW(ID_USER);
-            datosTeacher("");
+
+            datosTeacher();
 
         }
 
@@ -246,46 +244,50 @@ public class MainActivity2 extends AppCompatActivity{
     public void obtenIDFELLOW (String ID_USER)
     {
         //Para el fellow
-                        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
-                        AsyncHttpClient conexion = new AsyncHttpClient();
-                        final String url ="http://puntosingular.mx/cas/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
-                        final RequestParams requestParams =new RequestParams();
-                        requestParams.add("id_user",ID_USER); //envio el parametro
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_user",ID_USER); //envio el parametro
 
-                        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
-                                try {
-                                    String CONSULTA="";
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                                    jsonObject = new JSONObject(new String(responseBody));
-                                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                                    int tamanio =jsonObject.getJSONArray("datos").length();
-                                    String id_fellows[] = new String[tamanio];
-                                    int cuentaOr=0;
-                                    String OR;
 
-                                    OR=", ";
+                try {
+                    String CONSULTA="";
 
-                                    for (int i=0; i<tamanio; i++) {
-                                        id_fellows[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String id_fellows[] = new String[tamanio];
+                    int cuentaOr=0;
+                    String OR;
 
-                                        CONSULTA = CONSULTA + id_fellows[i];
-                                        if (cuentaOr<tamanio-1) {
-                                            CONSULTA= CONSULTA + OR;
-                                        }
+                    OR=", ";
 
-                                        cuentaOr++;
+                    for (int i=0; i<tamanio; i++) {
+                        id_fellows[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                        CONSULTA = CONSULTA + id_fellows[i];
+                        if (cuentaOr<tamanio-1) {
+                            CONSULTA= CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
                     }
+                    Toast.makeText(MainActivity2.this, "CONSULTA: "+CONSULTA, Toast.LENGTH_SHORT).show();
 
                     datosLessons(CONSULTA);
 
+
                 } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+
                     e.printStackTrace();
                 }
 
@@ -293,12 +295,13 @@ public class MainActivity2 extends AppCompatActivity{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
-}//FIN OBTENIDFELLOW
+    }//FIN OBTENIDFELLOW
 
     public void obtenIDTEACHER (String ID_USER)
     {
@@ -306,7 +309,7 @@ public class MainActivity2 extends AppCompatActivity{
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro
 
@@ -328,7 +331,7 @@ public class MainActivity2 extends AppCompatActivity{
                     OR=", ";
 
                     for (int i=0; i<tamanio; i++) {
-                        id_teachers[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
+                        id_teachers[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
                         CONSULTA = CONSULTA + id_teachers[i];
                         if (cuentaOr < tamanio - 1) {
@@ -339,32 +342,32 @@ public class MainActivity2 extends AppCompatActivity{
 
                     }
 
-        datosLessonsTeacher(CONSULTA);
+                    datosLessonsTeacher(CONSULTA);
 
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-}
+            }
 
-    @Override
-    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-    }
-});
+            }
+        });
 
 
     }//FIN OBTEN_ID_TEACHER
 
 
-    public void datosLessons (String Correo)
+    public void datosLessons (String ID_FELLOW2)
     {
         //PARA EL FELLOW
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
+        requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -405,14 +408,14 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN DATOS LESSONS
 
-    public void datosLessonsTeacher (String Correo)
+    public void datosLessonsTeacher (String ID_TEACHER1)
     {
         //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/calendar/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_teacher",Correo); //envio el parametro
+        requestParams.add("id_teacher",ID_TEACHER1); //envio el parametro
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -458,14 +461,14 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-    public void datosTeacher (final String Correo)
+    public void datosTeacher ()
     {
         //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/calendar/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("correo",Correo); //envio el parametro
+
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -493,32 +496,23 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
-                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
 
-                        fechaInicio2[i]=fechaInicio[i].substring(0, 10);
+                        //fechaInicio2[i]=fechaInicio[i].substring(0, 10);
 
-                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        // email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
 
                         lolitox=email[i];
 
-
-
-                        if (status[i].equals("0"))
-                        {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i], id_teacher[i]));
-                        }
-                        if (status[i].equals("1"))
-                        {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i], id_teacher[i]));
-                        }
-
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", "", tipo[i], id_teacher[i]));
 
 
                     }
 
 
                 } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -533,16 +527,12 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN DATOS TEACHER
 
-
-
-
-
     public void verTeacher (final String ID_USER)
     {
         //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/calendar/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",ID_USER); //envio el parametro
 
@@ -564,43 +554,35 @@ public class MainActivity2 extends AppCompatActivity{
                     String id_teacher[]=new String[tamanio];
                     String email[]=new String[tamanio];
 
-                    for (int i=0; i<tamanio; i++)
-                    {
-                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
-                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
-                        status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
-                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+                    for (int i=0; i<tamanio; i++) {
+                        fechaInicio[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
+                        tipo[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
+                        id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
-                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        // email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
 
-                        lolitox=email[i];
-
-
-                        fechaInicio2[i]=fechaInicio[i].substring(0, 10);
-                        if (status[i].equals("0"))
-
-                        {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Disponible", email[i], tipo[i], id_teacher[i]));
-                        }
-                        if (status[i].equals("1"))
-                        {
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", email[i], tipo[i], id_teacher[i]));
-                    }
+                        lolitox = email[i];
 
 
+                        //fechaInicio2[i]=fechaInicio[i].substring(0, 10);
+
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", "Disponible", tipo[i], id_teacher[i]));
 
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(MainActivity2.this, "Error: "+e, Toast.LENGTH_SHORT).show();
+
                 }
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
             }
         });
 
