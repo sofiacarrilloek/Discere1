@@ -138,8 +138,9 @@ cargarP();
         public Fragment getItem(int position) {
 
             Fragment tabFragment = null;
-
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
             switch (position){
+
                 case 0:
                     tabFragment = new TabAFragment();
 
@@ -147,6 +148,9 @@ cargarP();
                 case 1:
                     tabFragment = new TabBFragment();
                     break;
+            }
+            }else{
+                tabFragment = new TabBFragment();
             }
             return tabFragment;
         }
