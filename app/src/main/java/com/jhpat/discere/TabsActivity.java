@@ -1,5 +1,7 @@
 package com.jhpat.discere;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TabsActivity extends AppCompatActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
 
@@ -38,12 +41,13 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+String usuario,tipo,email,nombre,apellido;
+int retorno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
-
+cargarP();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -56,7 +60,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        Toast.makeText(this,tipo,Toast.LENGTH_LONG).show();
     }
 
     // Métodos de la interfaz ActionBar.TabListener
@@ -138,6 +142,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
             switch (position){
                 case 0:
                     tabFragment = new TabAFragment();
+
                     break;
                 case 1:
                     tabFragment = new TabBFragment();
@@ -149,23 +154,46 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+                retorno =2;
+            }else{
+                retorno =1;
+            }
+            return retorno;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
 
             String section = null;
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+                switch (position) {
+                    case 0:
 
-            switch (position) {
-                case 0:
-                    section = "SCHEDULE";
-                    break;
-                case 1:
-                    section = "FELLOW SESSION";
-                    break;
-            }
+                        section = "FELLOW SESSION";
+                        break;
+                    case 1:
+                        section = "SCHEDULE";
+
+                        break;
+                }
+            }  else{
+                section = "SCHEDULE";
+                }
+
+
             return section;
         }
     }
+
+    //Preferencias
+    private  void cargarP()
+    {
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        usuario= preferencia.getString("ID2", "NO EXISTE");
+        tipo=preferencia.getString("TIPO2", "holaperro");
+        email=preferencia.getString("EMAIL2","No hay email");
+        nombre=preferencia.getString("NAME2","HOLA Crack");
+        apellido=preferencia.getString("LAST_NAME2","hola");
+    }//Fin cargar preferencias
 }
