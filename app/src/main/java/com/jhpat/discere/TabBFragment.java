@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,9 @@ public class TabBFragment extends Fragment {
     View vista;
     Button buscarA,añadirA;
     TextView nombreA;
+    private static final String TAG = TabBFragment.class.getSimpleName();
+    private String selectedFilePath;
+    TextView tvFileName;
 
     private int VALOR_RETORNO = 1;
     private ProgressDialog progreso;
@@ -170,12 +175,24 @@ public class TabBFragment extends Fragment {
             //Cancelado por el usuario
         }
         if ((resultCode == RESULT_OK) && (requestCode == VALOR_RETORNO )) {
-            //Procesar el resultado
-            Uri uri = data.getData(); //obtener el uri content
-            File file= new File(uri.getPath());
-            nombreA.setText(nombreA.getText()+""+file);
+            if (data == null) {
+                //no data present
+                return;
+            }
 
-            Toast.makeText(getContext(),"Seleccionado",Toast.LENGTH_LONG).show();
+
+
+            Uri selectedFileUri = data.getData();
+            selectedFilePath = FilePath.getPath(getContext(), selectedFileUri);
+            Log.i(TAG, "Selected File Path:" + selectedFilePath);
+
+            if (selectedFilePath != null && !selectedFilePath.equals("")) {
+                nombreA.setText(nombreA.getText()+""+selectedFilePath);
+                Toast.makeText(getContext(),"Seleccionado",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Cannot upload file to server", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
