@@ -13,4 +13,8 @@
   <string name="title_activity_tab_agendar">TabAgendar</string>
   <string name="tab_text_1">Schedule</string>
   <string name="tab_text_2">Fellow Sessions</string>
+  <string name="read_file">This app needs access to your file storage so that it can read files.</string>
+  <string name="choose_file">Choose File</string>
+  <string name="upload">Upload</string>
+  <string name="file_name">File Name</string>
 </resources>
