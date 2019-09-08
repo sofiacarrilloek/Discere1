@@ -97,6 +97,10 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Intent inten = new Intent(getApplicationContext(), Prueba.class);
         startActivity(inten);
     }
+    public void SubirAudio(){
+        Intent inten = new Intent(getApplicationContext(), UploadAudio.class);
+        startActivity(inten);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -132,7 +136,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             miFragment = new StreamingAudio();
             fragmentSeleccionado = true;
         }else if (id == R.id.nav_slideshow) {
-
+            SubirAudio();
+            return true;
         } else if (id == R.id.nav_out) {
             onOutSesion();
             return true;

@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jhpat.discere">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -18,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".Tabla.Prueba"
-            android:theme="@style/AppTheme.NoActionBar"
-        />
+        <activity android:name=".UploadAudio"></activity>
+        <activity
+            android:name=".Tabla.Prueba"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TabsActivity"
             android:label="@string/title_activity_tab_agendar"
@@ -38,20 +32,11 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/xml" />
-        </provider>
-
         <activity
             android:name=".pantalla_principal"
             android:label="@string/title_activity_pantalla_principal"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".ProfileDos" />
         <activity android:name=".Tabla.Taudio_defect" />
@@ -65,6 +50,21 @@
             android:label=" "
             android:theme="@style/cuadrod" />
         <activity android:name=".contenedor_notificaciones" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/xml" />
+        </provider>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
