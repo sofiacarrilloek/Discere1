@@ -128,6 +128,7 @@ public class MainActivity2 extends AppCompatActivity{
         gridview.setAdapter(hwAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
                 String fecham= selectedGridDate;
