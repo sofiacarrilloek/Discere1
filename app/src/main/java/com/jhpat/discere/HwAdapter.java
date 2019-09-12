@@ -184,10 +184,10 @@ class HwAdapter extends BaseAdapter {
         int len=HomeCollection.date_collection_arr.size();
         for (int i = 0; i < len; i++) {
             HomeCollection cal_obj=HomeCollection.date_collection_arr.get(i);
-            String date=cal_obj.date;
+            String date=cal_obj.fecha_inicio;
             //Tipo
-            String tipo = cal_obj.description;
-            String disponible = cal_obj.name;
+            String tipo = cal_obj.tipo;
+            String disponible = cal_obj.estado;
 
 
             int len1=day_string.size();
@@ -270,13 +270,13 @@ class HwAdapter extends BaseAdapter {
         int len= HomeCollection.date_collection_arr.size();
         JSONArray jbarrays=new JSONArray();
         for (int j=0; j<len; j++){
-            if (HomeCollection.date_collection_arr.get(j).date.equals(date)){
+            if (HomeCollection.date_collection_arr.get(j).fecha_inicio.equals(date)){
                 HashMap<String, String> maplist = new HashMap<String, String>();
-                maplist.put("hnames",HomeCollection.date_collection_arr.get(j).name);
-                maplist.put("hsubject",HomeCollection.date_collection_arr.get(j).subject);
-                maplist.put("descript",HomeCollection.date_collection_arr.get(j).description);
-                maplist.put("date",HomeCollection.date_collection_arr.get(j).date);
-                maplist.put("idteacher",HomeCollection.date_collection_arr.get(j).idteacher);
+                maplist.put("estado",HomeCollection.date_collection_arr.get(j).estado);
+                maplist.put("tipo",HomeCollection.date_collection_arr.get(j).tipo);
+                maplist.put("id_teacher",HomeCollection.date_collection_arr.get(j).id_teacher);
+                maplist.put("email_teacher",HomeCollection.date_collection_arr.get(j).email_teacher);
+                maplist.put("nombre_teacher",HomeCollection.date_collection_arr.get(j).nombre_teacher);
                 JSONObject json1 = new JSONObject(maplist);
                 jbarrays.put(json1);
             }
@@ -309,11 +309,12 @@ class HwAdapter extends BaseAdapter {
 
                 Dialogpojo pojo = new Dialogpojo();
 
-                pojo.setTitles(jsonObject.optString("hnames"));
-                pojo.setSubjects(jsonObject.optString("hsubject"));
-                pojo.setDescripts(jsonObject.optString("descript"));
-                pojo.setDuedates(jsonObject.optString("date"));
-                pojo.setTypes(jsonObject.optString("idteacher"));
+                pojo.setFecha_inicio(jsonObject.optString("fecha_inicio"));
+                pojo.setEstado(jsonObject.optString("estado"));
+                pojo.setEmail_teacher(jsonObject.optString("email"));
+                pojo.setTipo(jsonObject.optString("tipo"));
+                pojo.setId_teacher(jsonObject.optString("id_teacher"));
+                pojo.setNombre_teacher(jsonObject.optString("nombre_teacher"));
 
                 alCustom.add(pojo);
 

@@ -78,11 +78,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
-/*CUADRO DE DIALOGO - ALAN
- Te pondre dos metodos, una para el fellow y otra para el speaker:'v
- */
 
-    //CUADRO DE DIALOGO TEACHER ?)
     @TargetApi(Build.VERSION_CODES.O)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -96,38 +92,40 @@ class DialogAdaptorStudent extends BaseAdapter {
         Button boton = (Button)listViewItem.findViewById(R.id.btnaceptar);
 
 
-        tvTitle.setText("Id_teacher : "+alCustom.get(position).getTypes());
-        tvSubject.setText("Email: "+alCustom.get(position).getSubjects());
-        EMAIL=alCustom.get(position).getSubjects();
-        tvDuedate.setText("Date : "+alCustom.get(position).getDuedates());
-        //Tipo.setText(alCustom.get(position).getDescripts().toUpperCase()+" SESSION");
-        Tipo.setText(("TEACHER SESSION"));
+        tvTitle.setText("Id_teacher : "+alCustom.get(position).getId_teacher());
+        tvSubject.setText("Email: "+alCustom.get(position).getEmail_teacher());
+        EMAIL=alCustom.get(position).getEmail_teacher();
+        tvDuedate.setText("Date : "+alCustom.get(position).getFecha_inicio().toUpperCase());
+        Tipo.setText(alCustom.get(position).getTipo().toUpperCase()+" SESSION");
         boton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
+                                 {
+                                     @Override
+                                     public void onClick(View v)
+                                     {
 
-                ID_TEACHER=alCustom.get(position).getTypes();
-                Toast.makeText(context, "SELECCIONADO: "+ID_TEACHER, Toast.LENGTH_SHORT).show();
-                actualizarStatus(ID_TEACHER, "1");
+                                         ID_TEACHER=alCustom.get(position).getId_teacher();
+                                         Toast.makeText(context, "SELECCIONADO: "+ID_TEACHER, Toast.LENGTH_SHORT).show();
+                                         actualizarStatus(ID_TEACHER, "1");
 
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.socketFactory.port", "465");
-                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "465");
+                                         Properties props = new Properties();
+                                         props.put("mail.smtp.host", "smtp.gmail.com");
+                                         props.put("mail.smtp.socketFactory.port", "465");
+                                         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                                         props.put("mail.smtp.auth", "true");
+                                         props.put("mail.smtp.port", "465");
 
-                session = Session.getDefaultInstance(props, new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                    }
-                });
+                                         session = Session.getDefaultInstance(props, new Authenticator() {
+                                             protected PasswordAuthentication getPasswordAuthentication() {
+                                                 return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                             }
+                                         });
 
-                pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+                                         pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
 
-            }
+                                         RetreiveFeedTask task = new RetreiveFeedTask();
+                                         task.execute();
+
+                                     }
 
                                      class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 

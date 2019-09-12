@@ -1,76 +1,55 @@
 package com.jhpat.discere;
 
 public class Dialogpojo {
-    private String titles;
-    private String subjects;
-    private String types;
-    private String duedates;
-    private String descripts;
-    private String attatchmentd;
-    private String sections;
-    private String classe;
+    private String fecha_inicio;
+    private String estado;
+    private String tipo;
+    private String id_teacher;
+    private String email_teacher;
+    private String nombre_teacher;
 
-    public void setTitles(String titles) {
-        this.titles = titles;
+    public void setNombre_teacher(String nombre_teacher){this.nombre_teacher=nombre_teacher;}
+
+    public void setFecha_inicio(String fecha_inicio) {
+        this.fecha_inicio = fecha_inicio;
     }
 
-    public void setSubjects(String subjects) {
-        this.subjects = subjects;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public void setTypes(String types) {
-        this.types = types;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public void setDuedates(String duedates) {
-        this.duedates = duedates;
+    public void setId_teacher(String id_teacher) {
+        this.id_teacher = id_teacher;
     }
 
-    public void setDescripts(String descripts) {
-        this.descripts = descripts;
+    public void setEmail_teacher(String email_teacher) {
+        this.email_teacher = email_teacher;
     }
 
-    public void setAttatchmentd(String attatchmentd) {
-        this.attatchmentd = attatchmentd;
+
+    public String getFecha_inicio() {
+        return fecha_inicio;
     }
 
-    public String getTitles() {
-        return titles;
+    public String getEstado() {
+        return estado;
     }
 
-    public String getSubjects() {
-        return subjects;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getTypes() {
-        return types;
+    public String getId_teacher() {
+        return id_teacher;
     }
 
-    public String getDuedates() {
-        return duedates;
+    public String getEmail_teacher() {
+        return email_teacher;
     }
 
-    public String getDescripts() {
-        return descripts;
-    }
-
-    public String getAttatchmentd() {
-        return attatchmentd;
-    }
-
-    public void setSections(String sections) {
-        this.sections = sections;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public String getSections() {
-        return sections;
-    }
+    public String getNombre_teacher(){return  nombre_teacher;}
 }
