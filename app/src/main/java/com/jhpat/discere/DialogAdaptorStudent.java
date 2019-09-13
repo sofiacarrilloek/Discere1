@@ -45,16 +45,17 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     private Activity context;
     private ArrayList<Dialogpojo> alCustom;
+    public ArrayList<HomeCollection> date_collection_arr;
     private String sturl;
     public static List<String> day_string;
     String ID_TEACHER, CLLC;
     Session session = null;
     String EMAIL, NAME;
     ProgressDialog pdialog = null;
-    String subC ="Sesión Discere";
-    String msgC ="Lo sentimos, tú sesión ha sido rechazada";
-    String sub ="Sesión Discere";
-    String msg ="Tienes una solicitud de sesión";
+    String subC = "Sesión Discere";
+    String msgC = "Lo sentimos, tú sesión ha sido rechazada";
+    String sub = "Sesión Discere";
+    String msg = "Tienes una solicitud de sesión";
 
 
     public DialogAdaptorStudent(Activity context, ArrayList<Dialogpojo> alCustom) {
@@ -85,116 +86,134 @@ class DialogAdaptorStudent extends BaseAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.cdialogo, null, true);
 
-        TextView tvTitle=(TextView)listViewItem.findViewById(R.id.time);
-        TextView tvSubject=(TextView)listViewItem.findViewById(R.id.fellow);
-        TextView tvDuedate=(TextView)listViewItem.findViewById(R.id.date);
-        TextView Tipo=(TextView)listViewItem.findViewById(R.id.tvTipo);
-        Button boton = (Button)listViewItem.findViewById(R.id.btnaceptar);
+        TextView tvTitle = (TextView) listViewItem.findViewById(R.id.time);
+        TextView tvSubject = (TextView) listViewItem.findViewById(R.id.fellow);
+        TextView tvDuedate = (TextView) listViewItem.findViewById(R.id.date);
+        TextView Tipo = (TextView) listViewItem.findViewById(R.id.tvTipo);
+        Button boton = (Button) listViewItem.findViewById(R.id.btnaceptar);
 
 
-        tvTitle.setText("Id_teacher : "+alCustom.get(position).getId_teacher());
-        tvSubject.setText("Email: "+alCustom.get(position).getEmail_teacher());
-        EMAIL=alCustom.get(position).getEmail_teacher();
-        tvDuedate.setText("Date : "+alCustom.get(position).getFecha_inicio().toUpperCase());
-        Tipo.setText(alCustom.get(position).getTipo().toUpperCase()+" SESSION");
-        boton.setOnClickListener(new View.OnClickListener()
-                                 {
-                                     @Override
-                                     public void onClick(View v)
-                                     {
 
-                                         ID_TEACHER=alCustom.get(position).getId_teacher();
-                                         Toast.makeText(context, "SELECCIONADO: "+ID_TEACHER, Toast.LENGTH_SHORT).show();
-                                         actualizarStatus(ID_TEACHER, "1");
-
-                                         Properties props = new Properties();
-                                         props.put("mail.smtp.host", "smtp.gmail.com");
-                                         props.put("mail.smtp.socketFactory.port", "465");
-                                         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                                         props.put("mail.smtp.auth", "true");
-                                         props.put("mail.smtp.port", "465");
-
-                                         session = Session.getDefaultInstance(props, new Authenticator() {
-                                             protected PasswordAuthentication getPasswordAuthentication() {
-                                                 return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                                             }
-                                         });
-
-                                         pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                                         RetreiveFeedTask task = new RetreiveFeedTask();
-                                         task.execute();
-
-                                     }
-
-                                     class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                                         @Override
-                                         protected String doInBackground(String... params) {
-
-                                             try{
-                                                 Message message = new MimeMessage(session);
-                                                 message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                                                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                                 message.setSubject(sub);
-                                                 message.setContent(msg, "text/html; charset=utf-8");
-                                                 Transport.send(message);
-                                             } catch(MessagingException e) {
-                                                 e.printStackTrace();
-                                             } catch(Exception e) {
-                                                 e.printStackTrace();
-                                             }
-                                             return null;
-                                         }
-
-                                         @Override
-                                         protected void onPostExecute(String result) {
-                                             pdialog.dismiss();
-
-                                             Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                                         }
-                                     }});
+        tvTitle.setText("Id_teacher : " + alCustom.get(position).getId_teacher());
+        tvSubject.setText("Email: " +alCustom.get(position).getEstado());
+        EMAIL = alCustom.get(position).getEmail_teacher();
+        tvDuedate.setText("Date : "+ alCustom.get(position).getDia());//
+        Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
 
 
-        return  listViewItem;
+
+            boton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ID_TEACHER = alCustom.get(position).getId_teacher();
+                    String FECHA=alCustom.get(position).getFecha_inicio();
+                    Toast.makeText(context, "SELECCIONADO: " + ID_TEACHER, Toast.LENGTH_SHORT).show();
+                 /*   actualizarStatus(ID_TEACHER, "1");
+
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();*/
+
+
+
+
+                }
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject(sub);
+                            message.setContent(msg, "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+//-------------------------------------------------------------------------
+
+
+
+
+
+//--------------------------------------------------------------------------
+
+            });
+
+
+            return listViewItem;
+        }
+
+
+        public void actualizarStatus ( final String Correo, String Status)
+        {
+
+            AsyncHttpClient conexion = new AsyncHttpClient();
+            final String url = "http://puntosingular.mx/cas/actualiza_status.php"; //la url del web service obtener_fecha_lessons.ph
+            final RequestParams requestParams = new RequestParams();
+            requestParams.add("id_teacher", Correo); //envio el parametro
+
+            requestParams.add("status", Status);
+
+            conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+
+        }//FIN
+
+        private void cargarP ()
+        {
+            SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+
+            NAME = preferencia.getString("NAME2", "NO EXISTE");
+
+        }//Fin cargar preferencias
+
     }
 
 
-    public void actualizarStatus (final String Correo, String Status)
-    {
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/actualiza_status.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_teacher",Correo); //envio el parametro
-
-        requestParams.add("status",Status);
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error: "+error, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }//FIN
-
-    private  void cargarP()
-    {
-        SharedPreferences preferencia =context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-
-        NAME = preferencia.getString("NAME2", "NO EXISTE");
-
-    }//Fin cargar preferencias
-
-}
 

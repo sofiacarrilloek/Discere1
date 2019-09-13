@@ -220,6 +220,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         if (TIPO.equalsIgnoreCase("Coach"))
         {
+
             obtenIDTEACHER(ID_USER);
             verTeacher(ID_USER);
 
@@ -231,6 +232,7 @@ public class MainActivity2 extends AppCompatActivity{
         }
 
         if (TIPO.equalsIgnoreCase("Fellow")) {
+
             obtenIDFELLOW(ID_USER);
 
             datosTeacher();
@@ -329,7 +331,7 @@ public class MainActivity2 extends AppCompatActivity{
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i], "", "", "") );
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i], "", "", "", ""+fechaInicio[i]) );
 
 
                     }
@@ -391,7 +393,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                         //fechaInicio2[i]=fechaInicio[i].substring(0, 10);
 
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i], id_teacher[i], "email", ""));
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i], id_teacher[i], "email", "", ""+fechaInicio[i]));
 
                     }
 
@@ -420,6 +422,8 @@ public class MainActivity2 extends AppCompatActivity{
     {
         //Para el fellow
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+
+
 
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
@@ -482,6 +486,8 @@ public class MainActivity2 extends AppCompatActivity{
     {
         //PARA EL TEACHER MUESTRA LAS SESIONES DISPONIBLES DEL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+
+
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/calendar/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
@@ -507,6 +513,7 @@ public class MainActivity2 extends AppCompatActivity{
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        String fe=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
@@ -517,7 +524,8 @@ public class MainActivity2 extends AppCompatActivity{
 
                         lolitox=email[i];
 
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i], id_teacher[i], "email", "nombre"));
+
+                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i]+"", id_teacher[i]+"","", "", ""+fechaInicio[i]));
 
 
                     }
@@ -545,6 +553,8 @@ public class MainActivity2 extends AppCompatActivity{
         //PARA EL FELLOW    OBTIENE LAS LECCIONES YA AGENDADAS (AZUL O VERDE FUERTE)
 
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+
+
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
@@ -569,7 +579,7 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i],"", "agmail.com", "nombre"));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i],"", "agmail.com", "nombre", ""+fechaInicio[i]));
 
                     }
 
