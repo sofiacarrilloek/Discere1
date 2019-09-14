@@ -110,7 +110,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     ID_TEACHER = alCustom.get(position).getId_teacher();
                     String FECHA=alCustom.get(position).getFecha_inicio();
                     Toast.makeText(context, "SELECCIONADO: " + ID_TEACHER, Toast.LENGTH_SHORT).show();
-                 /*   actualizarStatus(ID_TEACHER, "1");
+                 // actualizarStatus(ID_TEACHER, "1");
 
                     Properties props = new Properties();
                     props.put("mail.smtp.host", "smtp.gmail.com");
@@ -128,7 +128,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
 
                     RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();*/
+                    task.execute();
 
 
 
