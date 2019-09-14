@@ -529,7 +529,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-                         cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i]+" Time: "+hora2[i]);
+                         cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i]+" "+hora2[i]);
 
                     }
 

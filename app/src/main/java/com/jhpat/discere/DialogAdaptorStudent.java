@@ -50,7 +50,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public static List<String> day_string;
     String ID_TEACHER, CLLC;
     Session session = null;
-    String EMAIL, NAME;
+    String EMAIL, NAME, LAST_NAME;
     ProgressDialog pdialog = null;
     String subC = "Sesión Discere";
     String msgC = "Lo sentimos, tú sesión ha sido rechazada";
@@ -92,7 +92,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         TextView Tipo = (TextView) listViewItem.findViewById(R.id.tvTipo);
         Button boton = (Button) listViewItem.findViewById(R.id.btnaceptar);
 
-
+cargarP();
 
 
         tvName.setText("Name: "+alCustom.get(position).getNombre_teacher());
@@ -106,6 +106,10 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    agendarSesionPendiente("6028", ""+alCustom.get(position).getId_teacher(), ""+alCustom.get(position).getTipo(),
+                            ""+alCustom.get(position).getNombre_teacher(),""+alCustom.get(position).getNombre_teacher(),
+                            ""+NAME, ""+LAST_NAME, ""+alCustom.get(position).getDia(), "0", ""+alCustom.get(position).getEmail_teacher());
 
                     ID_TEACHER = alCustom.get(position).getId_teacher();
                     Properties props = new Properties();
@@ -175,21 +179,11 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
-                                             final String type, final String name_teacher, final String last_name_teacher, final String name_fellow, final String last_name_fellow,
+                                             final String type, final String name_teacher, final String last_name_teacher,
+                                             final String name_fellow, final String last_name_fellow,
                                              final  String start_date, final String status, final String email)
         {
-            /*
-           $id_fellow=6028; //$_REQUEST["id_fellow"];
-$id_teacher=6020;//$_REQUEST["id_teacher"];
-$type='Speaking';//$_REQUEST["type"];
-$name_teacher='Dennis';//$_REQUEST["name_teacher"];
-$lastN_teacher='Yam';//$_REQUEST["name_teacher"];
-$name_fellow='Sofia';
-$lastN_fellow='Carrillo';//$_REQUEST["lastN_fellow"];
-$start_date='2019-08-31';//$_REQUEST["start_date"];
-$status=0;//$_REQUEST["email"];
-$email='dennisadairyamcetina@gmail.com';
-             */
+
 
             AsyncHttpClient conexion = new AsyncHttpClient();
             final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
@@ -197,7 +191,14 @@ $email='dennisadairyamcetina@gmail.com';
             //envio el parametro
             requestParams.add("id_fellow", id_fellow);
             requestParams.add("id_teacher", id_teacher);
-            requestParams.add("", id_fellow);
+            requestParams.add("type", type);
+            requestParams.add("name_teacher", name_teacher);
+            requestParams.add("last_name_teacher", last_name_teacher);
+            requestParams.add("name_fellow", name_fellow);
+            requestParams.add("last_name_fellow", last_name_fellow);
+            requestParams.add("start_date", start_date);
+            requestParams.add("status", status);
+            requestParams.add("email", email);
 
 
             conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -223,6 +224,8 @@ $email='dennisadairyamcetina@gmail.com';
             SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
 
             NAME = preferencia.getString("NAME2", "NO EXISTE");
+            LAST_NAME=preferencia.getString("LAST_NAME2", "NO EXISTE");
+
 
         }//Fin cargar preferencias
 

@@ -135,7 +135,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         }else if (id == R.id.listenaudio){
             miFragment = new StreamingAudio();
             fragmentSeleccionado = true;
-        }else if (id == R.id.nav_slideshow) {
+        }else if (id == R.id.listenaudio) {
             SubirAudio();
             return true;
         } else if (id == R.id.nav_out) {
