@@ -24,10 +24,11 @@
             android:id="@+id/listenaudio"
             android:icon="@drawable/auriculares"
             android:title="listen to audio" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ayuda"
-            android:title="Help" />
+            android:id="@+id/nav_listafellows"
+            android:icon="@drawable/listafellows"
+            android:title="Fellows" />
         <item
             android:id="@+id/nav_out"
             android:icon="@drawable/salir"

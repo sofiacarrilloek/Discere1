@@ -108,10 +108,6 @@ class DialogAdaptorStudent extends BaseAdapter {
                 public void onClick(View v) {
 
                     ID_TEACHER = alCustom.get(position).getId_teacher();
-                    String FECHA=alCustom.get(position).getFecha_inicio();
-                    Toast.makeText(context, "SELECCIONADO: " + ID_TEACHER, Toast.LENGTH_SHORT).show();
-                 // actualizarStatus(ID_TEACHER, "1");
-
                     Properties props = new Properties();
                     props.put("mail.smtp.host", "smtp.gmail.com");
                     props.put("mail.smtp.socketFactory.port", "465");
@@ -178,15 +174,31 @@ class DialogAdaptorStudent extends BaseAdapter {
         }
 
 
-        public void actualizarStatus ( final String Correo, String Status)
+        public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
+                                             final String type, final String name_teacher, final String last_name_teacher, final String name_fellow, final String last_name_fellow,
+                                             final  String start_date, final String status, final String email)
         {
+            /*
+           $id_fellow=6028; //$_REQUEST["id_fellow"];
+$id_teacher=6020;//$_REQUEST["id_teacher"];
+$type='Speaking';//$_REQUEST["type"];
+$name_teacher='Dennis';//$_REQUEST["name_teacher"];
+$lastN_teacher='Yam';//$_REQUEST["name_teacher"];
+$name_fellow='Sofia';
+$lastN_fellow='Carrillo';//$_REQUEST["lastN_fellow"];
+$start_date='2019-08-31';//$_REQUEST["start_date"];
+$status=0;//$_REQUEST["email"];
+$email='dennisadairyamcetina@gmail.com';
+             */
 
             AsyncHttpClient conexion = new AsyncHttpClient();
-            final String url = "http://puntosingular.mx/cas/actualiza_status.php"; //la url del web service obtener_fecha_lessons.ph
+            final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
             final RequestParams requestParams = new RequestParams();
-            requestParams.add("id_teacher", Correo); //envio el parametro
+            //envio el parametro
+            requestParams.add("id_fellow", id_fellow);
+            requestParams.add("id_teacher", id_teacher);
+            requestParams.add("", id_fellow);
 
-            requestParams.add("status", Status);
 
             conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
