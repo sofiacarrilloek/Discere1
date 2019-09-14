@@ -86,18 +86,19 @@ class DialogAdaptorStudent extends BaseAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.cdialogo, null, true);
 
-        TextView tvTitle = (TextView) listViewItem.findViewById(R.id.time);
-        TextView tvSubject = (TextView) listViewItem.findViewById(R.id.fellow);
-        TextView tvDuedate = (TextView) listViewItem.findViewById(R.id.date);
+        TextView tvName = (TextView) listViewItem.findViewById(R.id.time);
+        TextView tvEmail = (TextView) listViewItem.findViewById(R.id.fellow);
+        TextView tvDate = (TextView) listViewItem.findViewById(R.id.date);
         TextView Tipo = (TextView) listViewItem.findViewById(R.id.tvTipo);
         Button boton = (Button) listViewItem.findViewById(R.id.btnaceptar);
 
 
 
-        tvTitle.setText("Id_teacher : " + alCustom.get(position).getId_teacher());
-        tvSubject.setText("Email: " +alCustom.get(position).getEstado());
+
+        tvName.setText("Name: "+alCustom.get(position).getNombre_teacher());
+        tvEmail.setText("Email: " +alCustom.get(position).getEmail_teacher());
         EMAIL = alCustom.get(position).getEmail_teacher();
-        tvDuedate.setText("Date : "+ alCustom.get(position).getDia());//
+        tvDate.setText("Date "+ alCustom.get(position).getDia());//
         Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
 
 

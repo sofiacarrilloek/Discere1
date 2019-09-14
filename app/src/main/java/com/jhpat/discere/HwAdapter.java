@@ -312,7 +312,7 @@ class HwAdapter extends BaseAdapter {
 
                 pojo.setFecha_inicio(jsonObject.optString("fecha_inicio"));
                 pojo.setEstado(jsonObject.optString("estado"));
-                pojo.setEmail_teacher(jsonObject.optString("email"));
+                pojo.setEmail_teacher(jsonObject.optString("email_teacher"));
                 pojo.setTipo(jsonObject.optString("tipo"));
                 pojo.setId_teacher(jsonObject.optString("id_teacher"));
                 pojo.setNombre_teacher(jsonObject.optString("nombre_teacher"));
@@ -324,6 +324,7 @@ class HwAdapter extends BaseAdapter {
 
         } catch (JSONException e) {
             e.printStackTrace();
+
         }
         return alCustom;
     }

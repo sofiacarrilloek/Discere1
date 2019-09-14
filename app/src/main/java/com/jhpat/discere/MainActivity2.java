@@ -503,30 +503,33 @@ public class MainActivity2 extends AppCompatActivity{
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String fechaInicio[]=new String[tamanio];
-                    String fechaInicio2[]=new String[tamanio];
+                    String hora2[]=new String[tamanio];
                     String status[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
-                    String email[]=new String[tamanio];
+
+                    String id_user[]=new String[tamanio];
+                    String hora[]=new String[tamanio];
 
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         String fe=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
+
+
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+                        id_user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
+                        hora[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
+                        hora2[i]=hora[i].substring(10, 19);
 
 
-                        //fechaInicio2[i]=fechaInicio[i].substring(0, 10);
-
-                        // email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
-
-                        lolitox=email[i];
 
 
-                        HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i]+"", id_teacher[i]+"","", "", ""+fechaInicio[i]));
 
+
+                         cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i]+" Time: "+hora2[i]);
 
                     }
 
@@ -547,6 +550,57 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN DATOS TEACHER
 
+
+
+
+    public void cargarNombreTeacherDisponible (final String fechaInicio, final String estado, final String tipo, final String user, final String hora)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_user", user);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String nombre[]=new String[tamanio];
+                    String email[]=new String[tamanio];
+                    String last_name[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
+
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora));
+
+                    }
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
 
     public void datosLessons (String ID_FELLOW2)
     {
@@ -579,7 +633,7 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i],"", "agmail.com", "nombre", ""+fechaInicio[i]));
+                      HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i],"", "agmail.com", "nombre", ""+fechaInicio[i]));
 
                     }
 
