@@ -50,7 +50,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public static List<String> day_string;
     String ID_TEACHER, CLLC;
     Session session = null;
-    String EMAIL, NAME, LAST_NAME;
+    String EMAIL, NAME, LAST_NAME, TIPO, ESTADO_SESION;
     ProgressDialog pdialog = null;
     String subC = "Sesión Discere";
     String msgC = "Lo sentimos, tú sesión ha sido rechazada";
@@ -92,24 +92,25 @@ class DialogAdaptorStudent extends BaseAdapter {
         TextView Tipo = (TextView) listViewItem.findViewById(R.id.tvTipo);
         Button boton = (Button) listViewItem.findViewById(R.id.btnaceptar);
 
-cargarP();
+        cargarP();
 
 
-        tvName.setText("Name: "+alCustom.get(position).getNombre_teacher());
-        tvEmail.setText("Email: " +alCustom.get(position).getEmail_teacher());
+        ESTADO_SESION=alCustom.get(position).getEstado();
+        tvName.setText("Name: " + alCustom.get(position).getNombre_teacher());
+        tvEmail.setText("Email: " + alCustom.get(position).getEmail_teacher());
         EMAIL = alCustom.get(position).getEmail_teacher();
-        tvDate.setText("Date "+ alCustom.get(position).getDia());//
+        tvDate.setText("Date " + alCustom.get(position).getDia());//
         Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
 
 
-
+        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("disponible")) {
             boton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    agendarSesionPendiente("6028", ""+alCustom.get(position).getId_teacher(), ""+alCustom.get(position).getTipo(),
-                            ""+alCustom.get(position).getNombre_teacher(),""+alCustom.get(position).getNombre_teacher(),
-                            ""+NAME, ""+LAST_NAME, ""+alCustom.get(position).getDia(), "0", ""+alCustom.get(position).getEmail_teacher());
+                    agendarSesionPendiente("6028", "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
+                            "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
+                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher());
 
                     ID_TEACHER = alCustom.get(position).getId_teacher();
                     Properties props = new Properties();
@@ -129,8 +130,6 @@ cargarP();
 
                     RetreiveFeedTask task = new RetreiveFeedTask();
                     task.execute();
-
-
 
 
                 }
@@ -166,22 +165,26 @@ cargarP();
 //-------------------------------------------------------------------------
 
 
-
-
-
 //--------------------------------------------------------------------------
 
             });
+        }
+        else
+        {
+            boton.setEnabled(true);
+            boton.setBackgroundColor(000000);
+        }
 
 
             return listViewItem;
         }
 
 
+
         public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
-                                             final String type, final String name_teacher, final String last_name_teacher,
-                                             final String name_fellow, final String last_name_fellow,
-                                             final  String start_date, final String status, final String email)
+        final String type, final String name_teacher, final String last_name_teacher,
+        final String name_fellow, final String last_name_fellow,
+        final String start_date, final String status, final String email)
         {
 
 
@@ -222,14 +225,13 @@ cargarP();
         private void cargarP ()
         {
             SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-
             NAME = preferencia.getString("NAME2", "NO EXISTE");
-            LAST_NAME=preferencia.getString("LAST_NAME2", "NO EXISTE");
-
-
+            LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
+            TIPO = preferencia.getString("TIPO2", "NO EXISTE");
         }//Fin cargar preferencias
 
-    }
+
+}
 
 
 
