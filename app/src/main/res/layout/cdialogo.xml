@@ -66,14 +66,7 @@
         android:layout_gravity="center">
 
 
-        <Button
-            android:id="@+id/btncancel"
-            android:layout_width="10dp"
-            android:layout_height="35dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/botonesredondos2"
-            android:text="CANCEL SESSION"
-            android:textColor="#FFFFFF" />
+
 
         <TextView
             android:id="@+id/textView8"
@@ -82,16 +75,7 @@
             android:layout_weight=".11"
             android:text="" />
 
-        <Button
-            android:id="@+id/btnaceptar"
-            android:layout_width="10dp"
-            android:layout_height="35dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/botonesredondos"
-            android:text="ACCEPT SESION"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#00FD0000"
-            android:textColorLink="#FF0000" />
+
     </LinearLayout>
 
     <ImageView
@@ -104,17 +88,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
-
         <Button
-            android:id="@+id/btnok"
-            android:layout_width="160dp"
+            android:id="@+id/btnaceptar"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="180dp"
             android:layout_height="35dp"
-
-            android:background="@drawable/botonesredondos3"
-            android:text="OK"
+            android:background="@drawable/botonesredondos"
+            android:text="ACCEPT SESION"
             android:textColor="#FFFFFF"
             android:textColorHint="#00FD0000"
             android:textColorLink="#FF0000" />
+        <Button
+            android:layout_margin="40dp"
+            android:id="@+id/btncancel"
+            android:layout_width="180dp"
+            android:layout_height="35dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/botonesredondos2"
+            android:text="CANCEL SESSION"
+            android:textColor="#FFFFFF" />
 
     </FrameLayout>
 

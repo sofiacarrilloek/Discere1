@@ -183,15 +183,6 @@ public class dialogo extends MainActivity2 {
 
 
 
-        Button ok = (Button) findViewById(R.id.btnok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-
-            }
-        });
 
 
     }
