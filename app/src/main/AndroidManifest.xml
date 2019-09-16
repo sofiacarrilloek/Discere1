@@ -25,6 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity_Agendar" />
         <activity android:name=".MainLista" />
+        <activity android:name=".MainFecha" />
         <activity android:name=".Login">
 
             <intent-filter>
