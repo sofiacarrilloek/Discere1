@@ -264,7 +264,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     @Override
                     protected String doInBackground(String... params) {
-
+//hola
                         try {
                             Message message = new MimeMessage(session);
                             message.setFrom(new InternetAddress("testfrom354@gmail.com"));
