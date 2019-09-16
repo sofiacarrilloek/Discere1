@@ -138,6 +138,9 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         }else if (id == R.id.listenaudio) {
             SubirAudio();
             return true;
+        }else if (id == R.id.nav_listafellows) {
+            listafellows();
+            return true;
         } else if (id == R.id.nav_out) {
             onOutSesion();
             return true;
@@ -154,6 +157,12 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void listafellows() {
+
+        Intent inten = new Intent(this, MainLista.class);
+        startActivity(inten);
     }
 
     public void Skype(){

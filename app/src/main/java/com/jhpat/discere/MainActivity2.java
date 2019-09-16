@@ -459,7 +459,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                         cuentaOr++;
                     }
-                    Toast.makeText(MainActivity2.this, "CONSULTA: "+CONSULTA, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "LOADING...", Toast.LENGTH_SHORT).show();
 
                     datosLessons(CONSULTA);
 
@@ -524,12 +524,7 @@ public class MainActivity2 extends AppCompatActivity{
                         hora[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         hora2[i]=hora[i].substring(10, 19);
 
-
-
-
-
-
-                         cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i]+" Time: "+hora2[i]);
+                         cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i]+" "+hora2[i]);
 
                     }
 
@@ -627,19 +622,26 @@ public class MainActivity2 extends AppCompatActivity{
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String fechaInicio[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
+                    String id_teacher[]=new String[tamanio];
+                    String start_time[]=new String[tamanio];
+                    String  end_time[]=new String[tamanio];
 
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
+                        start_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_time");
+                        end_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_time");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
 
-                      HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio[i] ,"Ocupado",tipo[i],"", "agmail.com", "nombre", ""+fechaInicio[i]));
-
+                        cargarIdUserTeacherOcupado(""+fechaInicio[i],"Ocupado",""+tipo[i],""+id_teacher[i],fechaInicio[i]+" "+start_time[i]+"-"+end_time[i]);
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -652,6 +654,100 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN DATOS LESSONS
+
+    public void cargarIdUserTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/cargar_id_user_mandando_id_teacher.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_teacher", id_teacher);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String user[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+
+                        user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
+                        cargarNombreTeacherOcupado(fechaInicio+"","Ocupado",""+tipo,""+user[i], hora);
+                    }
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+
+    public void cargarNombreTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String user, final String hora)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_user", user);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String nombre[]=new String[tamanio];
+                    String email[]=new String[tamanio];
+                    String last_name[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
+
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora));
+
+                    }
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+
 
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
