@@ -290,9 +290,9 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 //-----------------------
             });
-           if (ESTADO_SESION.equalsIgnoreCase("Ocupado")){
-            boton.setEnabled(false);
-            boton.setBackgroundColor(000000);}
+            if (ESTADO_SESION.equalsIgnoreCase("Ocupado")){
+                boton.setEnabled(false);
+                boton.setBackgroundColor(000000);}
         }
 
 
@@ -420,54 +420,54 @@ class DialogAdaptorStudent extends BaseAdapter {
         return listViewItem;
     }
 
-        public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
-        final String type, final String name_teacher, final String last_name_teacher,
-        final String name_fellow, final String last_name_fellow,
-        final String start_date, final String status, final String email)
-        {
+    public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
+                                         final String type, final String name_teacher, final String last_name_teacher,
+                                         final String name_fellow, final String last_name_fellow,
+                                         final String start_date, final String status, final String email)
+    {
 
 
-            AsyncHttpClient conexion = new AsyncHttpClient();
-            final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
-            final RequestParams requestParams = new RequestParams();
-            //envio el parametro
-            requestParams.add("id_fellow", id_fellow);
-            requestParams.add("id_teacher", id_teacher);
-            requestParams.add("type", type);
-            requestParams.add("name_teacher", name_teacher);
-            requestParams.add("last_name_teacher", last_name_teacher);
-            requestParams.add("name_fellow", name_fellow);
-            requestParams.add("last_name_fellow", last_name_fellow);
-            requestParams.add("start_date", start_date);
-            requestParams.add("status", status);
-            requestParams.add("email", email);
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("id_fellow", id_fellow);
+        requestParams.add("id_teacher", id_teacher);
+        requestParams.add("type", type);
+        requestParams.add("name_teacher", name_teacher);
+        requestParams.add("last_name_teacher", last_name_teacher);
+        requestParams.add("name_fellow", name_fellow);
+        requestParams.add("last_name_fellow", last_name_fellow);
+        requestParams.add("start_date", start_date);
+        requestParams.add("status", status);
+        requestParams.add("email", email);
 
 
-            conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
+            }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
 
-                }
-            });
+            }
+        });
 
 
-        }//FIN
+    }//FIN
 
-        private void cargarP ()
-        {
-            SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-            NAME = preferencia.getString("NAME2", "NO EXISTE");
-            LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
-            TIPO = preferencia.getString("TIPO2", "NO EXISTE");
-        }//Fin cargar preferencias
+    private void cargarP ()
+    {
+        SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        NAME = preferencia.getString("NAME2", "NO EXISTE");
+        LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
+        TIPO = preferencia.getString("TIPO2", "NO EXISTE");
+    }//Fin cargar preferencias
 
 
 }
