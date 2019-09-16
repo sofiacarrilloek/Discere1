@@ -234,6 +234,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         }
+
+        //-----------------------------------------------DISPONIBLE--------------------------------
         else
         {
             boton_cancelar.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +266,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     @Override
                     protected String doInBackground(String... params) {
-//hola
+
                         try {
                             Message message = new MimeMessage(session);
                             message.setFrom(new InternetAddress("testfrom354@gmail.com"));
@@ -290,13 +292,15 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 //-----------------------
             });
-            if (ESTADO_SESION.equalsIgnoreCase("Ocupado")){
+            if (ESTADO_SESION.equalsIgnoreCase("Ocupado"))
+            {
                 boton.setEnabled(false);
-                boton.setBackgroundColor(000000);}
+                boton.setBackgroundColor(000000);
+            }
         }
 
 
-//PENDIENTE--------------------------
+//---------------------------------------------------PENDIENTE------------------------------------------------------------
 
         if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("pendiente"))
         {
@@ -414,7 +418,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         }
-
+//--------------------------------------------------------------------------
 
 
         return listViewItem;
