@@ -462,6 +462,7 @@ public class MainActivity2 extends AppCompatActivity{
                     Toast.makeText(MainActivity2.this, "LOADING...", Toast.LENGTH_SHORT).show();
 
                     datosLessons(CONSULTA);
+                    datosEnEspera(CONSULTA);
 
 
                 } catch (JSONException e) {
@@ -749,6 +750,83 @@ public class MainActivity2 extends AppCompatActivity{
     }
 
 
+    // Datos en Espera para el FELLOW
+    public void datosEnEspera (String ID_FELLOW2)
+    {
+        //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
+
+
+        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
+
+
+
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/obtener_sesionesEnEspera.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String fechaInicio[]=new String[tamanio];
+                    String fechaInicio2[]=new String[tamanio];
+                    String tipo[]=new String[tamanio];
+                    String id_teacher[]=new String[tamanio];
+                    String name_teacher[]=new String [tamanio];
+                    String email_teacher[]=new String [tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
+                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+                        name_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_teacher");
+                        email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                         fechaInicio2[i]=fechaInicio[i].substring(0,10);
+                        //Aqui lo envio al HomeCollection
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_teacher[i]+" "," " +name_teacher[i],""+fechaInicio2[i]));
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+            }
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+
+            }
+        });
+
+
+
+
+    }//FIN SESIONES EN ESPERA PARA EL FELLOW :3
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
 

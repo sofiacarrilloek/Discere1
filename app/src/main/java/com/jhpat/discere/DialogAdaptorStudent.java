@@ -104,8 +104,11 @@ class DialogAdaptorStudent extends BaseAdapter {
         EMAIL = alCustom.get(position).getEmail_teacher();
         tvDate.setText("Date " + alCustom.get(position).getDia());//
         Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
-        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("disponible")) {
-            boton.setOnClickListener(new View.OnClickListener() {
+
+        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("disponible"))
+        {
+            boton.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v) {
 
@@ -231,6 +234,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         }
+
+        //-----------------------------------------------DISPONIBLE--------------------------------
         else
         {
             boton_cancelar.setOnClickListener(new View.OnClickListener() {
@@ -287,61 +292,186 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 //-----------------------
             });
+            if (ESTADO_SESION.equalsIgnoreCase("Ocupado"))
+            {
+                boton.setEnabled(false);
+                boton.setBackgroundColor(000000);
+            }
         }
 
+
+//---------------------------------------------------PENDIENTE------------------------------------------------------------
+
+        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("pendiente"))
+        {
+            boton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+
+                    ID_TEACHER = alCustom.get(position).getId_teacher();
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+
+
+                }
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject("Sesion Aceptada");
+                            message.setContent("Tu sesión ha sido aceptada", "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            });
+
+            boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+                }
+
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject("Sesión Rechazada");
+                            message.setContent("Tu sesión ha sido rechazada", "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+
+
+
+        }
+//--------------------------------------------------------------------------
 
 
         return listViewItem;
     }
 
-        public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
-        final String type, final String name_teacher, final String last_name_teacher,
-        final String name_fellow, final String last_name_fellow,
-        final String start_date, final String status, final String email)
-        {
+    public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
+                                         final String type, final String name_teacher, final String last_name_teacher,
+                                         final String name_fellow, final String last_name_fellow,
+                                         final String start_date, final String status, final String email)
+    {
 
 
-            AsyncHttpClient conexion = new AsyncHttpClient();
-            final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
-            final RequestParams requestParams = new RequestParams();
-            //envio el parametro
-            requestParams.add("id_fellow", id_fellow);
-            requestParams.add("id_teacher", id_teacher);
-            requestParams.add("type", type);
-            requestParams.add("name_teacher", name_teacher);
-            requestParams.add("last_name_teacher", last_name_teacher);
-            requestParams.add("name_fellow", name_fellow);
-            requestParams.add("last_name_fellow", last_name_fellow);
-            requestParams.add("start_date", start_date);
-            requestParams.add("status", status);
-            requestParams.add("email", email);
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("id_fellow", id_fellow);
+        requestParams.add("id_teacher", id_teacher);
+        requestParams.add("type", type);
+        requestParams.add("name_teacher", name_teacher);
+        requestParams.add("last_name_teacher", last_name_teacher);
+        requestParams.add("name_fellow", name_fellow);
+        requestParams.add("last_name_fellow", last_name_fellow);
+        requestParams.add("start_date", start_date);
+        requestParams.add("status", status);
+        requestParams.add("email", email);
 
 
-            conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show();
+            }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
 
-                }
-            });
+            }
+        });
 
 
-        }//FIN
+    }//FIN
 
-        private void cargarP ()
-        {
-            SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-            NAME = preferencia.getString("NAME2", "NO EXISTE");
-            LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
-            TIPO = preferencia.getString("TIPO2", "NO EXISTE");
-        }//Fin cargar preferencias
+    private void cargarP ()
+    {
+        SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        NAME = preferencia.getString("NAME2", "NO EXISTE");
+        LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
+        TIPO = preferencia.getString("TIPO2", "NO EXISTE");
+    }//Fin cargar preferencias
 
 
 }

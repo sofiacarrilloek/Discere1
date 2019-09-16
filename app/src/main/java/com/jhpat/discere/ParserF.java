@@ -10,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.jhpat.discere.Tabla.MainFecha2;
-import com.jhpat.discere.Tabla.Mainlista2;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +61,7 @@ public class ParserF extends AsyncTask<Void,Integer,Integer> {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent =new Intent(c, MainFecha2.class);
+                    Intent intent =new Intent(c, Defect_Fecha.class);
                     c.startActivity(intent);
                     Toast.makeText(c,"hola"+players.get(i),Toast.LENGTH_LONG).show();
 
@@ -84,8 +82,8 @@ public class ParserF extends AsyncTask<Void,Integer,Integer> {
 
             for(int i=0;i<ja.length();i++){
                 jo=ja.getJSONObject(i);
-                String name=jo.getString("name");
-                String id=jo.getString("id_fellow");
+                String name=jo.getString("create_date");
+
 
                 players.add(name);
             }

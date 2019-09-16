@@ -62,7 +62,7 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent =new Intent(c, Mainlista2.class);
+                    Intent intent =new Intent(c, MainFecha.class);
                     c.startActivity(intent);
                     Toast.makeText(c,"hola"+players.get(i),Toast.LENGTH_LONG).show();
 

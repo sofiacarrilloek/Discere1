@@ -11,7 +11,7 @@ import android.widget.ListView;
 import java.util.List;
 
 public class MainFecha extends AppCompatActivity{
-    String url="http://puntosingular.mx/cas/tabla/Lista_nombre.php?id_teacher=6023";
+    String url="http://puntosingular.mx/cas/tabla/Lista_fechas.php?id_fellow=6028";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -46,6 +46,7 @@
         <activity android:name=".Profile_Password" />
         <activity android:name=".pantalla_sesiones" />
         <activity android:name=".MainActivity2" />
+        <activity android:name=".Defect_Fecha"></activity>
         <activity android:name=".claseCuadroBD" />
         <activity android:name=".Grafico" />
         <activity
