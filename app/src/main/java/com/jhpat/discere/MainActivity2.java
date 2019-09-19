@@ -790,6 +790,7 @@ public class MainActivity2 extends AppCompatActivity{
                     String email_teacher[]=new String [tamanio];
 
 
+
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
@@ -799,6 +800,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                          fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
+
                         HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_teacher[i]+" "," " +name_teacher[i],""+fechaInicio2[i]));
                     }
 
@@ -827,6 +829,8 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN SESIONES EN ESPERA PARA EL FELLOW :3
+
+
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
 
