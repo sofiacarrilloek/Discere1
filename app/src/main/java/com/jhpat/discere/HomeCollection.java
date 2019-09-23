@@ -11,9 +11,11 @@ class HomeCollection {
     public String nombre_teacher;
     public String dia;
     public String id_teacher;
+    public String id_fellow;
 
     public static ArrayList<HomeCollection> date_collection_arr;
-    public HomeCollection(String fecha_inicio, String estado, String tipo, String id_user_teacher, String email_teacher, String nombre_teacher, String dia, String id_teacher){
+    public HomeCollection(String fecha_inicio, String estado, String tipo, String id_user_teacher, String email_teacher,
+                          String nombre_teacher, String dia, String id_teacher, String id_fellow){
 
         this.fecha_inicio=fecha_inicio;
         this.estado=estado;
@@ -23,6 +25,7 @@ class HomeCollection {
         this.nombre_teacher=nombre_teacher;
         this.dia=dia;
         this.id_teacher=id_teacher;
+        this.id_fellow=id_fellow;
 
 
     }

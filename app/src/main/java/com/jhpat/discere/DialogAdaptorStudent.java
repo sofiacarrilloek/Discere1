@@ -282,7 +282,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             // Boton cancelar
             boton_cancelar.setGravity(View.TEXT_ALIGNMENT_CENTER);
             boton_cancelar.setEnabled(true);
-            // boton_cancelar.setBackgroundColor(000000);
+
 
         }
 
@@ -307,13 +307,78 @@ class DialogAdaptorStudent extends BaseAdapter {
         {
             // Boton aceptar
             boton.setVisibility(View.VISIBLE);
-            boton.setEnabled(true);
-            // boton.setBackgroundColor(000000);
+            //boton.setEnabled(true);
+            boton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
+                            "","1","",""+alCustom.get(position).getFecha_inicio(),""+alCustom.get(position).getFecha_inicio(),
+                            "","");
+
+                }
+            });
+
 
             // Boton cancelar
-            boton.setVisibility(View.VISIBLE);
-            boton_cancelar.setEnabled(true);
-            // boton_cancelar.setBackgroundColor(000000);
+            boton_cancelar.setVisibility(View.VISIBLE);
+            boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                /*    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+                }
+
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject("Sesión Cancelada");
+                            message.setContent(msgC, "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }*/
+                }
+
+
+            });
+
+
+
 
         }
 
@@ -474,6 +539,56 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     }//FIN SESIONES
+
+
+
+    //-----------------------PARA EL TEACHER---------------------
+
+    public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
+                                         final String type,final String day,final String status, final String create_date, final String start_date,
+                                       final String end_date,  final String start_time, final String end_time)
+    {
+
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("id_fellow", id_fellow);
+        requestParams.add("id_teacher", id_teacher);
+        requestParams.add("type", type);
+        requestParams.add("day", day);
+        requestParams.add("status", status);
+        requestParams.add("create_date", create_date);
+        requestParams.add("start_date", start_date);
+        requestParams.add("end_date", end_date);
+        requestParams.add("start_time", start_time);
+        requestParams.add("end_time", end_time);
+
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }//FIN
+
+
+    //-------------FIN PARA EL TEACHER
+
 
 
 }

@@ -9,8 +9,10 @@ public class Dialogpojo {
     private String nombre_teacher;
     private String dia;
     private String id_teacher;
+    private String id_fellow;
     public void setDia(String dia){this.dia=dia;}
 
+    public void setId_fellow(String id_fellow){this.id_fellow=id_fellow;}
     public void setNombre_teacher(String nombre_teacher){this.nombre_teacher=nombre_teacher;}
 
     public void setFecha_inicio(String fecha_inicio) {
@@ -51,6 +53,7 @@ public class Dialogpojo {
         return tipo;
     }
 
+    public String getId_fellow(){return  id_fellow;}
     public String getId_user_teacher() {
         return id_user_teacher;
     }
