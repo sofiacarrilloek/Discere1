@@ -521,6 +521,9 @@ public class MainActivity2 extends AppCompatActivity{
 
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                        Toast.makeText(getApplicationContext(),"dime que si "+id_teacher,Toast.LENGTH_LONG).show();
+
                         id_user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
                         hora[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         hora2[i]=hora[i].substring(10, 19);
