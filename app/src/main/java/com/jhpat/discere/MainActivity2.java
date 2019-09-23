@@ -391,7 +391,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if(status[i].equals("1"))
                         {
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i], user[i], "email", "", "" + fechaInicio[i], id_teacher[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio[i], "Disponible", tipo[i], user[i], "email", "", "" + fechaInicio[i], id_teacher[i],""));
                         }
                     }
 
@@ -413,7 +413,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN VER TEACHER
 
-    // Datos en Espera para el FELLOW
+    // Datos en Espera para el Teacher
     public void datosEnEsperaTeacher (String ID_TEACHER2)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
@@ -449,8 +449,10 @@ public class MainActivity2 extends AppCompatActivity{
                     String fechaInicio2[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
-                    String name_teacher[]=new String [tamanio];
-                    String email_teacher[]=new String [tamanio];
+                    String id_fellow[]=new String[tamanio];
+                    String name_fellow[]=new String [tamanio];
+                    String last_name_fellow[]=new String [tamanio];
+                    String email_fellow[]=new String [tamanio];
 
 
 
@@ -459,12 +461,15 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
-                        name_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_teacher");
-                        email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
+                        name_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_fellow");
+                        last_name_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("lastN_fellow");
+                        email_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email_fellow");
                         fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_teacher[i]+"","" +name_teacher[i],""+fechaInicio2[i], ""+id_teacher[i]));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_fellow[i]+"",
+                                "" +name_fellow[i]+" "+last_name_fellow[i],""+fechaInicio2[i], ""+id_teacher[i], ""+id_fellow[i]));
                     }
 
 
@@ -655,7 +660,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, ""));
 
                     }
 
@@ -805,7 +810,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, "", ""));
 
                     }
 
@@ -863,6 +868,7 @@ public class MainActivity2 extends AppCompatActivity{
                     String fechaInicio2[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
+                    String id_fellow[]=new String[tamanio];
                     String name_teacher[]=new String [tamanio];
                     String email_teacher[]=new String [tamanio];
 
@@ -873,12 +879,13 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
+                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
                         name_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_teacher");
                         email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                          fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_teacher[i]+" "," " +name_teacher[i],""+fechaInicio2[i], ""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio2[i] ,"Pendiente",""+tipo[i],""+id_teacher[i]+"", email_teacher[i]+" "," " +name_teacher[i],""+fechaInicio2[i], "", ""+id_fellow[i]));
                     }
 
 
