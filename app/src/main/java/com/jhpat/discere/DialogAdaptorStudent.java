@@ -113,6 +113,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
+
+
                     String Fecha1=alCustom.get(position).getDia().substring(0,10);
 
                     id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
@@ -263,7 +265,62 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton_cancelar.setBackgroundColor(000000);
 
         }
-//--------------------------------------------------------------------------
+
+
+        //--------------------------------------FIN FELLOW--------------------------------------------------------------
+
+        // PARA EL --- TEACHER ----
+
+        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")&&ESTADO_SESION.equalsIgnoreCase("disponible"))
+        {
+            // Boton aceptar
+            boton.setEnabled(false);
+            boton.setVisibility(View.INVISIBLE);
+            boton.setBackgroundColor(000000);
+
+
+            // Boton cancelar
+            boton_cancelar.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            boton_cancelar.setEnabled(true);
+            // boton_cancelar.setBackgroundColor(000000);
+
+        }
+
+        //-----------------------------------------------ocupado--------------------------------
+
+        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")&&ESTADO_SESION.equalsIgnoreCase("Ocupado"))
+        {
+            // Boton aceptar
+            boton.setEnabled(false);
+            boton.setVisibility(View.INVISIBLE);
+            boton.setBackgroundColor(000000);
+
+            // Boton rechazar
+            boton_cancelar.setEnabled(true);
+            //  boton_cancelar.setBackgroundColor(000000);
+        }
+
+
+//---------------------------------------------------PENDIENTE------------------------------------------------------------
+
+        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")   &&ESTADO_SESION.equalsIgnoreCase("pendiente"))
+        {
+            // Boton aceptar
+            boton.setVisibility(View.VISIBLE);
+            boton.setEnabled(true);
+            // boton.setBackgroundColor(000000);
+
+            // Boton cancelar
+            boton.setVisibility(View.VISIBLE);
+            boton_cancelar.setEnabled(true);
+            // boton_cancelar.setBackgroundColor(000000);
+
+        }
+
+
+
+
+
 
 
         return listViewItem;
@@ -297,6 +354,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
                 Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
             }
 
@@ -320,6 +378,48 @@ class DialogAdaptorStudent extends BaseAdapter {
     }//Fin cargar preferencias
 
 
+    public void actualizarStatus (String id_teacher, String status)
+    {
+
+        //final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",id_teacher);
+        requestParams.add("status",status);
+
+        //envio el parametro
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
+
+                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+
+            }
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
+
+
+    //Actualizar status
     public void id_fellow_con_fecha (String fecha1, String fecha2, final String user, final int position)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
@@ -348,9 +448,11 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     String id_fellow;
                     ID_FELLOW=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
-                    agendarSesionPendiente("6028", "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
+                    agendarSesionPendiente(ID_FELLOW, "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
                             "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
                             "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher());
+                   actualizarStatus(alCustom.get(position).getId_teacher(), "0");
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
