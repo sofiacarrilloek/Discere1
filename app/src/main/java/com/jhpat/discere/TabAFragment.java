@@ -135,7 +135,23 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                 }
                                 comprobar_2=2;
                                 te_2.setText(hourOfDay+":"+Minutos);
-                                mas=(hourOfDay+":"+(minute+15));
+
+                                //agrega los 15 o 45 minutos
+                                if (tip.equals("Coach") ){
+                                    if(minute>5){
+                                        hourOfDay=hourOfDay+1;
+                                        minute=minute-60;
+                                    }
+
+                                    mas=(hourOfDay+":"+(minute+45));
+                                }else{
+                                    if(minute>45){
+                                        hourOfDay=hourOfDay+1;
+                                        minute=minute-60;
+                                    }
+                                    mas=(hourOfDay+":"+(minute+15));
+                                }
+
                             }
                         },hora,minutos,false);
                         timePickerDialog.show();
