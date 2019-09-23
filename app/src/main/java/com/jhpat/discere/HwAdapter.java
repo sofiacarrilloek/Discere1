@@ -274,10 +274,12 @@ class HwAdapter extends BaseAdapter {
                 HashMap<String, String> maplist = new HashMap<String, String>();
                 maplist.put("estado",HomeCollection.date_collection_arr.get(j).estado);
                 maplist.put("tipo",HomeCollection.date_collection_arr.get(j).tipo);
-                maplist.put("id_teacher",HomeCollection.date_collection_arr.get(j).id_teacher);
+                maplist.put("id_user_teacher",HomeCollection.date_collection_arr.get(j).id_user_teacher);
                 maplist.put("email_teacher",HomeCollection.date_collection_arr.get(j).email_teacher);
                 maplist.put("nombre_teacher",HomeCollection.date_collection_arr.get(j).nombre_teacher);
                 maplist.put("dia",HomeCollection.date_collection_arr.get(j).dia);
+                maplist.put("id_teacher",HomeCollection.date_collection_arr.get(j).id_teacher);
+                maplist.put("id_fellow",HomeCollection.date_collection_arr.get(j).id_fellow);
                 JSONObject json1 = new JSONObject(maplist);
                 jbarrays.put(json1);
             }
@@ -314,9 +316,12 @@ class HwAdapter extends BaseAdapter {
                 pojo.setEstado(jsonObject.optString("estado"));
                 pojo.setEmail_teacher(jsonObject.optString("email_teacher"));
                 pojo.setTipo(jsonObject.optString("tipo"));
-                pojo.setId_teacher(jsonObject.optString("id_teacher"));
+                pojo.setId_user_teacher(jsonObject.optString("id_user_teacher"));
                 pojo.setNombre_teacher(jsonObject.optString("nombre_teacher"));
                 pojo.setDia(jsonObject.optString("dia"));
+                pojo.setId_teacher(jsonObject.optString("id_teacher"));
+                pojo.setId_fellow(jsonObject.optString("id_fellow"));
+
                 alCustom.add(pojo);
 
             }
