@@ -148,7 +148,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             pant();
             return true;
         } else if (id == R.id.nav_send) {
-
+            notificacion();
+            return true;
         }
         if(fragmentSeleccionado=true){
             getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_principal,miFragment).commit();
@@ -183,8 +184,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         startActivity(intent);
     }
     public void notificacion(){
-        Intent inten = new Intent(getApplicationContext(),contenedor_notificaciones.class);
-        startActivity(inten);
+        Intent intentc= new Intent(pantalla_principal.this,UploadAudio.class);
+        startActivity(intentc);
     }
 
     public void ver(View view){
