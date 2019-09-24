@@ -327,8 +327,10 @@ public class MainActivity2 extends AppCompatActivity{
                         id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
                         start_time[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_time");
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
+                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
+
                         if (status[i].equals("1")) {
-                            cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
+                            cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
                                     fechaInicio[i] + " " + start_time[i], id_fellow[i]);
                         }
 
@@ -743,6 +745,8 @@ public class MainActivity2 extends AppCompatActivity{
                          cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i],
                                  fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
                      }
+
+
                      }
 
 
@@ -804,9 +808,54 @@ public class MainActivity2 extends AppCompatActivity{
 
     }
 
-    public void cargarNombreTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String user,
-                                            final String hora, final String id_teacher, final String id_fellow)
+
+    public void cargarIdUsercargarIdUserFellowOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora, final String id_fellow)
     {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_fellow",id_fellow);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String user[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
+                        //Aqui es para cargar el datos del fellow
+                        cargarNombreTeacherOcupado(fechaInicio+"","Ocupado",""+tipo,""+user[i], hora, id_teacher, id_fellow);
+                    }
+
+
+                } catch (JSONException e) {
+                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+
+
+    public void cargarNombreTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String user,
+                                            final String hora, final String id_teacher, final String id_fellow) {
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/calendar/cargar_datos_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_user", user);
@@ -859,21 +908,14 @@ public class MainActivity2 extends AppCompatActivity{
     public void datosEnEspera (String ID_FELLOW2)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
-
-
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
-
 
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://puntosingular.mx/cas/calendar/obtener_sesionesEnEspera.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
 
-
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
