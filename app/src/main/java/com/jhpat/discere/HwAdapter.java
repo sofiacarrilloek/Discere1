@@ -259,6 +259,12 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
+
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
                     }
                 }
             }//
