@@ -41,61 +41,8 @@ public class MainFecha extends AppCompatActivity{
         final DownloaderF d=new DownloaderF(this,url,lv);
 
         d.execute();
-        cargarp2();
+
 
     }
-    public void cargarp2(){
-        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        id=preferencia.getString("ID2", "NO EXISTE");
-        obtener_en_fellow("http://puntosingular.mx/cas/tabla/elchido?user="+id+"");
 
-    }
-    public void obtener_en_fellow(String URL){
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject=response.getJSONObject(i);
-                        id2=jsonObject.getString("id_fellow");
-                        SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
-
-                        SharedPreferences.Editor editor = preferencia.edit();
-                        editor.clear();
-                        editor.putString("Id_A", id2);
-                        editor.commit();
-                        //Toast.makeText(getApplicationContext(),"Hola"+id2,Toast.LENGTH_LONG).show();
-
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getApplicationContext(), "NO eres fellow intentalo con la cueta de un fellow", Toast.LENGTH_LONG).show();
-            }
-        });
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-//
-        FloatingActionButton cv;
-
-        cv =  (FloatingActionButton) findViewById(R.id.GF);
-
-        cv.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), Grafico.class);
-                intent.putExtra("tam", id2);
-                startActivity(intent);
-            }
-        });
-        //
-
-    }
 }
