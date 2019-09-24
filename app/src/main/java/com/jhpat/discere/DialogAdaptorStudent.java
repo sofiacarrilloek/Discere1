@@ -51,7 +51,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     String ID_TEACHER, CLLC, ID_FELLOW, USER;
     Session session = null;
     JSONObject jsonObject;
-    String EMAIL, NAME, LAST_NAME, TIPO, ESTADO_SESION;
+    String EMAIL, NAME, LAST_NAME, TIPO, ESTADO_SESION, EMAIL_FELLOW;
     ProgressDialog pdialog = null;
     String subC = "Sesión Discere";
     String msgC = "Lo sentimos, tú sesión ha sido rechazada";
@@ -119,9 +119,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
 
-
-
-/*
                     ID_TEACHER = alCustom.get(position).getId_teacher();
                     Properties props = new Properties();
                     props.put("mail.smtp.host", "smtp.gmail.com");
@@ -169,7 +166,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         pdialog.dismiss();
 
                         Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }*/
+                    }
                 }
 
 //-------------------------------------------------------------------------
@@ -199,6 +196,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
 
+                        actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
 
                         Properties props = new Properties();
                         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -249,6 +247,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                     }
 
 //-----------------------
+
+
                 });
             }
 
@@ -265,7 +265,6 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton_cancelar.setBackgroundColor(000000);
 
         }
-
 
         //--------------------------------------FIN FELLOW--------------------------------------------------------------
 
@@ -394,7 +393,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
                                          final String type, final String name_teacher, final String last_name_teacher,
                                          final String name_fellow, final String last_name_fellow,
-                                         final String start_date, final String status, final String email)
+                                         final String start_date, final String status, final String email, final String email_fellow)
     {
 
 
@@ -412,6 +411,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("start_date", start_date);
         requestParams.add("status", status);
         requestParams.add("email", email);
+        requestParams.add("email_fellow", email_fellow);
 
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -440,6 +440,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
         USER=preferencia.getString("ID2", "NO EXISTE");
+        EMAIL_FELLOW=preferencia.getString("EMAIL2", "NO EXISTE");
     }//Fin cargar preferencias
 
 
@@ -515,7 +516,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     ID_FELLOW=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
                     agendarSesionPendiente(ID_FELLOW, "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
                             "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
-                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher());
+                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(), EMAIL_FELLOW);
                    actualizarStatus(alCustom.get(position).getId_teacher(), "0");
 
 
@@ -543,6 +544,44 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     //-----------------------PARA EL TEACHER---------------------
+    public void actualizarStatusTeacher (String id_teacher, String status, String id_fellow)
+    {
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/actualizar_status_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",id_teacher);
+        requestParams.add("status",status);
+        requestParams.add("id_fellow",id_fellow);
+
+        //envio el parametro
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+
+            }
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error status"+error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
 
     public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
                                          final String type,final String day,final String status, final String create_date, final String start_date,
