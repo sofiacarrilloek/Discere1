@@ -51,7 +51,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     String ID_TEACHER, CLLC, ID_FELLOW, USER;
     Session session = null;
     JSONObject jsonObject;
-    String EMAIL, NAME, LAST_NAME, TIPO, ESTADO_SESION;
+    String EMAIL, NAME, LAST_NAME, TIPO, ESTADO_SESION, EMAIL_FELLOW;
     ProgressDialog pdialog = null;
     String subC = "Sesión Discere";
     String msgC = "Lo sentimos, tú sesión ha sido rechazada";
@@ -119,9 +119,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
 
-
-
-/*
                     ID_TEACHER = alCustom.get(position).getId_teacher();
                     Properties props = new Properties();
                     props.put("mail.smtp.host", "smtp.gmail.com");
@@ -169,7 +166,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         pdialog.dismiss();
 
                         Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }*/
+                    }
                 }
 
 //-------------------------------------------------------------------------
@@ -199,6 +196,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
 
+                        actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
 
                         Properties props = new Properties();
                         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -249,12 +247,12 @@ class DialogAdaptorStudent extends BaseAdapter {
                     }
 
 //-----------------------
+
+
                 });
             }
 
-
-
-//---------------------------------------------------PENDIENTE------------------------------------------------------------
+        //-----------------------------------PENDIENTE-------------------------------------
 
         if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("pendiente"))
         {
@@ -265,7 +263,6 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton_cancelar.setBackgroundColor(000000);
 
         }
-
 
         //--------------------------------------FIN FELLOW--------------------------------------------------------------
 
@@ -283,6 +280,74 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton_cancelar.setGravity(View.TEXT_ALIGNMENT_CENTER);
             boton_cancelar.setEnabled(true);
 
+            boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    actualizarStatus(alCustom.get(position).getId_teacher(),"0");
+
+                    String Fecha1=alCustom.get(position).getDia().substring(0,10);
+
+                    id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
+
+                    ID_TEACHER = alCustom.get(position).getId_teacher();
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+
+
+                }
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject(subC);
+                            message.setContent(msgC, "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+                //CAMBIAR STATUS
+
+
+
+
+            });
+
 
         }
 
@@ -297,6 +362,66 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             // Boton rechazar
             boton_cancelar.setEnabled(true);
+            boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
+
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+
+
+                }
+
+                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                    @Override
+                    protected String doInBackground(String... params) {
+
+                        try {
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                            message.setSubject("Sesión cancelada");
+                            message.setContent("Lo sentimos, Sesión cancelada", "text/html; charset=utf-8");
+                            Transport.send(message);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String result) {
+                        pdialog.dismiss();
+
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+
+
+
+            });
+
             //  boton_cancelar.setBackgroundColor(000000);
         }
 
@@ -311,6 +436,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             boton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
                     agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
                             "","1","",""+alCustom.get(position).getFecha_inicio(),""+alCustom.get(position).getFecha_inicio(),
@@ -326,7 +452,9 @@ class DialogAdaptorStudent extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
-                /*    Properties props = new Properties();
+                    actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
+
+                 Properties props = new Properties();
                     props.put("mail.smtp.host", "smtp.gmail.com");
                     props.put("mail.smtp.socketFactory.port", "465");
                     props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -371,7 +499,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         pdialog.dismiss();
 
                         Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }*/
+                    }
                 }
 
 
@@ -383,18 +511,15 @@ class DialogAdaptorStudent extends BaseAdapter {
         }
 
 
-
-
-
-
-
         return listViewItem;
     }
 
+
+    //--------------------------------------PARA EL FELLOW------------------------------------------------
     public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
                                          final String type, final String name_teacher, final String last_name_teacher,
                                          final String name_fellow, final String last_name_fellow,
-                                         final String start_date, final String status, final String email)
+                                         final String start_date, final String status, final String email, final String email_fellow)
     {
 
 
@@ -412,6 +537,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("start_date", start_date);
         requestParams.add("status", status);
         requestParams.add("email", email);
+        requestParams.add("email_fellow", email_fellow);
 
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -440,48 +566,11 @@ class DialogAdaptorStudent extends BaseAdapter {
         LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
         USER=preferencia.getString("ID2", "NO EXISTE");
+        EMAIL_FELLOW=preferencia.getString("EMAIL2", "NO EXISTE");
     }//Fin cargar preferencias
 
 
-    public void actualizarStatus (String id_teacher, String status)
-    {
 
-        //final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_teacher",id_teacher);
-        requestParams.add("status",status);
-
-        //envio el parametro
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
-
-                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
-            }
-
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-    }//FIN SESIONES
 
 
     //Actualizar status
@@ -515,7 +604,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     ID_FELLOW=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
                     agendarSesionPendiente(ID_FELLOW, "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
                             "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
-                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher());
+                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(), EMAIL_FELLOW);
                    actualizarStatus(alCustom.get(position).getId_teacher(), "0");
 
 
@@ -540,9 +629,47 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN SESIONES
 
-
+    //--------------------------------------FIN PARA EL FELLOW------------------------------------------------
 
     //-----------------------PARA EL TEACHER---------------------
+    public void actualizarStatusTeacher (String id_teacher, String status, String id_fellow)
+    {
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/actualizar_status_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",id_teacher);
+        requestParams.add("status",status);
+        requestParams.add("id_fellow",id_fellow);
+
+        //envio el parametro
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+
+            }
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error status"+error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
 
     public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
                                          final String type,final String day,final String status, final String create_date, final String start_date,
@@ -586,11 +713,64 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN
 
+    public void actualizarStatusPendiente (String id_teacher, String status)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/actualizar_sesiones_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",id_teacher);
+        requestParams.add("status",status);
+
+        //envio el parametro
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
 
     //-------------FIN PARA EL TEACHER
 
 
+    public void actualizarStatus (String id_teacher, String status)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",id_teacher);
+        requestParams.add("status",status);
 
+        //envio el parametro
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
 }
 
 

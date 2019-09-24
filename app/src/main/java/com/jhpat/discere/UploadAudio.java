@@ -20,13 +20,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,12 +41,15 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks;
 
@@ -57,6 +64,11 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     TextView fileName;
     Uri fileUri;
     private File file;
+    Spinner spinner;
+    AsyncHttpClient client;
+    View vista;
+    Button buscarA,añadirA;
+    TextView nombreA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +79,8 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
         uploadBtn = findViewById(R.id.btn_upload);
         previewImage = findViewById(R.id.iv_preview);
         fileName = findViewById(R.id.tv_file_name);
-
+        spinner = (Spinner) findViewById(R.id.SpinnerFe);
+        client = new AsyncHttpClient();
         fileBrowseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +104,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(UploadAudio.this);
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-
+                    insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
 
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -100,6 +113,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
                 }
             }
         });
+        llenarSpinner();
     }
 
     @Override
@@ -110,11 +124,34 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             String filePath = getRealPath(UploadAudio.this, fileUri);
             file = new File(filePath);
             Log.d(TAG, "Filename " + file.getName());
-            fileName.setText(filePath);
+            fileName.setText(file.getName());
             hideFileChooser();
+            //insertarAudio(file.getName());
         }
     }
 
+    public void insertarAudio(String urlAudio){
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("link", urlAudio);
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(getApplicationContext(), "Session saved", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
     /**
      * Show the file name and preview once the file is chosen
      * @param uri
@@ -356,6 +393,78 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             // Update process
             this.progressDialog.setProgress((int) progress[0]);
         }
+    }
+    public void llenarSpinner(){
+        String url="http://puntosingular.mx/cas/obtener_fellows.php";
+        client.post(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode == 200){
+                    cargarSpiner(new String(responseBody));
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+    private void cargarSpiner(String s) {
+        ArrayList<Nombres> lista = new ArrayList<Nombres>();
+        try{
+            JSONArray jsonArray = new JSONArray(s);
+            for (int i=0; i<jsonArray.length();i++){
+                Nombres n = new Nombres();
+                n.setName(jsonArray.getJSONObject(i).getString("name"));
+                lista.add(n);
+            }
+            ArrayAdapter<Nombres> adapter = new ArrayAdapter<Nombres>(this, android.R.layout.simple_spinner_item,lista);
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            spinner.setAdapter(adapter);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private class Nombres{
+        private int id;
+        private String name;
+        private String last_name;
+
+        public Nombres(){
+
+        }
+
+        public Nombres(int id, String name, String last_name){
+            this.id = id;
+            this.name = name;
+            this.last_name = last_name;
+        }
+
+        public void setId(int id){
+            this.id=id;
+        }
+
+        public void setName(String name){
+            this.name=name;
+        }
+
+        public void setLast_name(String last_name){
+            this.last_name=last_name;
+        }
+
+        @Override
+        public String toString(){
+            return name;
+        }
+
+
     }
 }
 
