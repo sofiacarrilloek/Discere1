@@ -138,7 +138,7 @@ cargarP();
         public Fragment getItem(int position) {
 
             Fragment tabFragment = null;
-            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+            if (tipo.equals("Coach")){
             switch (position){
 
                 case 0:
@@ -158,7 +158,7 @@ cargarP();
         @Override
         public int getCount() {
             // Show 2 total pages.
-            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+            if (tipo.equals("Coach")){
                 retorno =2;
             }else{
                 retorno =1;
@@ -170,7 +170,7 @@ cargarP();
         public CharSequence getPageTitle(int position) {
 
             String section = null;
-            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+            if (tipo.equals("Coach")){
                 switch (position) {
                     case 0:
 
