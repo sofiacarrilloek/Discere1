@@ -36,6 +36,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity2 extends AppCompatActivity{
     public GregorianCalendar cal_month, cal_month_copy;
+    public static String id_teacher;
     private HwAdapter hwAdapter;
     private TextView tv_month;
     JSONObject jsonObject;
@@ -82,6 +83,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         cargarP();
+        guardarPreferenciasTeacher("id_teacher");
 
         //
 
@@ -646,6 +648,17 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN DATOS TEACHER
+    private void guardarPreferenciasTeacher(String id_teacher)
+    {
+
+        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencia.edit();
+        //editor.clear();
+        editor.putString("id_T", id_teacher);
+        editor.commit();
+
+
+    }
 
 
 
