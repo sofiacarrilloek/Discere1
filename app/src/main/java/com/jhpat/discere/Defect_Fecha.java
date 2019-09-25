@@ -42,7 +42,7 @@ public class Defect_Fecha extends AppCompatActivity {
         DTX1 = (TextView) findViewById(R.id.DT1);
         DDX1 = (TextView) findViewById(R.id.DD1);
 
-        datosc("709");
+        cargarPreferencias();
 
 
         //
@@ -117,6 +117,13 @@ public class Defect_Fecha extends AppCompatActivity {
             }
         });
     }//FIN DATOSSC}
+
+    private void cargarPreferencias()
+    {
+        SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
+        String id_Analyst = preferencia.getString("Id_A", "NO EXISTE");
+        datosc(id_Analyst);
+    }
     /*private void cargarPreferencias()
     {
         SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
