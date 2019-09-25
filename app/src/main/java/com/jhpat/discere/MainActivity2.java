@@ -83,7 +83,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         cargarP();
-        guardarPreferenciasTeacher("id_teacher");
+
 
         //
 
@@ -295,6 +295,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN OBTEN_ID_TEACHER
+
 
 
     public void datosLessonsTeacher (String ID_TEACHER1)
@@ -648,17 +649,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN DATOS TEACHER
-    private void guardarPreferenciasTeacher(String id_teacher)
-    {
 
-        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferencia.edit();
-        //editor.clear();
-        editor.putString("id_T", id_teacher);
-        editor.commit();
-
-
-    }
 
 
 
