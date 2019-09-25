@@ -77,7 +77,7 @@ public class MainLista extends AppCompatActivity {
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://puntosingular.mx/cas/Lista_nombre2X.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro
 
