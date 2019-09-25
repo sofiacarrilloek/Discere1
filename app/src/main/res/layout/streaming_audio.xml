@@ -24,16 +24,29 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center">
-    <Button
+
+    <ImageButton
         android:id="@+id/playA"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:text="Play" />
-    <Button
+        android:text="Play"
+        android:background="@drawable/play"/>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="150dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="#555252"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="540dp" />
+    <ImageButton
         android:id="@+id/stopA"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:text="Stop"
+        android:background="@drawable/stop"
         />
 </LinearLayout>
 
