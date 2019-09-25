@@ -115,6 +115,16 @@
             android:textColor="@color/colorText"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/subirimg"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_rounded"
+            android:text="subir"
+            android:textColor="@color/colorText"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
