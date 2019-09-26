@@ -10,6 +10,9 @@ public class Dialogpojo {
     private String dia;
     private String id_teacher;
     private String id_fellow;
+    private String end_date;
+
+    public void setEnd_date(String end_date){this.end_date=end_date;}
     public void setDia(String dia){this.dia=dia;}
 
     public void setId_fellow(String id_fellow){this.id_fellow=id_fellow;}
@@ -63,4 +66,6 @@ public class Dialogpojo {
     }
 
     public String getNombre_teacher(){return  nombre_teacher;}
+
+    public String getEnd_date(){return  end_date;}
 }

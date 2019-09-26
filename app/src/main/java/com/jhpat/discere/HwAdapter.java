@@ -304,6 +304,7 @@ class HwAdapter extends BaseAdapter {
                 maplist.put("dia",HomeCollection.date_collection_arr.get(j).dia);
                 maplist.put("id_teacher",HomeCollection.date_collection_arr.get(j).id_teacher);
                 maplist.put("id_fellow",HomeCollection.date_collection_arr.get(j).id_fellow);
+                maplist.put("end_date",HomeCollection.date_collection_arr.get(j).end_date);
                 JSONObject json1 = new JSONObject(maplist);
                 jbarrays.put(json1);
             }
@@ -345,7 +346,7 @@ class HwAdapter extends BaseAdapter {
                 pojo.setDia(jsonObject.optString("dia"));
                 pojo.setId_teacher(jsonObject.optString("id_teacher"));
                 pojo.setId_fellow(jsonObject.optString("id_fellow"));
-
+                pojo.setEnd_date(jsonObject.optString("end_date"));
                 alCustom.add(pojo);
 
             }
