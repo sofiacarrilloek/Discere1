@@ -51,6 +51,8 @@ public class MainActivity2 extends AppCompatActivity{
     String ID_USER, TIPO;
     String lolitox;
 
+    String id_tea;
+
     ArrayList<String> listDatos;
     RecyclerView recycler;
 
@@ -332,6 +334,9 @@ public class MainActivity2 extends AppCompatActivity{
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
+                        id_tea=id_teacher[i];
+                        guardaridteacher();
+                        //Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_LONG).show();
                         if (status[i].equals("1")) {
                             cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
                                     fechaInicio[i] + " " + start_time[i], id_fellow[i]);
@@ -395,21 +400,21 @@ public class MainActivity2 extends AppCompatActivity{
                         tipo[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
-                         user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
-                         start_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date").substring(11,18);
+                        user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
+                        start_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date").substring(11,18);
                         end_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_date").substring(11,18);
 
                         if(status[i].equals("1"))
                         {
-                          cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
-                                  fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i]);
+                            cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
+                                    fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i]);
                         }
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                   // Toast.makeText(MainActivity2.this, "Error: "+e, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity2.this, "Error: "+e, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -417,7 +422,7 @@ public class MainActivity2 extends AppCompatActivity{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-             //   Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -566,7 +571,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                   Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
 
                     e.printStackTrace();
                 }
@@ -635,7 +640,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                  //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -688,7 +693,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                  //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -744,14 +749,15 @@ public class MainActivity2 extends AppCompatActivity{
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
-                     if (status[i].equals("1"))
-                     {
-                         cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i],
-                                 fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
-                     }
+
+                        if (status[i].equals("1"))
+                        {
+                            cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i],
+                                    fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
+                        }
 
 
-                     }
+                    }
 
 
                 } catch (JSONException e) {
@@ -797,7 +803,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -951,7 +957,7 @@ public class MainActivity2 extends AppCompatActivity{
                         name_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_teacher");
                         email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
-                         fechaInicio2[i]=fechaInicio[i].substring(0,10);
+                        fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
 
                         if (status[i].equals("0")) {
@@ -965,7 +971,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                 Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -989,9 +995,16 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
+    private void guardaridteacher()
+    {
 
+        SharedPreferences preferencia = getSharedPreferences("id_teacher", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferencia.edit();
+        editor.putString("teacher", id_tea);
+        editor.commit();
+        Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_LONG).show();
+    }
 
 }
-
-
 
