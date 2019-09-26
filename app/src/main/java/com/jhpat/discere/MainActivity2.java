@@ -480,7 +480,7 @@ public class MainActivity2 extends AppCompatActivity{
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
 
-                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i]));
+                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio[i], "" + id_teacher[i], "" + id_fellow[i]));
                         }
                     }
 

@@ -285,6 +285,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                 case "PENDIENTE":
 
+                    final String fecha=alCustom.get(position).getDia(),hora;
                     boton.setEnabled(true);
                     boton.setVisibility(View.VISIBLE);
 
@@ -292,12 +293,13 @@ class DialogAdaptorStudent extends BaseAdapter {
                     {
                         @Override
                         public void onClick(View v) {
+
                             actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
                             agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
-                                    "","1","",""+alCustom.get(position).getFecha_inicio(),""+alCustom.get(position).getFecha_inicio(),
-                                    "","");
-
+                                    "","1","",""+fecha.substring(0,10),""+fecha.substring(0,10),
+                                    ""+fecha.substring(11,18),""+fecha.substring(11,18));
+                            //Corregir end_time
                         }
                     });
 
@@ -700,7 +702,6 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
 
             }
             @Override
