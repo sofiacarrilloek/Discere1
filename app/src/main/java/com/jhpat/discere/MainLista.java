@@ -57,14 +57,14 @@ public class MainLista extends AppCompatActivity {
             }
         });
 
-
+        cargarP();
+        obtenIDTEACHER(id_user);
         final ListView lv=(ListView) findViewById(R.id.lv);
         final Downloader d=new Downloader(this,url,lv);
 
         d.execute();
 
-        cargarP();
-        obtenIDTEACHER(id_user);
+
 
     }
     private  void cargarP() {

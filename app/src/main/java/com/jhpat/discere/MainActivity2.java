@@ -211,17 +211,12 @@ public class MainActivity2 extends AppCompatActivity{
         ID_USER = preferencia.getString("ID2", "NO EXISTE");
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
 
-        if (TIPO.equalsIgnoreCase("Coach"))
+        if (TIPO.equalsIgnoreCase("Coach")||TIPO.equalsIgnoreCase("Speaker"))
         {
 
             obtenIDTEACHER(ID_USER);
             verTeacher(ID_USER);
 
-        }
-        if (TIPO.equalsIgnoreCase("Speaker"))
-        {
-            obtenIDTEACHER(ID_USER);
-            verTeacher(ID_USER);
         }
 
         if (TIPO.equalsIgnoreCase("Fellow")) {
@@ -275,9 +270,9 @@ public class MainActivity2 extends AppCompatActivity{
                         cuentaOr++;
 
                     }
-
                     datosLessonsTeacher(CONSULTA);
                     datosEnEsperaTeacher(CONSULTA);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -494,7 +489,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos pendientes"+e, Toast.LENGTH_SHORT).show();
 
 
                 }

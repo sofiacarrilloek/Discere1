@@ -228,7 +228,7 @@ public class Login extends AppCompatActivity {
 
 
     SharedPreferences.Editor editor = preferencia.edit();
-    //editor.clear();
+    editor.clear();
     editor.putString("user", parametroUsu);
     editor.putString("password", contraUsu);
     editor.putString("NAME2", NAME1);
