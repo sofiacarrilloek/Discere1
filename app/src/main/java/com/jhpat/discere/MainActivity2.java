@@ -36,6 +36,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity2 extends AppCompatActivity{
     public GregorianCalendar cal_month, cal_month_copy;
+    public static String id_teacher;
     private HwAdapter hwAdapter;
     private TextView tv_month;
     JSONObject jsonObject;
@@ -82,6 +83,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         cargarP();
+
 
         //
 
@@ -293,6 +295,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN OBTEN_ID_TEACHER
+
 
 
     public void datosLessonsTeacher (String ID_TEACHER1)
@@ -619,7 +622,7 @@ public class MainActivity2 extends AppCompatActivity{
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
-                        Toast.makeText(getApplicationContext(),"dime que si "+id_teacher,Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"dime que si "+id_teacher,Toast.LENGTH_LONG).show();
 
                         id_user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
                         hora[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
@@ -646,6 +649,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN DATOS TEACHER
+
 
 
 
