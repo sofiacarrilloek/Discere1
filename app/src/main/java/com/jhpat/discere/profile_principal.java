@@ -25,7 +25,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +56,6 @@ public class profile_principal extends Fragment {
     FloatingActionMenu actionMenu;
     private OnFragmentInteractionListener mListener;
 
-
     public profile_principal() {
         // Required empty public constructor
     }
@@ -83,9 +81,6 @@ public class profile_principal extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
