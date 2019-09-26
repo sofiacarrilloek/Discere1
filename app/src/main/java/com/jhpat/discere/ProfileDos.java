@@ -2,6 +2,7 @@ package com.jhpat.discere;
 
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,18 +22,33 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
+
 import cz.msebera.android.httpclient.Header;
 
 import static android.Manifest.permission.CAMERA;
@@ -47,13 +63,29 @@ public class ProfileDos extends AppCompatActivity
     final int COD_FOTO=20;
     int TIPO =1;
 
+
+
+
+    ImageView iv;
+    EditText et;
+
+    Bitmap bitmap;
+    int PICK_IMAGE_REQUEST = 1;
+    String UPLOAD_URL = "http://puntosingular.mx/cas/imagen.php";
+
+    String KEY_IMAGE = "foto";
+    String KEY_NOMBRE = "nombre";
+
+
+
+
     EditText nombre, apellido, correoe, genero, tel;
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
     JSONObject jsonObject;
     public  static String  USUARIO, ID_USUARIO;
     Button botonCargar;
     ImageView imagen;
-    Button btn_actualizar, btn_cancelar;
+    Button btn_actualizar, btn_cancelar, bt_subir;
     String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +97,7 @@ public class ProfileDos extends AppCompatActivity
         imagen = (ImageView) findViewById(R.id.ImageProfile);
         btn_actualizar = (Button) findViewById(R.id.btn_update);
         btn_cancelar=(Button)findViewById(R.id.btn_cancelar);
+        bt_subir=(Button)findViewById(R.id.subirimg);
         nombre = (EditText)findViewById(R.id.et_name);
         apellido = (EditText)findViewById(R.id.et_lastname);
         correoe = (EditText)findViewById(R.id.et_email);
@@ -105,6 +138,13 @@ public class ProfileDos extends AppCompatActivity
             }
         });//Boton_cancelar prro fin
 
+        bt_subir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+uploadImage();
+
+            }
+        });
     }
 
 
@@ -188,35 +228,78 @@ public class ProfileDos extends AppCompatActivity
 
     private void cargarImagen() {
 
-        final CharSequence[] opciones={"Tomar Foto","Cargar Imagen","Cancelar"};
-        final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(ProfileDos.this);
+        final CharSequence[] opciones = {"Tomar Foto", "Cargar Imagen", "Cancelar"};
+        final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(ProfileDos.this);
         alertOpciones.setTitle("Seleccione una Opción");
         alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (opciones[i].equals("Tomar Foto")){
+                if (opciones[i].equals("Tomar Foto")) {
                     tomarFotografia();
-                }else{
-                    if (opciones[i].equals("Cargar Imagen")){
-                        Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent.setType("image/");
-                        startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicación"),COD_SELECCIONA);
-                    }else{
+                } else {
+                    if (opciones[i].equals("Cargar Imagen")) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/*");
+                        startActivityForResult(intent.createChooser(intent, "Seleccione la Aplicación"), COD_SELECCIONA);
+                    } else {
                         dialogInterface.dismiss();
                     }
                 }
             }
         });
         alertOpciones.show();
-
     }
+
+
+
+
+    public String getStringImagen(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    public void uploadImage() {
+        final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loading.dismiss();
+                        Toast.makeText(ProfileDos.this, response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(ProfileDos.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String nombre = ID1;
+
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put(KEY_NOMBRE, nombre);
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
 
 
 
     private void tomarFotografia() {
         File fileImagen=new File(Environment.getExternalStorageDirectory(),RUTA_IMAGEN);
         boolean isCreada=fileImagen.exists();
-        String nombreImagen="";
+        String nombreImagen= ID1;
         if(isCreada==false){
             isCreada=fileImagen.mkdirs();
         }
@@ -273,9 +356,19 @@ public class ProfileDos extends AppCompatActivity
 
                     break;
             }
-
-
         }
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Cómo obtener el mapa de bits de la Galería
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Configuración del mapa de bits en ImageView
+                iv.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }}
+
     }
 
 
