@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,7 +37,9 @@ public class StreamingAudio extends Fragment {
     Spinner spinner;
     AsyncHttpClient client;
     View vista;
-    Button play,stop;
+    ImageButton play,stop;
+    MediaPlayer mediaPlayer;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -85,8 +88,8 @@ public class StreamingAudio extends Fragment {
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.streaming_audio, container, false);
         spinner = (Spinner) vista.findViewById(R.id.SpinnerAudios);
-        play = (Button) vista.findViewById(R.id.playA);
-        stop = (Button) vista.findViewById(R.id.stopA);
+        play = (ImageButton) vista.findViewById(R.id.playA);
+        stop = (ImageButton) vista.findViewById(R.id.stopA);
         client = new AsyncHttpClient();
 
 
@@ -95,6 +98,12 @@ public class StreamingAudio extends Fragment {
             @Override
             public void onClick(View v) {
                 playA();
+            }
+        });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopA();
             }
         });
         llenarSpinner();
@@ -178,16 +187,22 @@ public class StreamingAudio extends Fragment {
 
     public void playA(){
         String nameAudio=spinner.getSelectedItem().toString();
+        mediaPlayer =  new MediaPlayer();
+        play.setBackgroundResource(R.drawable.playoscuro);
+        stop.setBackgroundResource(R.drawable.stop);
+            try {
+                mediaPlayer.setDataSource(nameAudio);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(nameAudio);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    }
+    public void stopA(){
+        play.setBackgroundResource(R.drawable.play);
+        stop.setBackgroundResource(R.drawable.stoposcuro);
+        mediaPlayer.stop();
     }
 
 

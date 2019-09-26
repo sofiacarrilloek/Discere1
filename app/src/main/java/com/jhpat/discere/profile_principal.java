@@ -4,6 +4,7 @@ package com.jhpat.discere;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionMenu;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -41,7 +49,9 @@ public class profile_principal extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
+    private ImageView profile;
     private String mParam2;
+    RequestQueue requestQueue;
     View vista;
     FloatingActionMenu actionMenu;
     private OnFragmentInteractionListener mListener;
@@ -85,12 +95,15 @@ public class profile_principal extends Fragment {
         vista =inflater.inflate(R.layout.fragment_profile_principal, container, false);
         Button Imangenpas = (Button) vista.findViewById(R.id.button_Edit) ;
         Button btnpas = (Button) vista.findViewById(R.id.button_Password);
+        profile=(ImageView)vista.findViewById(R.id.photoprin);
         nombre = (TextView)vista.findViewById(R.id.tv_name);
         nombre_1 = (TextView)vista.findViewById(R.id.t1);
         apellido = (TextView)vista.findViewById(R.id.tv_lastname);
         apellido_1 = (TextView)vista.findViewById(R.id.t2);
         email = (TextView)vista.findViewById(R.id.tv_email);
+        requestQueue = Volley.newRequestQueue(getActivity());
         cargarP();
+        Cargarfoto();
 
 
         Imangenpas.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +124,22 @@ public class profile_principal extends Fragment {
         });
         return vista;
 
+    }
+
+    private void Cargarfoto() {
+        String url= "http://puntosingular.mx/cas/imagenes/"+nombre.getText()+".jpg";
+        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                profile.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),"Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestQueue.add(imageRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
