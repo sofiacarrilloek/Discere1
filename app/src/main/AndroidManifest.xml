@@ -24,7 +24,6 @@
             android:name=".ErrorConexion"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity_Agendar" />
-        <activity android:name=".MainLista" />
         <activity android:name=".MainFecha" />
         <activity android:name=".Login">
 
@@ -48,6 +47,7 @@
         <activity android:name=".MainActivity2" />
         <activity android:name=".Defect_Fecha"></activity>
         <activity android:name=".claseCuadroBD" />
+        <activity android:name=".MainLista"/>
         <activity android:name=".Grafico" />
         <activity
             android:name=".dialogo"

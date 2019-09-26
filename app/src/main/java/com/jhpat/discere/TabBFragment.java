@@ -1,15 +1,23 @@
 package com.jhpat.discere;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +34,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,8 +51,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -54,16 +66,14 @@ public class TabBFragment extends Fragment {
     View vista;
     Button buscarA,añadirA;
     TextView nombreA;
-    private static final String TAG = TabBFragment.class.getSimpleName();
-    private String selectedFilePath;
-    TextView tvFileName;
-    private static final String SERVER_PATH = "http://puntosingular.mx/cas/upload.php";
+    ImageView previewImage;
+    TextView fileName;
+    Uri fileUri;
     private File file;
-    private int VALOR_RETORNO = 1;
-    private ProgressDialog progreso;
-    RequestQueue requestQueue;
-    Bitmap bitmap;
-    StringRequest stringRequest;
+    private static final String TAG = TabBFragment.class.getSimpleName();
+    private static final String SERVER_PATH = "http://puntosingular.mx/cas/upload.php";
+    private static final int REQUEST_FILE_CODE = 200;
+    private static final int READ_REQUEST_CODE = 300;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -87,7 +97,12 @@ public class TabBFragment extends Fragment {
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buscarAudio();
+                if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    showFileChooserIntent();
+                } else {
+                    //If permission is not present request for the same.
+                    EasyPermissions.requestPermissions(getContext(), getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
 
             }
         });
@@ -97,10 +112,10 @@ public class TabBFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (file != null) {
-                    TabBFragment.UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
+                    TabBFragment.UploadAsyncTask uploadAsyncTask = new TabBFragment.UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-
+                    insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
 
                 } else {
                     Toast.makeText(getContext(),
@@ -118,117 +133,197 @@ public class TabBFragment extends Fragment {
         return vista;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
+            fileUri = data.getData();
+            // previewFile(fileUri);
+            String filePath = getRealPath(getContext(), fileUri);
+            file = new File(filePath);
+            Log.d(TAG, "Filename " + file.getName());
+            nombreA.setText(file.getName());
+            hideFileChooser();
+            //insertarAudio(file.getName());
+        }
+    }
+
+    public void insertarAudio(String urlAudio){
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("link", urlAudio);
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
-
-    public void llenarSpinner(){
-        String url="http://puntosingular.mx/cas/obtener_fellows.php";
-        client.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if (statusCode == 200){
-                    cargarSpiner(new String(responseBody));
-                }
+
+                Toast.makeText(getContext(), "Session saved", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
 
             }
         });
     }
+    /**
+     * Show the file name and preview once the file is chosen
+     * @param uri
+     */
 
-    private void cargarSpiner(String s) {
-        ArrayList<Nombres> lista = new ArrayList<Nombres>();
-        try{
-            JSONArray jsonArray = new JSONArray(s);
-            for (int i=0; i<jsonArray.length();i++){
-                Nombres n = new Nombres();
-                n.setName(jsonArray.getJSONObject(i).getString("name"));
-                lista.add(n);
+
+    /**
+     * Shows an intent which has options from which user can choose the file like File manager, Gallery etc
+     */
+    private void showFileChooserIntent() {
+        Intent fileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        //Choose any file
+        fileManagerIntent.setType("audio/*");
+        startActivityForResult(fileManagerIntent, REQUEST_FILE_CODE);
+
+    }
+
+
+
+    public static String getRealPath(final Context context, final Uri uri) {
+
+        if (uri.getScheme().equals("file")) {
+            return uri.toString();
+
+        } else if (uri.getScheme().equals("content")) {
+            // DocumentProvider
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                if (DocumentsContract.isDocumentUri(context, uri)) {
+
+                    // ExternalStorageProvider
+                    if (isExternalStorageDocument(uri)) {
+                        final String docId = DocumentsContract.getDocumentId(uri);
+                        final String[] split = docId.split(":");
+                        final String type = split[0];
+
+                        if ("primary".equalsIgnoreCase(type)) {
+                            return Environment.getExternalStorageDirectory() + "/" + split[1];
+                        }
+
+                        // TODO handle non-primary volumes
+                    }
+                    // DownloadsProvider
+                    else if (isDownloadsDocument(uri)) {
+
+                        final String id = DocumentsContract.getDocumentId(uri);
+                        final Uri contentUri = ContentUris.withAppendedId(
+                                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                        return getDataColumn(context, contentUri, null, null);
+                    }
+                    // MediaProvider
+                    else if (isMediaDocument(uri)) {
+                        final String docId = DocumentsContract.getDocumentId(uri);
+                        final String[] split = docId.split(":");
+                        final String type = split[0];
+
+                        Uri contentUri = null;
+                        if ("image".equals(type)) {
+                            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                        } else if ("video".equals(type)) {
+                            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                        } else if ("audio".equals(type)) {
+                            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                        }
+
+                        final String selection = "_id=?";
+                        final String[] selectionArgs = new String[]{
+                                split[1]
+                        };
+
+                        return getDataColumn(context, contentUri, selection, selectionArgs);
+                    }
+                }
             }
-            ArrayAdapter<Nombres> adapter = new ArrayAdapter<Nombres>(this.getActivity(), android.R.layout.simple_spinner_item,lista);
-            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-            spinner.setAdapter(adapter);
-
-
-        }catch (Exception e){
-            e.printStackTrace();
         }
+
+        return null;
     }
 
 
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
 
-    private class Nombres{
-        private int id;
-        private String name;
-        private String last_name;
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
 
-        public Nombres(){
-
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
         }
-
-        public Nombres(int id, String name, String last_name){
-            this.id = id;
-            this.name = name;
-            this.last_name = last_name;
-        }
-
-        public void setId(int id){
-            this.id=id;
-        }
-
-        public void setName(String name){
-            this.name=name;
-        }
-
-        public void setLast_name(String last_name){
-            this.last_name=last_name;
-        }
-
-        @Override
-        public String toString(){
-            return name;
-        }
-
-
+        return null;
     }
 
-    public void buscarAudio() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
-        startActivityForResult(Intent.createChooser(intent, "Choose File"), VALOR_RETORNO);
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            //Cancelado por el usuario
-        }
-        if ((resultCode == RESULT_OK) && (requestCode == VALOR_RETORNO )) {
-            if (data == null) {
-                //no data present
-                return;
-            }
-
-
-
-            Uri selectedFileUri = data.getData();
-            selectedFilePath = FilePath.getPath(getContext(), selectedFileUri);
-            Log.i(TAG, "Selected File Path:" + selectedFilePath);
-
-            if (selectedFilePath != null && !selectedFilePath.equals("")) {
-                nombreA.setText(nombreA.getText()+""+selectedFilePath);
-                Toast.makeText(getContext(),"Seleccionado",Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), "Cannot upload file to server", Toast.LENGTH_SHORT).show();
-            }
-
-        }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, getContext());
     }
 
 
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        showFileChooserIntent();
+    }
+
+
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "Permission has been denied");
+    }
+
+    /**
+     * Hides the Choose file button and displays the file preview, file name and upload button
+     */
+    private void hideFileChooser() {
+        buscarA.setVisibility(View.GONE);
+        añadirA.setVisibility(View.VISIBLE);
+        nombreA.setVisibility(View.VISIBLE);
+        previewImage.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     *  Displays Choose file button and Hides the file preview, file name and upload button
+     */
+    private void showFileChooser() {
+        buscarA.setVisibility(View.VISIBLE);
+        añadirA.setVisibility(View.GONE);
+        nombreA.setVisibility(View.GONE);
+        previewImage.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * Background network task to handle file upload.
+     */
     private class UploadAsyncTask extends AsyncTask<Void, Integer, String> {
 
         HttpClient httpClient = new DefaultHttpClient();
@@ -307,7 +402,7 @@ public class TabBFragment extends Fragment {
             this.progressDialog.dismiss();
             Toast.makeText(getContext(),
                     result, Toast.LENGTH_LONG).show();
-            buscarAudio();
+            showFileChooser();
         }
 
         @Override
@@ -316,6 +411,86 @@ public class TabBFragment extends Fragment {
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
+
+
+
+
+    public void llenarSpinner(){
+        String url="http://puntosingular.mx/cas/obtener_fellows.php";
+        client.post(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode == 200){
+                    cargarSpiner(new String(responseBody));
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+    private void cargarSpiner(String s) {
+        ArrayList<Nombres> lista = new ArrayList<Nombres>();
+        try{
+            JSONArray jsonArray = new JSONArray(s);
+            for (int i=0; i<jsonArray.length();i++){
+                Nombres n = new Nombres();
+                n.setName(jsonArray.getJSONObject(i).getString("name"));
+                lista.add(n);
+            }
+            ArrayAdapter<Nombres> adapter = new ArrayAdapter<Nombres>(this.getActivity(), android.R.layout.simple_spinner_item,lista);
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            spinner.setAdapter(adapter);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private class Nombres{
+        private int id;
+        private String name;
+        private String last_name;
+
+        public Nombres(){
+
+        }
+
+        public Nombres(int id, String name, String last_name){
+            this.id = id;
+            this.name = name;
+            this.last_name = last_name;
+        }
+
+        public void setId(int id){
+            this.id=id;
+        }
+
+        public void setName(String name){
+            this.name=name;
+        }
+
+        public void setLast_name(String last_name){
+            this.last_name=last_name;
+        }
+
+        @Override
+        public String toString(){
+            return name;
+        }
+
+
+    }
+
+
+
+
 
 
 

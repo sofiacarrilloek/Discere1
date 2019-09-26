@@ -164,7 +164,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     private void showFileChooserIntent() {
         Intent fileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         //Choose any file
-        fileManagerIntent.setType("*/*");
+        fileManagerIntent.setType("audio/*");
         startActivityForResult(fileManagerIntent, REQUEST_FILE_CODE);
 
     }

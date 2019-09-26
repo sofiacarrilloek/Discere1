@@ -211,17 +211,19 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
+                        if (tipo.equalsIgnoreCase("Coach")&&disponible.equalsIgnoreCase("Ocupado"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachaceptada);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Ocupado"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
 
-                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Pendiente"))
-                        {
-                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
-                            txt.setTextColor(Color.parseColor("#696969"));
-                        }
-                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Pendiente"))
-                        {
-                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
-                            txt.setTextColor(Color.parseColor("#696969"));
-                        }
+
+
 
 
                         if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
@@ -230,6 +232,16 @@ class HwAdapter extends BaseAdapter {
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
                         if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Coach")&&disponible.equalsIgnoreCase("Disponible"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachdisponible);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Disponible"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
@@ -247,7 +259,11 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_coachdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
-
+                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
                         if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
@@ -265,6 +281,8 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
+
+
                     }
                 }
             }//

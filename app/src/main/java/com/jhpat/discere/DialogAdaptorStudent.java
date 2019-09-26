@@ -57,7 +57,8 @@ class DialogAdaptorStudent extends BaseAdapter {
     String msgC = "Lo sentimos, tú sesión ha sido rechazada";
     String sub = "Sesión Discere";
     String msg = "Tienes una solicitud de sesión";
-
+    String MENSAJE;
+    String TITULO;
 
     public DialogAdaptorStudent(Activity context, ArrayList<Dialogpojo> alCustom) {
         this.context = context;
@@ -96,6 +97,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
 
+        boton.setEnabled(true);
+        boton_cancelar.setEnabled(true);
         cargarP();
 
 
@@ -106,412 +109,333 @@ class DialogAdaptorStudent extends BaseAdapter {
         tvDate.setText("Date " + alCustom.get(position).getDia());//
         Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
 
-        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("disponible"))
+        if(TIPO.equalsIgnoreCase("Fellow"))
         {
-            boton.setOnClickListener(new View.OnClickListener()
+            switch (ESTADO_SESION.toUpperCase())
             {
-                @Override
-                public void onClick(View v) {
 
+                case "DISPONIBLE":
 
-
-                    String Fecha1=alCustom.get(position).getDia().substring(0,10);
-
-                    id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
-
-                    ID_TEACHER = alCustom.get(position).getId_teacher();
-                    Properties props = new Properties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
-
-                    session = Session.getDefaultInstance(props, new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                    boton.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v) {
+                            String Fecha1=alCustom.get(position).getDia().substring(0,10);
+                            id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
                         }
                     });
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setBackgroundColor(000000);
 
-                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+                    break;
 
-                    RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();
+                case "PENDIENTE":
+                    boton.setEnabled(false);
+                    boton.setBackgroundColor(000000);
 
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setBackgroundColor(000000);
 
-                }
+                    break;
 
-                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+                case "OCUPADO":
+                    MENSAJE="LO SENTIMOS, TU SESIÓN HA SIDO CANCELADA";
+                    TITULO="SESIÓN CANCELADA";
 
-                    @Override
-                    protected String doInBackground(String... params) {
+                    boton.setEnabled(false);
+                    boton.setBackgroundColor(000000);
 
-                        try {
-                            Message message = new MimeMessage(session);
-                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                            message.setSubject(sub);
-                            message.setContent(msg, "text/html; charset=utf-8");
-                            Transport.send(message);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        pdialog.dismiss();
-
-                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-//-------------------------------------------------------------------------
-
-
-//--------------------------------------------------------------------------
-
-            });
-
-
-            boton_cancelar.setEnabled(false);
-            boton_cancelar.setBackgroundColor(000000);
-
-
-
-
-        }
-
-        //-----------------------------------------------ocupado--------------------------------
-
-            if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("Ocupado"))
-            {
-                boton.setEnabled(false);
-                boton.setBackgroundColor(000000);
-
-                boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
-
-                        Properties props = new Properties();
-                        props.put("mail.smtp.host", "smtp.gmail.com");
-                        props.put("mail.smtp.socketFactory.port", "465");
-                        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                        props.put("mail.smtp.auth", "true");
-                        props.put("mail.smtp.port", "465");
-
-                        session = Session.getDefaultInstance(props, new Authenticator() {
-                            protected PasswordAuthentication getPasswordAuthentication() {
-                                return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                            }
-                        });
-
-                        pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                        RetreiveFeedTask task = new RetreiveFeedTask();
-                        task.execute();
-                    }
-
-
-                    class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
+                    boton_cancelar.setOnClickListener(new View.OnClickListener()
+                    {
                         @Override
-                        protected String doInBackground(String... params) {
+                        public void onClick(View v) {
 
-                            try {
-                                Message message = new MimeMessage(session);
-                                message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                message.setSubject("Sesión Cancelada");
-                                message.setContent(msgC, "text/html; charset=utf-8");
-                                Transport.send(message);
-                            } catch (MessagingException e) {
-                                e.printStackTrace();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
+
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
+
+                            session = Session.getDefaultInstance(props, new Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                }
+                            });
+
+                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                            RetreiveFeedTask task = new RetreiveFeedTask();
+                            task.execute();
+                        }
+
+
+                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+
+                            @Override
+                            protected String doInBackground(String... params) {
+
+                                try {
+                                    Message message = new MimeMessage(session);
+                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                                    message.setSubject(TITULO);
+                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
+                                    Transport.send(message);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
                             }
-                            return null;
-                        }
 
-                        @Override
-                        protected void onPostExecute(String result) {
-                            pdialog.dismiss();
+                            @Override
+                            protected void onPostExecute(String result) {
+                                pdialog.dismiss();
 
-                            Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
 
 //-----------------------
 
 
-                });
+                    });
+
+                    break;
             }
 
-        //-----------------------------------PENDIENTE-------------------------------------
-
-        if (TIPO.equalsIgnoreCase("Fellow")&&ESTADO_SESION.equalsIgnoreCase("pendiente"))
-        {
-            boton.setEnabled(false);
-            boton.setBackgroundColor(000000);
-
-            boton_cancelar.setEnabled(false);
-            boton_cancelar.setBackgroundColor(000000);
 
         }
-
-        //--------------------------------------FIN FELLOW--------------------------------------------------------------
-
-        // PARA EL --- TEACHER ----
-
-        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")&&ESTADO_SESION.equalsIgnoreCase("disponible"))
+        else
         {
-            // Boton aceptar
-            boton.setEnabled(false);
-            boton.setVisibility(View.INVISIBLE);
-            boton.setBackgroundColor(000000);
+            switch (ESTADO_SESION.toUpperCase())
+            {
+                case "DISPONIBLE":
+
+                    MENSAJE="LO SENTIMOS, SESIÓN CANCELADA";
+                    TITULO="SESIÓN CANCELADA";
+
+                    boton.setEnabled(false);
+                    boton.setVisibility(View.INVISIBLE);
+                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            actualizarStatus(alCustom.get(position).getId_teacher(), "0");
+
+                            String Fecha1 = alCustom.get(position).getDia().substring(0, 10);
+
+                            id_fellow_con_fecha(Fecha1 + " 00:00:00", Fecha1 + " 23:59:59", USER, position);
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
+
+                            session = Session.getDefaultInstance(props, new Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                }
+                            });
+
+                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                            RetreiveFeedTask task = new RetreiveFeedTask();
+                            task.execute();
 
 
-            // Boton cancelar
-            boton_cancelar.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            boton_cancelar.setEnabled(true);
+                        }
 
-            boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 
-                    actualizarStatus(alCustom.get(position).getId_teacher(),"0");
+                            @Override
+                            protected String doInBackground(String... params)
+                            {
 
-                    String Fecha1=alCustom.get(position).getDia().substring(0,10);
+                                try {
+                                    Message message = new MimeMessage(session);
+                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                                    message.setSubject(TITULO);
+                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
+                                    Transport.send(message);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
 
-                    id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
+                            @Override
+                            protected void onPostExecute(String result) {
+                                pdialog.dismiss();
 
-                    ID_TEACHER = alCustom.get(position).getId_teacher();
-                    Properties props = new Properties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
+                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                            }
+                        }
 
-                    session = Session.getDefaultInstance(props, new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                    });
+                    break;
+
+                case "PENDIENTE":
+
+                    final String fecha=alCustom.get(position).getDia(),hora;
+                    boton.setEnabled(true);
+                    boton.setVisibility(View.VISIBLE);
+
+                    boton.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View v) {
+
+                            actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
+
+                            agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
+                                    "","1","",""+fecha.substring(0,10),""+fecha.substring(0,10),
+                                    ""+fecha.substring(11,18),""+fecha.substring(11,18));
+                            //Corregir end_time
                         }
                     });
 
-                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
 
-                    RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();
+                    // Boton cancelar
+                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
+                            actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
 
-                }
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
 
-                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
+                            session = Session.getDefaultInstance(props, new Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                }
+                            });
 
-                    @Override
-                    protected String doInBackground(String... params) {
+                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
 
-                        try {
-                            Message message = new MimeMessage(session);
-                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                            message.setSubject(subC);
-                            message.setContent(msgC, "text/html; charset=utf-8");
-                            Transport.send(message);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            RetreiveFeedTask task = new RetreiveFeedTask();
+                            task.execute();
                         }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        pdialog.dismiss();
-
-                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }
-                }
 
 
-                //CAMBIAR STATUS
+                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 
+                            @Override
+                            protected String doInBackground(String... params) {
 
+                                try {
+                                    Message message = new MimeMessage(session);
+                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                                    message.setSubject("Sesión Cancelada");
+                                    message.setContent(msgC, "text/html; charset=utf-8");
+                                    Transport.send(message);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
 
+                            @Override
+                            protected void onPostExecute(String result) {
+                                pdialog.dismiss();
 
-            });
-
-
-        }
-
-        //-----------------------------------------------ocupado--------------------------------
-
-        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")&&ESTADO_SESION.equalsIgnoreCase("Ocupado"))
-        {
-            // Boton aceptar
-            boton.setEnabled(false);
-            boton.setVisibility(View.INVISIBLE);
-            boton.setBackgroundColor(000000);
-
-            // Boton rechazar
-            boton_cancelar.setEnabled(true);
-            boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
-
-                    Properties props = new Properties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
-
-                    session = Session.getDefaultInstance(props, new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                            }
                         }
+
+
                     });
 
-                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+                    break;
 
-                    RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();
+                case "OCUPADO":
+                    MENSAJE="LO SENTIMOS, TU SESIÓN HA SIDO CANCELADA";
+                    TITULO="SESIÓN CANCELADA";
+
+                    boton.setEnabled(false);
+                    boton.setVisibility(View.INVISIBLE);
+                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            actualizarStatusTeacher(alCustom.get(position).getId_teacher(), "0", "" + alCustom.get(position).getId_fellow());
+
+                            Properties props = new Properties();
+                            props.put("mail.smtp.host", "smtp.gmail.com");
+                            props.put("mail.smtp.socketFactory.port", "465");
+                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                            props.put("mail.smtp.auth", "true");
+                            props.put("mail.smtp.port", "465");
+
+                            session = Session.getDefaultInstance(props, new Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                }
+                            });
+
+                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                            RetreiveFeedTask task = new RetreiveFeedTask();
+                            task.execute();
 
 
-                }
-
-                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                    @Override
-                    protected String doInBackground(String... params) {
-
-                        try {
-                            Message message = new MimeMessage(session);
-                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                            message.setSubject("Sesión cancelada");
-                            message.setContent("Lo sentimos, Sesión cancelada", "text/html; charset=utf-8");
-                            Transport.send(message);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(String result) {
-                        pdialog.dismiss();
+                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 
-                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }
-                }
+                            @Override
+                            protected String doInBackground(String... params) {
 
+                                try {
+                                    Message message = new MimeMessage(session);
+                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                                    message.setSubject( TITULO);
+                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
+                                    Transport.send(message);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
 
+                            @Override
+                            protected void onPostExecute(String result) {
+                                pdialog.dismiss();
 
-
-
-            });
-
-            //  boton_cancelar.setBackgroundColor(000000);
-        }
-
-
-//---------------------------------------------------PENDIENTE------------------------------------------------------------
-
-        if (TIPO.equalsIgnoreCase("COACH")||TIPO.equalsIgnoreCase("SPEAKER")   &&ESTADO_SESION.equalsIgnoreCase("pendiente"))
-        {
-            // Boton aceptar
-            boton.setVisibility(View.VISIBLE);
-            //boton.setEnabled(true);
-            boton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
-
-                    agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
-                            "","1","",""+alCustom.get(position).getFecha_inicio(),""+alCustom.get(position).getFecha_inicio(),
-                            "","");
-
-                }
-            });
-
-
-            // Boton cancelar
-            boton_cancelar.setVisibility(View.VISIBLE);
-            boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
-
-                 Properties props = new Properties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
-
-                    session = Session.getDefaultInstance(props, new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+                            }
                         }
+
+
                     });
-
-                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                    RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();
-                }
-
-
-                class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                    @Override
-                    protected String doInBackground(String... params) {
-
-                        try {
-                            Message message = new MimeMessage(session);
-                            message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                            message.setSubject("Sesión Cancelada");
-                            message.setContent(msgC, "text/html; charset=utf-8");
-                            Transport.send(message);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String result) {
-                        pdialog.dismiss();
-
-                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-
-            });
-
-
-
+                    break;
+            }
 
         }
 
 
         return listViewItem;
+
+
+
     }
 
 
@@ -606,6 +530,26 @@ class DialogAdaptorStudent extends BaseAdapter {
                             "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
                             "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(), EMAIL_FELLOW);
                    actualizarStatus(alCustom.get(position).getId_teacher(), "0");
+
+                   //Email
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+
+                    session = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
+                        }
+                    });
+
+                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
+
+                    RetreiveFeedTask task = new RetreiveFeedTask();
+                    task.execute();
+
 
 
                 } catch (JSONException e) {
@@ -758,7 +702,6 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
 
             }
             @Override
@@ -771,7 +714,34 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     }//FIN SESIONES
+
+    class RetreiveFeedTask extends AsyncTask<String, Void, String>
+    {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("testfrom354@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
+                message.setSubject(sub);
+                message.setContent(msg, "text/html; charset=utf-8");
+                Transport.send(message);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdialog.dismiss();
+
+            Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
-
-
-

@@ -2,6 +2,7 @@ package com.jhpat.discere;
 
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,18 +22,34 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
+
 import cz.msebera.android.httpclient.Header;
 
 import static android.Manifest.permission.CAMERA;
@@ -47,8 +64,16 @@ public class ProfileDos extends AppCompatActivity
     final int COD_FOTO=20;
     int TIPO =1;
 
+    String UPLOAD_URL = "http://puntosingular.mx/cas/imagen.php";
+    RequestQueue requestQueue;
+
+    String KEY_IMAGE = "photo";
+    String KEY_NOMBRE = "name";
+    Bitmap bitmap;
+
     EditText nombre, apellido, correoe, genero, tel;
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
+    public static ImageView fotoProfile;
     JSONObject jsonObject;
     public  static String  USUARIO, ID_USUARIO;
     Button botonCargar;
@@ -70,7 +95,7 @@ public class ProfileDos extends AppCompatActivity
         correoe = (EditText)findViewById(R.id.et_email);
         genero = (EditText)findViewById(R.id.et_gender);
         tel = (EditText)findViewById(R.id.et_phone);
-
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         if(validaPermisos()){
             imagen.setEnabled(true);
@@ -79,14 +104,16 @@ public class ProfileDos extends AppCompatActivity
         }
 
         cargarP();
+        Cargarfoto();
 
         //cargarPreferencias();
 
         btn_actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 editarDatos(ID1);
+                uploadImage();
+
                 Intent intent=new Intent(ProfileDos.this, pantalla_principal.class);
                 startActivity(intent);
 
@@ -107,6 +134,21 @@ public class ProfileDos extends AppCompatActivity
 
     }
 
+    private void Cargarfoto() {
+        String url= "http://puntosingular.mx/cas/imagenes/"+nombre.getText()+".jpg";
+        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imagen.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ProfileDos.this,"Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestQueue.add(imageRequest);
+    }
 
 
     private boolean validaPermisos() {
@@ -199,7 +241,7 @@ public class ProfileDos extends AppCompatActivity
                 }else{
                     if (opciones[i].equals("Cargar Imagen")){
                         Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent.setType("image/");
+                        intent.setType("image/*");
                         startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicación"),COD_SELECCIONA);
                     }else{
                         dialogInterface.dismiss();
@@ -248,6 +290,14 @@ public class ProfileDos extends AppCompatActivity
         ////
     }
 
+    public String getStringImagen(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -255,8 +305,15 @@ public class ProfileDos extends AppCompatActivity
 
             switch (requestCode){
                 case COD_SELECCIONA:
-                    Uri miPath=data.getData();
-                    imagen.setImageURI(miPath);
+                    Uri filePath = data.getData();
+                    try {
+                        //Cómo obtener el mapa de bits de la Galería
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                        //Configuración del mapa de bits en ImageView
+                        imagen.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case COD_FOTO:
@@ -268,7 +325,7 @@ public class ProfileDos extends AppCompatActivity
                                 }
                             });
 
-                    Bitmap bitmap= BitmapFactory.decodeFile(path);
+                    bitmap= BitmapFactory.decodeFile(path);
                     imagen.setImageBitmap(bitmap);
 
                     break;
@@ -277,6 +334,40 @@ public class ProfileDos extends AppCompatActivity
 
         }
     }
+
+    public void uploadImage() {
+        final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loading.dismiss();
+                        Toast.makeText(ProfileDos.this, response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(ProfileDos.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String photo = getStringImagen(bitmap);
+                String name = nombre.getText().toString().trim();
+
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put(KEY_IMAGE, photo);
+                params.put(KEY_NOMBRE, name);
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
 
 
@@ -339,7 +430,6 @@ public class ProfileDos extends AppCompatActivity
                 VLastName= preferencia.getString("LAST_NAME2", "NO EXISTE"),
                 vPhone= preferencia.getString("TEL2", "NO EXISTE"),
                 vGen=preferencia.getString("GENDER2", "NO EXISTE");
-
 
         nombre.setText(VName);
         apellido.setText(VLastName);
