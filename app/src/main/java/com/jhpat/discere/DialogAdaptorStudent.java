@@ -286,6 +286,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                 case "PENDIENTE":
 
                     final String fecha=alCustom.get(position).getDia(),hora;
+                    final String fechaFinal=alCustom.get(position).getEnd_date();
                     boton.setEnabled(true);
                     boton.setVisibility(View.VISIBLE);
 
@@ -296,10 +297,14 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
-                            agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
-                                    "","1","",""+fecha.substring(0,10),""+fecha.substring(0,10),
-                                    ""+fecha.substring(11,18),""+fecha.substring(11,18));
+                           agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
+                                    "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
+                                    ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));
                             //Corregir end_time
+                       //   Toast.makeText(context, " end_date: "+fechaFinal+" start_date: "+fecha, Toast.LENGTH_LONG).show();
+
+
+
                         }
                     });
 
@@ -443,7 +448,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
                                          final String type, final String name_teacher, final String last_name_teacher,
                                          final String name_fellow, final String last_name_fellow,
-                                         final String start_date, final String status, final String email, final String email_fellow)
+                                         final String start_date, final String status, final String email, final String email_fellow, final String end_date)
     {
 
 
@@ -462,6 +467,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("status", status);
         requestParams.add("email", email);
         requestParams.add("email_fellow", email_fellow);
+        requestParams.add("end_date",end_date);
 
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -528,7 +534,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                     ID_FELLOW=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
                     agendarSesionPendiente(ID_FELLOW, "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
                             "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
-                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(), EMAIL_FELLOW);
+                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(),
+                            EMAIL_FELLOW, ""+alCustom.get(position).getEnd_date());
                    actualizarStatus(alCustom.get(position).getId_teacher(), "0");
 
                    //Email
@@ -632,8 +639,9 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("status", status);
         requestParams.add("create_date", create_date);
         requestParams.add("start_date", start_date);
-        requestParams.add("end_date", end_date);
         requestParams.add("start_time", start_time);
+
+        requestParams.add("end_date", end_date);
         requestParams.add("end_time", end_time);
 
 
