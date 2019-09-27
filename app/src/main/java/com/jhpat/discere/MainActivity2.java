@@ -135,53 +135,13 @@ public class MainActivity2 extends AppCompatActivity{
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String selectedGridDate = HwAdapter.day_string.get(position);
-                String fecham= selectedGridDate;
                 ((HwAdapter) parent.getAdapter()).getPositionList(selectedGridDate, MainActivity2.this);
 
             }
 
         });
     }
-    public void obtenerFecha (String Correo)
-    {
-//Conexion
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/obtenerS.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("fecha",Correo); //envio el parametro
 
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
-                try {
-                    jsonObjecte = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-                    nombreE=jsonObjecte.getJSONArray("datos").getJSONObject(0).getString("name_fellow");
-                    fechaE=jsonObjecte.getJSONArray("datos").getJSONObject(0).getString("date");
-                    horaIE=jsonObjecte.getJSONArray("datos").getJSONObject(0).getString("start_time");
-                    horaFE=jsonObjecte.getJSONArray("datos").getJSONObject(0).getString("end_time");
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-    }
     protected void setNextMonth() {
         if (cal_month.get(GregorianCalendar.MONTH) == cal_month.getActualMaximum(GregorianCalendar.MONTH)) {
             cal_month.set((cal_month.get(GregorianCalendar.YEAR) + 1), cal_month.getActualMinimum(GregorianCalendar.MONTH), 1);
@@ -410,7 +370,7 @@ public class MainActivity2 extends AppCompatActivity{
                         if(status[i].equals("1"))
                         {
                             cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
-                                    fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i], ""+fechaFinal[i]);
+                                    fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i], ""+fechaFinal[i]+ " "+end_time);
                         }
                     }
 
@@ -495,7 +455,7 @@ public class MainActivity2 extends AppCompatActivity{
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
 
-                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i], ""+fechaFinal[i]));
+                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio[i], "" + id_teacher[i], "" + id_fellow[i], ""+fechaFinal[i]));
                         }
                     }
 
@@ -1013,7 +973,7 @@ public class MainActivity2 extends AppCompatActivity{
         SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("teacher", id_tea);
         editor.commit();
-        Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_SHORT).show();
     }
 
 }

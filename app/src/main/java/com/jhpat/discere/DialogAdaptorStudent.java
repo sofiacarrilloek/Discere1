@@ -297,10 +297,14 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
-                            agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
+                           agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
                                     "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
-                                    ""+fecha.substring(11,18),""+fechaFinal.substring(11,18));
+                                    ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));
                             //Corregir end_time
+                       //   Toast.makeText(context, " end_date: "+fechaFinal+" start_date: "+fecha, Toast.LENGTH_LONG).show();
+
+
+
                         }
                     });
 
@@ -635,10 +639,10 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("status", status);
         requestParams.add("create_date", create_date);
         requestParams.add("start_date", start_date);
-        requestParams.add("end_date", end_date);
         requestParams.add("start_time", start_time);
-        requestParams.add("end_time", end_time);
 
+        requestParams.add("end_date", end_date);
+        requestParams.add("end_time", end_time);
 
 
 
