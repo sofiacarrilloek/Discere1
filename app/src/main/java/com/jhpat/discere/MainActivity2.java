@@ -51,6 +51,7 @@ public class MainActivity2 extends AppCompatActivity{
     String ID_USER, TIPO;
     String lolitox;
 
+    String id_fel;
     String id_tea;
 
     ArrayList<String> listDatos;
@@ -486,6 +487,8 @@ public class MainActivity2 extends AppCompatActivity{
                         fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
 
+                        id_fel=id_fellow[i];
+                        guardaridfellow();
                         if (status[i].equals("0"))
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
@@ -1004,6 +1007,16 @@ public class MainActivity2 extends AppCompatActivity{
         editor.putString("teacher", id_tea);
         editor.commit();
         Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_LONG).show();
+    }
+    private void guardaridfellow()
+    {
+
+        SharedPreferences preferencia = getSharedPreferences("id_fellow", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferencia.edit();
+        editor.putString("fellow", id_fel);
+        editor.commit();
+        Toast.makeText(getApplicationContext(),"hola"+id_fel,Toast.LENGTH_LONG).show();
     }
 
 }
