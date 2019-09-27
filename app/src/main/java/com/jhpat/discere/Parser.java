@@ -86,7 +86,7 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
                 String name=jo.getString("name");
                 String id=jo.getString("id_fellow");
 
-                players.add(name);
+                players.add(name+id);
             }
             return 1;
         }catch (JSONException e){
