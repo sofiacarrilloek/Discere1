@@ -124,7 +124,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     String fecha=alCustom.get(position).getFecha_inicio()+"";
                     String diadelasemana;
-                    diadelasemana=getDiaSemana(fecha);
+//                    diadelasemana=getDiaSemana(fecha);
 
 
 
