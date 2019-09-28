@@ -136,7 +136,7 @@ public class profile_principal extends Fragment {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),"Error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Error de conexion",Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(imageRequest);
