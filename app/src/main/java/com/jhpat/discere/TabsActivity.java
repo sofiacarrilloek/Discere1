@@ -150,7 +150,7 @@ cargarP();
                     break;
             }
             }else{
-                tabFragment = new TabBFragment();
+                tabFragment = new TabAFragment();
             }
             return tabFragment;
         }
