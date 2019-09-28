@@ -3,6 +3,7 @@ package com.jhpat.discere;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,7 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
     String data;
     ArrayList<String>players=new ArrayList<>();
     ProgressDialog pd;
+    String id_FL;
 
 
 
@@ -86,6 +88,10 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
                 String name=jo.getString("name");
                 String id=jo.getString("id_fellow");
 
+                id_FL=id;
+                guardaridteacher(id_FL);
+
+
                 players.add(name+id);
             }
             return 1;
@@ -94,4 +100,18 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
         }
         return 0;
     }
+    private void guardaridteacher(String id_FL)
+    {
+
+        SharedPreferences preferenciaf = c.getSharedPreferences("id", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferenciaf.edit();
+        editor.putString("fellow", this.id_FL);
+        editor.commit();
+        Toast.makeText(c.getApplicationContext(),"hola"+id_FL,Toast.LENGTH_LONG).show();
+    }
+
+
+
+
 }

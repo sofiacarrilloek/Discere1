@@ -41,7 +41,7 @@ public class MainFecha extends AppCompatActivity{
         setContentView(R.layout.activity_fecha);
 
         String id_fellow;
-        SharedPreferences preferencia =getSharedPreferences("id_fellow", Context.MODE_PRIVATE);
+        SharedPreferences preferencia =getSharedPreferences("id", Context.MODE_PRIVATE);
         id_fellow= preferencia.getString("fellow", "NO EXISTE");
         Toast.makeText(getApplicationContext(),"hola"+id_fellow,Toast.LENGTH_LONG).show();
 

@@ -25,7 +25,12 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -115,6 +120,13 @@ class DialogAdaptorStudent extends BaseAdapter {
             {
 
                 case "DISPONIBLE":
+
+
+                    String fecha=alCustom.get(position).getFecha_inicio()+"";
+                    String diadelasemana;
+                    diadelasemana=getDiaSemana(fecha);
+
+
 
                     boton.setOnClickListener(new View.OnClickListener()
                     {
@@ -750,6 +762,24 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    public String getDiaSemana(String fecha) {
+        String Valor_dia = null;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaActual = null;
+        try {
+            fechaActual = df.parse(fecha);
+        } catch (ParseException e) {
+            System.err.println("No se ha podido parsear la fecha.");
+            e.printStackTrace();
+        }
+        GregorianCalendar fechaCalendario = new GregorianCalendar();
+        fechaCalendario.setTime(fechaActual);
+        int diaSemana = fechaCalendario.get(Calendar.WEEK_OF_YEAR);
+
+        return diaSemana+"";
     }
 
 }

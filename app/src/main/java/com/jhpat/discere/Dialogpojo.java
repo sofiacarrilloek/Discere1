@@ -68,4 +68,5 @@ public class Dialogpojo {
     public String getNombre_teacher(){return  nombre_teacher;}
 
     public String getEnd_date(){return  end_date;}
+    //
 }
