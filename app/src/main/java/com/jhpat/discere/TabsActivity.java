@@ -28,12 +28,12 @@ import android.widget.Toast;
 public class TabsActivity extends AppCompatActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link //android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link //android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -41,13 +41,13 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-String usuario,tipo,email,nombre,apellido;
-int retorno;
+    String usuario,tipo,email,nombre,apellido;
+    int retorno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
-cargarP();
+        cargarP();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -60,7 +60,7 @@ cargarP();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        Toast.makeText(this,tipo,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,tipo, Toast.LENGTH_LONG).show();
     }
 
     // Métodos de la interfaz ActionBar.TabListener
@@ -138,19 +138,19 @@ cargarP();
         public Fragment getItem(int position) {
 
             Fragment tabFragment = null;
-            if (tipo.equals("Coach")){
-            switch (position){
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+                switch (position){
 
-                case 0:
-                    tabFragment = new TabAFragment();
+                    case 0:
+                        tabFragment = new TabAFragment();
 
-                    break;
-                case 1:
-                    tabFragment = new TabBFragment();
-                    break;
-            }
+                        break;
+                    case 1:
+                        tabFragment = new TabBFragment();
+                        break;
+                }
             }else{
-                tabFragment = new TabAFragment();
+                tabFragment = new TabBFragment();
             }
             return tabFragment;
         }
@@ -158,7 +158,7 @@ cargarP();
         @Override
         public int getCount() {
             // Show 2 total pages.
-            if (tipo.equals("Coach")){
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
                 retorno =2;
             }else{
                 retorno =1;
@@ -170,7 +170,7 @@ cargarP();
         public CharSequence getPageTitle(int position) {
 
             String section = null;
-            if (tipo.equals("Coach")){
+            if (tipo.equals("Coach") || tipo.equals("Speaker") ){
                 switch (position) {
                     case 0:
 
@@ -183,7 +183,7 @@ cargarP();
                 }
             }  else{
                 section = "SCHEDULE";
-                }
+            }
 
 
             return section;
@@ -201,3 +201,4 @@ cargarP();
         apellido=preferencia.getString("LAST_NAME2","hola");
     }//Fin cargar preferencias
 }
+

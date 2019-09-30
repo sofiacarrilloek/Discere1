@@ -144,7 +144,6 @@ public class ProfileDos extends AppCompatActivity
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ProfileDos.this,"Error",Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(imageRequest);

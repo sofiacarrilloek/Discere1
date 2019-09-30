@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -19,6 +20,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -64,14 +67,19 @@ public class TabBFragment extends Fragment {
     View vista;
     Button buscarA,añadirA;
     TextView nombreA;
-    String filePath;
     private static final String TAG = TabBFragment.class.getSimpleName();
+    private String selectedFilePath;
+    TextView tvFileName;
     private static final String SERVER_PATH = "http://puntosingular.mx/cas/upload.php";
     private File file;
     private int VALOR_RETORNO = 1;
+    Uri fileUri;
     private static final int REQUEST_FILE_CODE = 200;
     private static final int READ_REQUEST_CODE = 300;
-    Uri fileUri;
+    private ProgressDialog progreso;
+    RequestQueue requestQueue;
+    Bitmap bitmap;
+    StringRequest stringRequest;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -92,16 +100,15 @@ public class TabBFragment extends Fragment {
         añadirA = (Button) vista.findViewById(R.id.añadirA);
         nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
         buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
+
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (EasyPermissions.hasPermissions(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    buscarAudio();
-
-                } else {
-                    //If permission is not present request for the same.
-                    EasyPermissions.requestPermissions(getContext(), getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
                 }
+                showFileChooserIntent();
 
             }
         });
@@ -114,10 +121,10 @@ public class TabBFragment extends Fragment {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-
+                    insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
 
                 } else {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity(),
                             "Please select a file first", Toast.LENGTH_LONG).show();
 
                 }
@@ -208,7 +215,7 @@ public class TabBFragment extends Fragment {
 
     }
 
-    public void buscarAudio() {
+    protected void buscarAudio() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("audio/*");
         startActivityForResult(Intent.createChooser(intent, "Choose File"), VALOR_RETORNO);
@@ -219,13 +226,53 @@ public class TabBFragment extends Fragment {
         if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
             fileUri = data.getData();
             // previewFile(fileUri);
-            String filePath = getRealPath(getActivity(), fileUri);
+            String filePath = getRealPath(getContext(), fileUri);
             file = new File(filePath);
             Log.d(TAG, "Filename " + file.getName());
             nombreA.setText(file.getName());
             //insertarAudio(file.getName());
         }
     }
+
+    public void insertarAudio(String urlAudio){
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("link", urlAudio);
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(getActivity(), "Session saved", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "Error: " + error, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+    /**
+     * Show the file name and preview once the file is chosen
+     * @param uri
+     */
+
+
+    /**
+     * Shows an intent which has options from which user can choose the file like File manager, Gallery etc
+     */
+    private void showFileChooserIntent() {
+        Intent fileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        //Choose any file
+        fileManagerIntent.setType("audio/*");
+        startActivityForResult(fileManagerIntent, REQUEST_FILE_CODE);
+
+    }
+
 
 
     public static String getRealPath(final Context context, final Uri uri) {
@@ -288,6 +335,7 @@ public class TabBFragment extends Fragment {
         return null;
     }
 
+
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
 
@@ -327,9 +375,10 @@ public class TabBFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, getContext());
-    }/**
-     * Background network task to handle file upload.
-     */
+    }
+
+
+
     private class UploadAsyncTask extends AsyncTask<Void, Integer, String> {
 
         HttpClient httpClient = new DefaultHttpClient();
@@ -406,8 +455,9 @@ public class TabBFragment extends Fragment {
 
             // Close dialog
             this.progressDialog.dismiss();
-            Toast.makeText(getActivity(),
+            Toast.makeText(getContext(),
                     result, Toast.LENGTH_LONG).show();
+            buscarAudio();
         }
 
         @Override
@@ -416,4 +466,7 @@ public class TabBFragment extends Fragment {
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
+
+
+
 }
