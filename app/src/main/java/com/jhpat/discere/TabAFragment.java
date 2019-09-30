@@ -224,8 +224,10 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         String tipo="coach",titulo="pruebas",star="2019-06-15 01:40:00.000000",fin="2019-06-26 2000:02:00.000000";
 
              x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
+             x_3=te_1.getText().toString();
+             x_3=x_3.replace('/', '-');
              x_2=te_1.getText().toString()+" "+mas+":00.000000";
-        x_3=te_1.getText().toString();
+
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
