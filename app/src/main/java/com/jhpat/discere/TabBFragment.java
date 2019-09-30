@@ -19,6 +19,7 @@ import android.os.PowerManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -62,6 +63,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class TabBFragment extends Fragment {
 
+    private static final int REQUEST_CODE_ASK_PERMISSION = 111;
     Spinner spinner;
     AsyncHttpClient client;
     View vista;
@@ -100,14 +102,10 @@ public class TabBFragment extends Fragment {
         añadirA = (Button) vista.findViewById(R.id.añadirA);
         nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
         buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
-
+        solicitarpermisos();
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_CALENDAR)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    // Permission is not granted
-                }
                 showFileChooserIntent();
 
             }
@@ -139,6 +137,15 @@ public class TabBFragment extends Fragment {
         return vista;
     }
 
+    private void solicitarpermisos(){
+        int perimisosExternal= ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (perimisosExternal != PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_ASK_PERMISSION);
+            }
+
+        }
+    }
 
 
 
