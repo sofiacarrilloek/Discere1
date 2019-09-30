@@ -39,12 +39,10 @@ public class MainFecha extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fecha);
-
         String id_fellow;
-        SharedPreferences preferencia =getSharedPreferences("id", Context.MODE_PRIVATE);
-        id_fellow= preferencia.getString("fellow", "NO EXISTE");
-        Toast.makeText(getApplicationContext(),"hola"+id_fellow,Toast.LENGTH_LONG).show();
-
+        SharedPreferences preferencia =getSharedPreferences("id_fellow", Context.MODE_PRIVATE);
+        id_fellow= preferencia.getString("sariel", "NO EXISTE");
+        Toast.makeText(getApplicationContext(),"Hola"+id_fellow,Toast.LENGTH_LONG).show();
         String url="http://puntosingular.mx/cas/tabla/Lista_fechas.php?id_fellow="+id_fellow+"";
 
 

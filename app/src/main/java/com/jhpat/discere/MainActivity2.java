@@ -965,7 +965,6 @@ public class MainActivity2 extends AppCompatActivity{
     {
 
         SharedPreferences preferencia = getSharedPreferences("id_teacher", Context.MODE_PRIVATE);
-
         SharedPreferences.Editor editor = preferencia.edit();
         editor.putString("teacher", id_tea);
         editor.commit();

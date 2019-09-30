@@ -25,8 +25,8 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
     String data;
     ArrayList<String>players=new ArrayList<>();
     ProgressDialog pd;
-    String id_FL;
-
+    String id_fellow;
+    ArrayList<String>fellow=new ArrayList<>();
 
 
 
@@ -64,9 +64,14 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent =new Intent(c, MainFecha.class);
-                    c.startActivity(intent);
-                    Toast.makeText(c,"hola"+players.get(i),Toast.LENGTH_LONG).show();
+                    Intent ca=new Intent(c.getApplicationContext(),MainFecha.class);
+                    SharedPreferences preferencia = c.getSharedPreferences("id_fellow", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencia.edit();
+                    editor.putString("sariel", fellow.get(i));
+                    editor.commit();
+                    c.startActivity(ca);
+                    Toast.makeText(c,"hola"+fellow.get(i),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(c,"hola"+,Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -86,13 +91,9 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
             for(int i=0;i<ja.length();i++){
                 jo=ja.getJSONObject(i);
                 String name=jo.getString("name");
-                String id=jo.getString("id_fellow");
-
-                id_FL=id;
-                guardaridteacher(id_FL);
-
-
-                players.add(name+id);
+                id_fellow=jo.getString("id_fellow");
+                players.add(name);
+                fellow.add(id_fellow);
             }
             return 1;
         }catch (JSONException e){
@@ -100,18 +101,5 @@ public class Parser extends AsyncTask<Void,Integer,Integer> {
         }
         return 0;
     }
-    private void guardaridteacher(String id_FL)
-    {
-
-        SharedPreferences preferenciaf = c.getSharedPreferences("id", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = preferenciaf.edit();
-        editor.putString("fellow", this.id_FL);
-        editor.commit();
-        Toast.makeText(c.getApplicationContext(),"hola"+id_FL,Toast.LENGTH_LONG).show();
-    }
-
-
-
 
 }
