@@ -43,7 +43,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     Button b1,b2,b3;
     String month;
     String day;
-    String mas,x_1,x_2;
+    String mas,x_1,x_2,x_3;
     String Minutos;
     //barra de progreso
     ProgressDialog progreso;
@@ -225,6 +225,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
              x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
              x_2=te_1.getText().toString()+" "+mas+":00.000000";
+        x_3=te_1.getText().toString();
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -232,7 +233,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
         String fecha = dateFormat.format(date);
         String x="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
-        String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+fecha+"&end=10&start_date="+x_1+"&end_date="+x_2;
+        String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
 
 
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
