@@ -43,7 +43,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     Button b1,b2,b3;
     String month;
     String day;
-    String mas,x_1,x_2,x_3;
+    String mas,x_1,x_2,x_3,pasar;
     String Minutos;
     //barra de progreso
     ProgressDialog progreso;
@@ -101,7 +101,11 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                     day=""+dayOfMonth;
                                 }
                                 comprobar_1=2;
-                                te_1.setText(year+"/"+month+"/"+day);
+                                pasar=month;
+                                if(month.equals("010")){
+                                    month="10";
+                                }
+                                te_1.setText(year+"-"+month+"-"+day);
                             }
                         }
                                 ,ano,mes,dia);
@@ -225,7 +229,6 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
              x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
              x_3=te_1.getText().toString();
-             x_3=x_3.replace('/', '-');
              x_2=te_1.getText().toString()+" "+mas+":00.000000";
 
 
