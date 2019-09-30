@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.jhpat.discere.Tabla.Taudio_defect;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +63,7 @@ public class ParserF extends AsyncTask<Void,Integer,Integer> {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent =new Intent(c, Defect_Fecha.class);
+                    Intent intent =new Intent(c, Taudio_defect.class);
                     c.startActivity(intent);
                     Toast.makeText(c,"hola"+players.get(i),Toast.LENGTH_LONG).show();
 
