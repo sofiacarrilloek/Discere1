@@ -9,7 +9,7 @@ public class TableHelper {
 
 
 
-    private String[] Space={"defect_priority ","defect_type ","defect_description"};
+    private String[] Space={"defect_priority ","defect_type ","defect_description"};//son los que se mostraran en la parte inferior de la tabla
     private String[][]SpaceProbes;
 
     public TableHelper(Context c) {
@@ -24,7 +24,7 @@ public class TableHelper {
         for(int i=0;i<spacecrafts.size();i++){
             s=spacecrafts.get(i);
 
-            SpaceProbes[i][0]=s.getDefect_priority();
+            SpaceProbes[i][0]=s.getDefect_priority();//imprimo los datos que son necesarios para la tabla teniendo en cuenta el bucle
             SpaceProbes[i][1]=s.getDefect_type();
             SpaceProbes[i][2]=s.getDefect_description();
         }

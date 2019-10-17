@@ -1,5 +1,5 @@
 package com.jhpat.discere.Tabla;
-
+//Metodo donde obtengo los datos necesarios para la tabla
 public class Spacecraft {
     private int id_;
     private int  duration;

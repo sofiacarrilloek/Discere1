@@ -30,10 +30,10 @@ public class MySQLClient {
 
     }
     public void cargarDatosTabla(){
-        SharedPreferences preferencia =c.getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
-        id_=preferencia.getString("Id_A", "NO EXISTE");
-        Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";
-         Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
+        SharedPreferences preferencia =c.getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);//obtengo las preferencias del IDAnalist
+        id_=preferencia.getString("Id_A", "NO EXISTE");//esta es la preferencia y donde almaceno la variable del mismo
+        Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";//Realiza la consulta
+         //Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
     }
 
 
@@ -53,7 +53,7 @@ public class MySQLClient {
                             for(int i=0;i<response.length();i++){
                                 jo=response.getJSONObject(i);
 
-                                int id_audio_analyst=jo.getInt("id_audio_analyst");
+                                int id_audio_analyst=jo.getInt("id_audio_analyst");//pasa en un json donde obtiene los datos que necesito
                                 String name= jo.getString("defect_priority");
                                 String hola=jo.getString("defect_type");
                                 String destinatio=jo.getString("defect_description");
