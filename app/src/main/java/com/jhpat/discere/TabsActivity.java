@@ -138,10 +138,12 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
 
             Fragment tabFragment = null;
+            //Verifica que el usuario sea un coach o un speaker
             if (tipo.equals("Coach") || tipo.equals("Speaker") ){
                 switch (position){
-
+//Muestra los fracmentos correspondientes a cada uno
                     case 0:
+
                         tabFragment = new TabAFragment();
 
                         break;
@@ -158,7 +160,9 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
         @Override
         public int getCount() {
             // Show 2 total pages.
+            //Verifica que el usuario sea un coach o un speaker
             if (tipo.equals("Coach") || tipo.equals("Speaker") ){
+                //Muestra los fracmentos correspondientes a cada uno dando el contador que crea las vistas
                 retorno =2;
             }else{
                 retorno =1;
@@ -168,7 +172,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
 
         @Override
         public CharSequence getPageTitle(int position) {
-
+          //Otorga el titulo a cada fragmento
             String section = null;
             if (tipo.equals("Coach") || tipo.equals("Speaker") ){
                 switch (position) {
@@ -190,7 +194,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
-    //Preferencias
+    //Se obtiene las preferencias para administrar los parametros
     private  void cargarP()
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);

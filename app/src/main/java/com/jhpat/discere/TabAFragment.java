@@ -38,6 +38,7 @@ import java.util.Locale;
  * A simple {@link Fragment} subclass.
  */
 public class TabAFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+    //Creacion de variables
     EditText te_1,te_2;
     private  int dia,mes,ano,hora,minutos;
     Button b1,b2,b3;
@@ -68,10 +69,12 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_tab_a, container, false);
+        //Inicializo los objetos
         te_1=rootView.findViewById(R.id.t_1);
         te_2=rootView.findViewById(R.id.t_2);
 
         b1=rootView.findViewById(R.id.b_1);
+        //Obtengo los elementos seleccionados
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,11 +85,12 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                         dia=c.get(Calendar.DAY_OF_MONTH);
                         mes=c.get(Calendar.MONTH);
                         ano=c.get(Calendar.YEAR);
-
+                         //Crea el calendario al seleccionarlo
                         DatePickerDialog datePickerDialog = new DatePickerDialog(rootView.getContext(), new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 //te_1.setText(year+"/"+"0"+(monthOfYear+1)+"/"+dayOfMonth);
+                                //Formatea la fecha para que de un formato correcto
                                 if(monthOfYear < 10){
 
                                     month = "0" + (monthOfYear+1);
@@ -105,6 +109,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                 if(month.equals("010")){
                                     month="10";
                                 }
+                                //Muestra la fecha
                                 te_1.setText(year+"-"+month+"-"+day);
                             }
                         }
@@ -113,6 +118,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                         break;
 
                 }
+                //Inicia la actividad
                 if (miIntent != null) {
                     startActivity(miIntent);
                 }
@@ -128,16 +134,18 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                         final Calendar x= Calendar.getInstance();
                         hora=x.get(Calendar.HOUR_OF_DAY);
                         minutos=x.get(Calendar.MINUTE);
-
+                         //Crea el reloj al seleccionarlo
                         TimePickerDialog timePickerDialog = new TimePickerDialog(rootView.getContext(), new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                               //Comprueba la hora correcta para evitar errores
                                 if(minute>=10){
                                     Minutos=""+minute;
                                 }else{
                                     Minutos="0"+minute;
                                 }
                                 comprobar_2=2;
+                                //Muestra la hora
                                 te_2.setText(hourOfDay+":"+Minutos);
 
                                 //agrega los 15 o 45 minutos
@@ -165,6 +173,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                 }
                 if (miIntent != null) {
                     startActivity(miIntent);
+                    //Inicializa la actividad
                 }
             }
         });
@@ -174,7 +183,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
             public void onClick(View v) {
                 Intent miIntent = null;
                 switch (v.getId()) {
-
+                    //Verifica que los no esten vacios para subirlos a la bd
                     case R.id.add:
                         if (comprobar_1 !=1 && comprobar_2 != 1){
                             cargarWebService();
@@ -208,6 +217,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
     }
     //receptor
+    //Carga preferencias
     private  void cargarP()
     {
         SharedPreferences preferencia =getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
@@ -226,7 +236,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         //barra de dialogo
         int id=14;
         String tipo="coach",titulo="pruebas",star="2019-06-15 01:40:00.000000",fin="2019-06-26 2000:02:00.000000";
-
+         //Otorga el formato correcto a los datos
              x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
              x_3=te_1.getText().toString();
              x_2=te_1.getText().toString()+" "+mas+":00.000000";
@@ -238,15 +248,17 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
         String fecha = dateFormat.format(date);
         String x="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
+        //URL donde se envian los datos a los php que estan conectados a la base de datos
         String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
 
-
+//Envia los datos guardados en el URL
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         request.add(jsonObjectRequest);
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        //Responde a los errores de el envio de datos
         progreso.hide();
         Toast.makeText(getContext(),"No se pudo registrar"+error.toString(),Toast.LENGTH_SHORT).show();
         Log.i("Error",error.toString());
@@ -254,6 +266,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
     @Override
     public void onResponse(JSONObject response) {
+        //responde al envio correcto de los datos
         Toast.makeText(getContext(),"Se ha resgistrado correctamente",Toast.LENGTH_SHORT).show();
         progreso.hide();
     }
