@@ -60,26 +60,8 @@ public class MainActivity2 extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-/*
-//------------------------------------------------------------------------------------------
-        recycler= (RecyclerView) findViewById(R.id.Recyclerid);
-        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        listDatos = new ArrayList<String>();
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        AdaptarDatos adapter = new AdaptarDatos(listDatos);
-        recycler.setAdapter(adapter);
-//------------------------------------------------------------------------------------------*/
-        //Aqui llamamo al metodo
 
-
+//El calendario usa 5 clases, MainActivity2, dialogAdaptorStudent, Dialogpojo, homecollection, hwadapter
         cargarP();
 
 
@@ -460,7 +442,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(MainActivity2.this, "Error al cargar los datos de espera: "+e, Toast.LENGTH_SHORT).show();
 
 
                 }

@@ -124,7 +124,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     String fecha=alCustom.get(position).getFecha_inicio()+"";
                     String diadelasemana;
-//                    diadelasemana=getDiaSemana(fecha);
 
 
 
@@ -163,7 +162,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         public void onClick(View v) {
 
                             actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
-
+                            //para enviar los correos
                             Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
                             props.put("mail.smtp.socketFactory.port", "465");
@@ -237,9 +236,9 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            actualizarStatus(alCustom.get(position).getId_teacher(), "0");
-
+                            actualizarStatus(alCustom.get(position).getId_teacher(), "0");//Cambia el status para que ya no este activo el registro
                             String Fecha1 = alCustom.get(position).getDia().substring(0, 10);
+
 
                             id_fellow_con_fecha(Fecha1 + " 00:00:00", Fecha1 + " 23:59:59", USER, position);
                             Properties props = new Properties();
@@ -503,6 +502,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     private void cargarP ()
     {
+        //Cargar preferencias sirve para almacenar datos
+
         SharedPreferences preferencia = context.getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         NAME = preferencia.getString("NAME2", "NO EXISTE");
         LAST_NAME = preferencia.getString("LAST_NAME2", "NO EXISTE");
@@ -762,24 +763,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
         }
-    }
-
-
-    public String getDiaSemana(String fecha) {
-        String Valor_dia = null;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaActual = null;
-        try {
-            fechaActual = df.parse(fecha);
-        } catch (ParseException e) {
-            System.err.println("No se ha podido parsear la fecha.");
-            e.printStackTrace();
-        }
-        GregorianCalendar fechaCalendario = new GregorianCalendar();
-        fechaCalendario.setTime(fechaActual);
-        int diaSemana = fechaCalendario.get(Calendar.WEEK_OF_YEAR);
-
-        return diaSemana+"";
     }
 
 }
