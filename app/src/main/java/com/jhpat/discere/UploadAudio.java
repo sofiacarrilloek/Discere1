@@ -74,7 +74,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_audio);
-
+//Aquí declaramos los botones, spiner y elementos de un layout (activity_upload_audio)
         fileBrowseBtn = findViewById(R.id.btn_choose_file);
         uploadBtn = findViewById(R.id.btn_upload);
         previewImage = findViewById(R.id.iv_preview);
@@ -85,7 +85,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             @Override
             public void onClick(View v) {
 
-                //check if app has permission to access the external storage.
+                //Checa si la app tiene permisos para acceder al almacenamiento del teléfono
                 if (EasyPermissions.hasPermissions(UploadAudio.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     showFileChooserIntent();
 
@@ -96,7 +96,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
 
             }
         });
-
+//Aquí al tocar el boton se envía el audio al servidor
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +104,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(UploadAudio.this);
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
+                    //Aqui en el método se inserta el link donde se guardará en la base de datos
                     insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
 
                 } else {
@@ -115,10 +116,11 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
         });
         llenarSpinner();
     }
-
+//El archivo se selecciona y se muestra en un TextView el nombre del archivo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
+            //Aqui obtiene la ruta del audio
             fileUri = data.getData();
             // previewFile(fileUri);
             String filePath = getRealPath(UploadAudio.this, fileUri);
@@ -129,12 +131,12 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             //insertarAudio(file.getName());
         }
     }
-
+//Aquí se inserta el link del audio del servidor a la base de datos
     public void insertarAudio(String urlAudio){
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.php
         final RequestParams requestParams = new RequestParams();
-        //envio el parametro
+        //Se envía el parámetro al php para consultar
         requestParams.add("link", urlAudio);
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -142,7 +144,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                Toast.makeText(getApplicationContext(), "Session saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Sucess", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -170,7 +172,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     }
 
 
-
+//Aquí la ruta del archivo se convierte en ruta absoluta para manipular mejor el acceso del archivo
     public static String getRealPath(final Context context, final Uri uri) {
 
         if (uri.getScheme().equals("file")) {
@@ -193,7 +195,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
 
                         // TODO handle non-primary volumes
                     }
-                    // DownloadsProvider
+                    // D
                     else if (isDownloadsDocument(uri)) {
 
                         final String id = DocumentsContract.getDocumentId(uri);
@@ -286,6 +288,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     /**
      * Hides the Choose file button and displays the file preview, file name and upload button
      */
+    //Aquí se oculta unos botones y se muestra otros
     private void hideFileChooser() {
         fileBrowseBtn.setVisibility(View.GONE);
         uploadBtn.setVisibility(View.VISIBLE);
@@ -308,7 +311,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
      * Background network task to handle file upload.
      */
     private class UploadAsyncTask extends AsyncTask<Void, Integer, String> {
-
+//Hace conexión a la Base de datos
         HttpClient httpClient = new DefaultHttpClient();
         private Context context;
         private Exception exception;
@@ -324,8 +327,9 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             HttpResponse httpResponse = null;
             HttpEntity httpEntity = null;
             String responseString = null;
-
+// En éste try catch se ejecuta un cuadro de dialogo de progreso donde se subirá el archivo
             try {
+                //El servidor php del webservise es SERVER_PATH
                 HttpPost httpPost = new HttpPost(SERVER_PATH);
                 MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
 
@@ -394,6 +398,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
+    //Aquí se llena el spinner de los nombres de los fellows
     public void llenarSpinner(){
         String url="http://puntosingular.mx/cas/obtener_fellows.php";
         client.post(url, new AsyncHttpResponseHandler() {
@@ -431,7 +436,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
     }
 
 
-
+//Constructor de setter para los nombres de los fellows
     private class Nombres{
         private int id;
         private String name;

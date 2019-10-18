@@ -53,6 +53,6 @@ dependencies {
     implementation('org.apache.httpcomponents:httpmime:4.3') {
         exclude module: "httpclient"
 
-
+implementation 'com.squareup.picasso:picasso:2.5.2'
     }
 }
