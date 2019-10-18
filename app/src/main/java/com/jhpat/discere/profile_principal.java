@@ -125,6 +125,7 @@ public class profile_principal extends Fragment {
             }
         });
         return vista;
+        //Los siguientes onClick nos llevan a las ventanas para editar los daots y cambiar la contraseña, respectivamente
 
     }
 
@@ -143,6 +144,7 @@ public class profile_principal extends Fragment {
         });
         requestQueue.add(imageRequest);
     }
+    //Aquí se ejecuta el código y consulta para ponder obtener la foto desde la BD
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -199,4 +201,5 @@ public class profile_principal extends Fragment {
         email.setText(emailV);
 
     }//Fin cargar preferencias
+    //Con esto podemos cargar los datos que se mostraran en esta pntalla como son los nombres, apellidos y correo
 }

@@ -98,6 +98,7 @@ public class Profile_Password extends AppCompatActivity {
         });
 
     }//FIN EDITAR CONTRASEÑA
+    //Aquí se ejecuta le cógio y consulta para poder cambiar la contraseña desde la BD
 
 
     private  void cargarP()
@@ -112,6 +113,7 @@ public class Profile_Password extends AppCompatActivity {
         pas2=et_cpassword_2.getText().toString();
         con = et_password.getText().toString();//UNO
 
+        //Con esto cargamos la contraseña desde la BD
 
         if (con.equals(contra))
         {
@@ -131,7 +133,7 @@ public class Profile_Password extends AppCompatActivity {
         else
         {
             Toast.makeText(Profile_Password.this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
-        }
+        }//Aquí comparamos la nueva contraseña para verificar que sena iguales
 
 
 

@@ -147,7 +147,7 @@ public class ProfileDos extends AppCompatActivity
             }
         });
         requestQueue.add(imageRequest);
-    }
+    }//Aquí se ejecuta el código y consulta para cargar la foto del profile desde la BD
 
 
     private boolean validaPermisos() {
@@ -169,7 +169,7 @@ public class ProfileDos extends AppCompatActivity
         }
 
         return false;
-    }
+    }//Aquí verificamos que le usuario haya aceptato los permisos de camara
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -221,7 +221,7 @@ public class ProfileDos extends AppCompatActivity
             }
         });
         dialogo.show();
-    }
+    }//Se toman los permisos de forma manual
 
     public void onclick(View view) {
         cargarImagen();
@@ -250,7 +250,7 @@ public class ProfileDos extends AppCompatActivity
         });
         alertOpciones.show();
 
-    }
+    }//Con este código podemos elegir entre ir a la camara a tomarnos una foto o bien cargarla desde la galeria
 
 
 
@@ -287,7 +287,7 @@ public class ProfileDos extends AppCompatActivity
         startActivityForResult(intent,COD_FOTO);
 
         ////
-    }
+    }//Este es el proceso para tomar una foto y cargarla en la app
 
     public String getStringImagen(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -418,6 +418,7 @@ public class ProfileDos extends AppCompatActivity
         });
 
     }//FIN EDITAR USUARIO
+    //Se pueden editar los datos establecidos del usuario
 
 
     private  void cargarP()
@@ -438,6 +439,7 @@ public class ProfileDos extends AppCompatActivity
 
         //   datosc(ID1);
     }//Fin cargar preferencias
+    //Cargamos los datos del usuario desde la BD
 
     private void guardarPreferencias()
     {
