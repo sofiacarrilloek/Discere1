@@ -473,7 +473,4 @@ public class TabBFragment extends Fragment {
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
-
-
-
 }
