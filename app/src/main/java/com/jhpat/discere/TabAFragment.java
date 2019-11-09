@@ -249,7 +249,9 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         String fecha = dateFormat.format(date);
         String x="http://puntosingular.mx/cas/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
         //URL donde se envian los datos a los php que estan conectados a la base de datos
-        String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
+
+        //String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
+        String URL="http://34.226.77.86/discere/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
 
 //Envia los datos guardados en el URL
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
