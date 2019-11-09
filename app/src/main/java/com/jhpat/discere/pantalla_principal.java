@@ -44,7 +44,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     private TextView N;
     private TextView C;
     private String id,c,n,ape;
-    private Button button;
+    private MenuItem listenaudio;
     String usuario,TIPO1,nombre;
     FloatingActionMenu actionMenu;
     com.github.clans.fab.FloatingActionButton ver,Agendar;
@@ -64,6 +64,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Agendar=(FloatingActionButton) findViewById(R.id.agendar);
         actionMenu=(FloatingActionMenu) findViewById(R.id.fab);
         actionMenu.setClosedOnTouchOutside(true);
+        listenaudio=(MenuItem) findViewById(R.id.listenaudio);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,7 +86,6 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
         cargarp2();
-
 
 
         N.setText(c);
@@ -291,6 +291,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
     }//FIN DATOSSC
+
 
 
     private void guardarPreferencias2()

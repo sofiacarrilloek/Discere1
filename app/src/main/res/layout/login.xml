@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageVieww"
+        android:id="@+id/imageLogin"
         android:layout_width="140dp"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"

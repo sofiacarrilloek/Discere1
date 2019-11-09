@@ -1,5 +1,7 @@
 package com.jhpat.discere;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -40,7 +43,8 @@ public class Login extends AppCompatActivity {
   private ProgressDialog pDialog;
   private CheckBox RBsesion;
   private boolean isActivateCheckBox;
-
+  private ObjectAnimator animacionrote;
+  private AnimatorSet animatorSet;
   JSONObject jsonObject;
   // Clase JSONParser
   JSONParser jsonParser = new JSONParser();
@@ -60,6 +64,7 @@ public class Login extends AppCompatActivity {
   public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1, TIPO1;
   String nom = null;
   String pas = null;
+  ImageView imageLogin;
 
   private static final String STRING_PREFERENCE = "estadoc";
   private static final String PREFERENCE_ESTADO_BUTTON = "estado.button";
@@ -96,13 +101,16 @@ public class Login extends AppCompatActivity {
     // setup input fields
     user = (EditText) findViewById(R.id.userD);
     pass = (EditText) findViewById(R.id.passD);
+    imageLogin= (ImageView) findViewById(R.id.imageLogin);
     logD =  findViewById(R.id.button_login);
+
 
     // register listeners
 
     logD.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        animacion("rotation");
         new AttemptLogin().execute();
 
         datosc(user.getText().toString());
@@ -146,7 +154,8 @@ public class Login extends AppCompatActivity {
 
   class AttemptLogin extends AsyncTask<String, String, String> {
 
-    @Override
+
+   @Override
     protected void onPreExecute() {
       super.onPreExecute();
       pDialog = new ProgressDialog(Login.this);
@@ -156,12 +165,13 @@ public class Login extends AppCompatActivity {
       pDialog.show();
     }
 
+
+
     @Override
     protected String doInBackground(String... args) {
       int success;
       String username = user.getText().toString();
       String password = pass.getText().toString();
-
 
 
 
@@ -186,6 +196,7 @@ public class Login extends AppCompatActivity {
         success = json.getInt(TAG_SUCCESS);
         if (success == 1) {
           Log.d("Login Successful!", json.toString());
+
           // save user data
           SharedPreferences sp = PreferenceManager
                   .getDefaultSharedPreferences(Login.this);
@@ -377,7 +388,15 @@ public class Login extends AppCompatActivity {
 
   }
 
-
-
-
+  private void animacion(String animacion){
+    switch (animacion){
+      case "rotation":
+        animacionrote = ObjectAnimator.ofFloat(imageLogin,"rotation",0f,360f);
+        animacionrote.setDuration(500);
+        AnimatorSet animatorSetRotation = new AnimatorSet();
+        animatorSetRotation.play(animacionrote);
+        animatorSetRotation.start();
+        break;
+    }
+  }
 }
