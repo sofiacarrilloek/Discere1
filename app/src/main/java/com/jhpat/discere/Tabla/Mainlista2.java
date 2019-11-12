@@ -11,7 +11,7 @@ import com.jhpat.discere.R;
 
 public class Mainlista2 extends AppCompatActivity {
 
-    String url2="http://puntosingular.mx/cas/tabla/Lista_fechas.php?id_fellow=6028";
+    String url2="http://34.226.77.86/discere/cas/tabla/Lista_fechas.php?id_fellow=6028";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

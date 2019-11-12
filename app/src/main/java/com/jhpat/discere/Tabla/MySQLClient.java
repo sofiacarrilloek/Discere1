@@ -32,7 +32,7 @@ public class MySQLClient {
     public void cargarDatosTabla(){
         SharedPreferences preferencia =c.getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);//obtengo las preferencias del IDAnalist
         id_=preferencia.getString("Id_A", "NO EXISTE");//esta es la preferencia y donde almaceno la variable del mismo
-        Data_RETRIVE_URL="http://puntosingular.mx/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";//Realiza la consulta
+        Data_RETRIVE_URL="http://34.226.77.86/discere/cas/tabla/obtener_audio_defec.php?id_audio_analyst="+id_+"";//Realiza la consulta
          //Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
     }
 

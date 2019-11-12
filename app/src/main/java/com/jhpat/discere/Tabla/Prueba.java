@@ -74,7 +74,7 @@ public class Prueba extends AppCompatActivity {
     public void cargarp2(){
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         id=preferencia.getString("ID2", "NO EXISTE");
-        obtener_en_fellow("http://puntosingular.mx/cas/tabla/elchido?user="+id+"");
+        obtener_en_fellow("http://34.226.77.86/discere/cas/tabla/elchido?user="+id+"");
 
     }
     public void obtener_en_fellow(String URL){

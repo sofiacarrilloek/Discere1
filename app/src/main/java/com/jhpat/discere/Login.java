@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
   // y poner de la siguiente manera
   // "http://xxx.xxx.x.x:1234/cas/login.php";
 
-  private static final String LOGIN_URL = "http://puntosingular.mx/cas/login.php";
+  private static final String LOGIN_URL = "http://34.226.77.86/discere/cas/login.php";
   private int DURACION_SPLASH=1000;
   // La respuesta del JSON es
   private static final String TAG_SUCCESS = "success";
