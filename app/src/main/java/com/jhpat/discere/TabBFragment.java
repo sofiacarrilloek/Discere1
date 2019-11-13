@@ -72,7 +72,7 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "http://puntosingular.mx/cas/upload.php";
+    private static final String SERVER_PATH = "http://34.226.77.86/discere/upload.php";
     private File file;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
@@ -119,7 +119,7 @@ public class TabBFragment extends Fragment {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-                    insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
+                    insertarAudio("http://34.226.77.86/discere/audios/"+file.getName());
 
                 } else {
                     Toast.makeText(getActivity(),
@@ -150,7 +150,7 @@ public class TabBFragment extends Fragment {
 
 
     public void llenarSpinner(){
-        String url="http://puntosingular.mx/cas/obtener_fellows.php";
+        String url="http://34.226.77.86/discere/obtener_fellows.php";
         client.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -243,7 +243,7 @@ public class TabBFragment extends Fragment {
 
     public void insertarAudio(String urlAudio){
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://34.226.77.86/discere/insertarAudio.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("link", urlAudio);
