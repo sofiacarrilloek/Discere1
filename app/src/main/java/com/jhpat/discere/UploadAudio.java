@@ -52,7 +52,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks;
-
+//ESTA CLASE NO SE USA ACTUALMENTE
 public class UploadAudio extends AppCompatActivity implements PermissionCallbacks {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_FILE_CODE = 200;
