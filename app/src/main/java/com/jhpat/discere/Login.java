@@ -276,7 +276,7 @@ public class Login extends AppCompatActivity {
     public void datosc(String Correo) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/usuario_nombre.php"; //la url del web service
+        final String url = "http://34.226.77.86/discere/cas/usuario_nombre.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams = new RequestParams();
         requestParams.add("correo", Correo); //envio el parametro
@@ -329,7 +329,7 @@ public class Login extends AppCompatActivity {
     public void obtenTipo(String Correo) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/obtener_tipo_usuario.php"; //la url del web service
+        final String url = "http://34.226.77.86/discere/cas/obtener_tipo_usuario.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams = new RequestParams();
         requestParams.add("correo", Correo); //envio el parametro
