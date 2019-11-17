@@ -53,7 +53,7 @@ public class Defect_Fecha extends AppCompatActivity {
     public void datosc(String Correo) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/cas/audio_defect.php"; //la url del web service
+        final String url = "http://34.226.77.86/discere/audio_defect.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams = new RequestParams();
         requestParams.add("id_audio_analyst", Correo); //envio el parametro
