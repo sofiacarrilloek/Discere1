@@ -223,7 +223,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
     public void obtenTipo (String Correo)
     {
-
+        // lol
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://34.226.77.86/discere/obtener_tipo_usuario.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
