@@ -464,7 +464,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://34.226.77.86/discere/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("id_fellow", id_fellow);
@@ -522,7 +522,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/obten_id_fellow_enviando_fecha.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/calendar/obten_id_fellow_enviando_fecha.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("fecha1",fecha1);
         requestParams.add("fecha2",fecha2);
@@ -600,7 +600,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/actualizar_status_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/calendar/actualizar_status_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",id_teacher);
         requestParams.add("status",status);
@@ -642,7 +642,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://puntosingular.mx/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://34.226.77.86/discere/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("id_fellow", id_fellow);
@@ -681,7 +681,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public void actualizarStatusPendiente (String id_teacher, String status)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/actualizar_sesiones_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/calendar/actualizar_sesiones_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",id_teacher);
         requestParams.add("status",status);
@@ -712,7 +712,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     public void actualizarStatus (String id_teacher, String status)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://puntosingular.mx/cas/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",id_teacher);
         requestParams.add("status",status);
