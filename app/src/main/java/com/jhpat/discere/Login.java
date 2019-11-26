@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
     // y poner de la siguiente manera
     // "http://xxx.xxx.x.x:1234/cas/login.php";
 
-    private static final String LOGIN_URL = "http://34.226.77.86/discere/login.php";
+    private static final String LOGIN_URL = "http://34.226.77.86/discere/cas/login.php";
     private int DURACION_SPLASH = 1000;
     // La respuesta del JSON es
     private static final String TAG_SUCCESS = "success";
@@ -329,7 +329,7 @@ public class Login extends AppCompatActivity {
     public void obtenTipo(String Correo) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/obtener_tipo_usuario.php"; //la url del web service
+        final String url = "http://34.226.77.86/discere/cas/obtener_tipo_usuario.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams = new RequestParams();
         requestParams.add("correo", Correo); //envio el parametro
