@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-import com.jhpat.discere.Downloader;
 import com.jhpat.discere.R;
 
 public class Mainlista2 extends AppCompatActivity {
 
-    String url2="http://34.226.77.86/discere/cas/tabla/Lista_fechas.php?id_fellow=6028";
+    String url2="http://34.226.77.86/discere/cas/Lista_fechas.php?id_fellow=6028";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
