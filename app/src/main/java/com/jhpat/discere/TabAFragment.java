@@ -222,9 +222,9 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     {
         SharedPreferences preferencia =getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         usuario= preferencia.getString("ID2", "NO EXISTE");
-        tip=preferencia.getString("TIPO2", "holaperro");
+        tip=preferencia.getString("TIPO2", "no existe");
         email=preferencia.getString("EMAIL2","No hay email");
-        nombre=preferencia.getString("NAME2","HOLA Crack");
+        nombre=preferencia.getString("NAME2","no hay nombre");
         apellido=preferencia.getString("LAST_NAME2","hola");
     }//Fin cargar preferencias
 
