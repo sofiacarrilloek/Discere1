@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class profile_principal extends Fragment {
     private String mParam2;
     RequestQueue requestQueue;
     View vista;
+    Toolbar toolbar;
     FloatingActionMenu actionMenu;
     private OnFragmentInteractionListener mListener;
 
