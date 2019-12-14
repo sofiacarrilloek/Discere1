@@ -215,7 +215,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity2.this, "Error..."+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error 218: "+e, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -268,7 +268,6 @@ public class MainActivity2 extends AppCompatActivity{
 
                         id_tea=id_teacher[i];
                         guardaridteacher();
-                        //Toast.makeText(getApplicationContext(),"hola"+id_tea,Toast.LENGTH_LONG).show();
                         if (status[i].equals("1")) {
                             cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
                                     fechaInicio[i] + " " + start_time[i], id_fellow[i]);
@@ -280,7 +279,7 @@ public class MainActivity2 extends AppCompatActivity{
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    Toast.makeText(MainActivity2.this, "Error..."+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error 283: "+e, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -346,7 +345,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // Toast.makeText(MainActivity2.this, "Error: "+e, Toast.LENGTH_SHORT).show();
+
 
                 }
 
@@ -354,7 +353,6 @@ public class MainActivity2 extends AppCompatActivity{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                //   Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -420,9 +418,9 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (status[i].equals("0"))
                         {
-                            //HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
 
-                                    //"" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i]));
+                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i], ""));
                         }
                     }
 
@@ -431,7 +429,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -512,7 +510,7 @@ public class MainActivity2 extends AppCompatActivity{
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -572,7 +570,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -619,13 +616,12 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        //HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, ""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "", ""));
 
                     }
 
 
                 } catch (JSONException e) {
-                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -735,7 +731,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -780,7 +775,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -824,7 +818,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        //HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow, ""));
 
                     }
 
@@ -893,31 +887,16 @@ public class MainActivity2 extends AppCompatActivity{
                         //Aqui lo envio al HomeCollection
 
                         if (status[i].equals("0")) {
-
-                            //HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i],
-                                    //"Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_teacher[i] + " ", " " +
-
-                                    //name_teacher[i], "" + fechaInicio2[i], "", "" + id_fellow[i]));
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_teacher[i] + " ", " " +  name_teacher[i], "" + fechaInicio2[i], "", "" + id_fellow[i], ""));
                         }
                     }
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
-
-
+                    Toast.makeText(MainActivity2.this, "Error al cargar los datos 845"+e, Toast.LENGTH_SHORT).show();
                 }
-
-
             }
-
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
 
             }
         });
