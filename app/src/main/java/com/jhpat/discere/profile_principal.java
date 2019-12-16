@@ -13,6 +13,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -110,6 +111,20 @@ public class profile_principal extends Fragment {
         requestQueue = Volley.newRequestQueue(getActivity());
         cargarP();
         Cargarfoto();
+        toolbar = (Toolbar) vista.findViewById(R.id.actionbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+//add this line if you want to provide Up Navigation but don't forget to to
+//identify parent activity in manifest file
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent menu =new Intent(vista.getContext(),pantalla_principal.class);
+                startActivity(menu);
+                getActivity().finish();
+            }
+        });
 
 
         Imangenpas.setOnClickListener(new View.OnClickListener() {
