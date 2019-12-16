@@ -89,10 +89,8 @@ public class Login extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
+                    Toast.makeText(getApplicationContext(), "There is no connection", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(Login.this, ErrorConexion.class);
-                    startActivity(intent);
-                    finish();
                 }
 
                 ;

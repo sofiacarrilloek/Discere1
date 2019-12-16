@@ -134,6 +134,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             return true;
         }else if (id == R.id.listenaudio){
             miFragment = new StreamingAudio();
+            actionMenu.setVisibility(View.GONE);
             fragmentSeleccionado = true;
         }else if (id == R.id.listenaudio) {
             SubirAudio();
@@ -143,12 +144,6 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             return true;
         } else if (id == R.id.nav_out) {
             onOutSesion();
-            return true;
-        } else if (id == R.id.nav_share) {
-            pant();
-            return true;
-        } else if (id == R.id.nav_send) {
-            notificacion();
             return true;
         }
         if(fragmentSeleccionado=true){

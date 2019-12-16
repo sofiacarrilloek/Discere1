@@ -29,22 +29,15 @@
             android:id="@+id/nav_listafellows"
             android:icon="@drawable/listafellows"
             android:title="Fellows" />
-        <item
-            android:id="@+id/nav_out"
-            android:icon="@drawable/salir"
-            android:title="Exit" />
+
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@android:drawable/ic_popup_reminder"
-                android:title="Notifications" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/config"
-                android:title="Configuration" />
+                android:id="@+id/nav_out"
+                android:icon="@drawable/salir"
+                android:title="Exit" />
         </menu>
     </item>
 

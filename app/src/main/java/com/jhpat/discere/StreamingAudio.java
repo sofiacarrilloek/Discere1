@@ -1,6 +1,7 @@
 package com.jhpat.discere;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,8 +86,10 @@ public class StreamingAudio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.streaming_audio, container, false);
+        vista.setBackgroundColor(Color.WHITE);
         spinner = (Spinner) vista.findViewById(R.id.SpinnerAudios);
         play = (ImageButton) vista.findViewById(R.id.playA);
         stop = (ImageButton) vista.findViewById(R.id.stopA);
