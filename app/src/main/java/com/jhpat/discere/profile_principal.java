@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,6 +97,7 @@ public class profile_principal extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         vista =inflater.inflate(R.layout.fragment_profile_principal, container, false);
         Button Imangenpas = (Button) vista.findViewById(R.id.button_Edit) ;
         Button btnpas = (Button) vista.findViewById(R.id.button_Password);
