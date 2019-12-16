@@ -92,7 +92,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         cal_month = (GregorianCalendar) GregorianCalendar.getInstance();
         cal_month_copy = (GregorianCalendar) cal_month.clone();
-       // hwAdapter = new HwAdapter(this, cal_month,HomeCollection.date_collection_arr);
+        hwAdapter = new HwAdapter(this, cal_month,HomeCollection.date_collection_arr);
 
         tv_month = (TextView) findViewById(R.id.tv_month);
         tv_month.setText(android.text.format.DateFormat.format("MMMM yyyy", cal_month));
@@ -488,9 +488,9 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (status[i].equals("0"))
                         {
-                            //HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
 
-                                    //"" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i]));
+                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i],""));
                         }
                     }
 
@@ -687,7 +687,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        //HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, ""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
 
                     }
 
@@ -892,7 +892,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        //HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow,""));
 
                     }
 
@@ -962,10 +962,10 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (status[i].equals("0")) {
 
-                            //HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i],
-                                    //"Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_teacher[i] + " ", " " +
+                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i],
+                                    "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_teacher[i] + " ", " " +
 
-                                    //name_teacher[i], "" + fechaInicio2[i], "", "" + id_fellow[i]));
+                                    name_teacher[i], "" + fechaInicio2[i], "", "" + id_fellow[i],""));
                         }
                     }
 
