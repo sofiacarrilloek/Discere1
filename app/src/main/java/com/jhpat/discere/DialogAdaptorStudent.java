@@ -296,7 +296,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                 case "PENDIENTE":
 
-                    final String fecha=alCustom.get(position).getDia(),hora;
+                    final String fecha=alCustom.get(position).getDia();
                     final String fechaFinal=alCustom.get(position).getEnd_date();
                     boton.setEnabled(true);
                     boton.setVisibility(View.VISIBLE);
@@ -306,13 +306,13 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
+                          actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
                            agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
                                     "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
                                     ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));
                             //Corregir end_time
-                       //   Toast.makeText(context, " end_date: "+fechaFinal+" start_date: "+fecha, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(context, " end_date: "+fechaFinal+" start_date: "+fecha, Toast.LENGTH_LONG).show();
 
 
 
@@ -478,7 +478,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         requestParams.add("status", status);
         requestParams.add("email", email);
         requestParams.add("email_fellow", email_fellow);
-        requestParams.add("end_date",end_date);
+        requestParams.add("end_date",start_date);//Pruebas
 
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {

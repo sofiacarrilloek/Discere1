@@ -318,7 +318,7 @@ public class MainActivity2 extends AppCompatActivity{
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String fechaInicio[]=new String[tamanio];
-
+                    String end_date[]=new String[tamanio];
                     String status[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
@@ -334,7 +334,7 @@ public class MainActivity2 extends AppCompatActivity{
                         user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
                         start_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date").substring(11,18);
                         end_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_date").substring(11,18);
-
+                        end_date[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_date");
                         if(status[i].equals("1"))
                         {
                             cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
@@ -420,7 +420,7 @@ public class MainActivity2 extends AppCompatActivity{
                         {
                             HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_fellow[i] + "",
 
-                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio2[i], "" + id_teacher[i], "" + id_fellow[i], ""));
+                                    "" + name_fellow[i] + " " + last_name_fellow[i], "" + fechaInicio[i], "" + id_teacher[i], "" + id_fellow[i], ""+fechaInicio[i]));
                         }
                     }
 
@@ -616,7 +616,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "", ""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "", fechaInicio));
 
                     }
 
