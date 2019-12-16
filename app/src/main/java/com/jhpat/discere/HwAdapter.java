@@ -75,7 +75,8 @@ class HwAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return 0;
+
+         return 0;
     }
 
     // create a new view for each item referenced by the Adapter
