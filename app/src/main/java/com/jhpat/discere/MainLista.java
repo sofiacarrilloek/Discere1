@@ -50,7 +50,7 @@ public class MainLista extends AppCompatActivity {
         id_teacher= preferencia.getString("teacher", "NO EXISTE");
         Toast.makeText(getApplicationContext(),"hola"+id_teacher,Toast.LENGTH_LONG).show();
 
-        String url="http://34.226.77.86/discere/Lista_nombre.php?id_teacher=51";
+        String url="http://34.226.77.86/discere/Lista_nombre.php?user=1084";
 
 
         setContentView(R.layout.activity_lista);
