@@ -81,9 +81,27 @@ public class Profile_Password extends AppCompatActivity {
         final String url ="http://34.226.77.86/discere/consulta_password.php"; //la url del web service
         final RequestParams requestParams =new RequestParams();
 
+
+        //Aqui hace la encriptación a md5 y luego a Base64
+        MessageDigest md = null;
+        final String MD5 = "MD5";
+        try {
+            md = java.security.MessageDigest
+                    .getInstance(MD5);
+            //step 2
+        } catch (NoSuchAlgorithmException e) {
+        }
+        try {
+            md.update(et_cpassword_2.getText().toString().getBytes("UTF-8"));//step 3
+        } catch (UnsupportedEncodingException e) {
+        }
+        byte raw[] = md.digest(); //step 4
+        String hashX = new String(Base64.encodeBase64(raw));
+        //Base64.decodeBase64(hash.getBytes());
+
         //ENVIO LOS PARAMETROS
         requestParams.add("id_", ID1);
-        requestParams.add("password",et_cpassword_2.getText().toString());
+        requestParams.add("password",hashX);
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -98,6 +116,9 @@ public class Profile_Password extends AppCompatActivity {
                     Toast.makeText(Profile_Password.this, "Change saved", Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(Profile_Password.this,pantalla_principal.class);
                     startActivity(intent);
+
+
+
                 }
                 else
                 {
@@ -115,45 +136,7 @@ public class Profile_Password extends AppCompatActivity {
 
 
         });
-        int success;
-        String password = et_cpassword.getText().toString();
-        //Aqui hace la encriptación a md5 y luego a Base64
-        MessageDigest md = null;
-        final String MD5 = "MD5";
-        try {
-            md = java.security.MessageDigest
-                    .getInstance(MD5);
-            //step 2
-        } catch (NoSuchAlgorithmException e) {
-        }
-        try {
-            md.update(password.getBytes("UTF-8"));//step 3
-        } catch (UnsupportedEncodingException e) {
-        }
-        byte raw[] = md.digest(); //step 4
-        String hash = new String(Base64.encodeBase64(raw));
-        //Base64.decodeBase64(hash.getBytes());
 
-        try {
-
-
-            // Building Parameters
-            List params = new ArrayList();
-            params.add(new BasicNameValuePair("password", hash));
-
-            Log.d("request!", "starting");
-            // getting product details by making HTTP request
-            JSONObject json = jsonParser.makeHttpRequest(UURL, "POST",
-                    params);
-
-            // check your log for json response
-            Log.d("Login attempt", json.toString());
-
-            // json success tag
-            success = json.getInt(TAG_SUCCESS);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
 
