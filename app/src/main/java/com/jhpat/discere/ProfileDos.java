@@ -64,7 +64,7 @@ public class ProfileDos extends AppCompatActivity
     final int COD_FOTO=20;
     int TIPO =1;
 
-    String UPLOAD_URL = "http://34.226.77.86/discere/cas/imagen.php";
+    String UPLOAD_URL = "http://34.226.77.86/discere/imagen.php";
     RequestQueue requestQueue;
 
     String KEY_IMAGE = "photo";
@@ -135,7 +135,7 @@ public class ProfileDos extends AppCompatActivity
     }
 
     private void Cargarfoto() {
-        String url= "http://34.226.77.86/discere/cas/imagenes/"+nombre.getText()+".jpg";
+        String url= "http://34.226.77.86/discere/imagenes/"+nombre.getText()+".jpg";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
