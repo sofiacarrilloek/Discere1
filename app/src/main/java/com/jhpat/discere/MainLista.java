@@ -46,11 +46,11 @@ public class MainLista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String id_teacher;
-        SharedPreferences preferencia =getSharedPreferences("id_teacher", Context.MODE_PRIVATE);
-        id_teacher= preferencia.getString("teacher", "NO EXISTE");
-        Toast.makeText(getApplicationContext(),"hola"+id_teacher,Toast.LENGTH_LONG).show();
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        id_teacher= preferencia.getString("ID2", "NO EXISTE");
+       //e Toast.makeText(getApplicationContext(),"hola"+id_teac,Toast.LENGTH_LONG).show();
 
-        String url="http://34.226.77.86/discere/Lista_nombre.php?user=1084";
+        String url="http://34.226.77.86/discere/Lista_nombre.php?user="+id_teacher+"";
 
 
         setContentView(R.layout.activity_lista);
