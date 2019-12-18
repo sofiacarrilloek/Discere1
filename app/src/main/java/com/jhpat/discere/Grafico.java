@@ -107,13 +107,11 @@ public class Grafico extends AppCompatActivity {
     {
         SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         String user = preferencia.getString("ID2", "NO EXISTE");
-        /*obtenDatosLessons("6147, 6148, 6149, 6150, 6151, 6152, 6153, 61554, 6164, 6165, \n" +
-                "6166, 6166, 6167, 6168, 6169, 6170, 6171, 6217, 6218");*/
         obtenIDFELLOW(user);
-        // cargarAudioDefect(id_Analyst);
-    }
-//PARA EL FELLOW
-    /*En este apartado se encuentran las funcionalidades para el fellow*/
+   }
+
+            //PARA EL FELLOW
+            /*En este apartado se encuentran las funcionalidades para el fellow*/
 
             //PRIMERO: se obtienen TODOS los id_fellow de la tabla fellow pasando como parametro el id_user
             public void obtenIDFELLOW (String ID_USER)
@@ -357,7 +355,6 @@ public class Grafico extends AppCompatActivity {
 
                 AsyncHttpClient conexion = new AsyncHttpClient();
                 final String url = "http://34.226.77.86/discere/Obten_datos_audio_defect.php"; //la url del web service
-                // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
                 final RequestParams requestParams = new RequestParams();
                 requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
                 conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
