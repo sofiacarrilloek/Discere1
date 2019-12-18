@@ -56,111 +56,6 @@ public class Grafico extends AppCompatActivity {
         cargarPreferencias();
     }
 
-
-
-    public void cargarAudioDefect(String ID_AUDIO_ANALYST) {
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/cas/audio_defect.php"; //la url del web service
-        // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
-        final RequestParams requestParams = new RequestParams();
-        requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if (statusCode == 200) // Lo mismo que con LOGIN
-                {
-
-
-                    try {
-                        jsonObject = new JSONObject(new String(responseBody));
-                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-                        int tamanio=0;
-                        tamanio = jsonObject.getJSONArray("datos").length();
-                        String duration [] = new String[tamanio];
-                        String defect_priority [] = new String[tamanio];
-                        String defect_type [] = new String[tamanio];
-                        String defect_description [] = new String[tamanio];
-
-
-                        for (int i=0; i<tamanio; i++)
-                        {
-                            duration[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("duration");
-                            defect_priority[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_priority");
-                            defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
-                            defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
-
-
-                            //PIE Acumulador
-
-                            if (defect_type[i].substring(0,1).equalsIgnoreCase("1"))
-                            {
-                                t_Phontics++;
-                            }
-                            if (defect_type[i].substring(0,1).equalsIgnoreCase("2"))
-                            {
-                                t_Grammar++;
-                            }
-
-                            if (defect_type[i].substring(0,1).equalsIgnoreCase("3"))
-                            {
-                                t_Sintaxt++;
-
-                            }
-                            if (defect_type[i].substring(0,1).equalsIgnoreCase("4"))
-                            {
-                                t_Meaning++;
-                            }
-
-
-
-                            //PIE
-
-                        }
-
-
-                        t_p=10000/tamanio;
-
-                        //Sacar porcentaje
-                        p_PH=t_p*t_Phontics;
-                        p_GR=t_p*t_Grammar;
-                        p_SI=t_p*t_Sintaxt;
-                        p_ME=t_p*t_Meaning;
-
-
-                        dibujaGrafica(p_PH,p_GR,p_SI, p_ME);
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(Grafico.this, "ERROR: " + e, Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }
-            }
-
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
-
-
-    }//FIN DATOSSC
-    private void cargarPreferencias()
-    {
-        SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
-        String id_Analyst = preferencia.getString("Id_A", "NO EXISTE");
-        cargarAudioDefect(id_Analyst);
-    }
-
     private void dibujaGrafica(double v_Critical, double v_Desirable,double
             v_Important, double v_Pertinent)
     {
@@ -206,6 +101,356 @@ public class Grafico extends AppCompatActivity {
 
 
     }
+
+
+    private void cargarPreferencias()
+    {
+        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String user = preferencia.getString("ID2", "NO EXISTE");
+        /*obtenDatosLessons("6147, 6148, 6149, 6150, 6151, 6152, 6153, 61554, 6164, 6165, \n" +
+                "6166, 6166, 6167, 6168, 6169, 6170, 6171, 6217, 6218");*/
+        obtenIDFELLOW(user);
+        // cargarAudioDefect(id_Analyst);
+    }
+//PARA EL FELLOW
+    /*En este apartado se encuentran las funcionalidades para el fellow*/
+
+            //PRIMERO: se obtienen TODOS los id_fellow de la tabla fellow pasando como parametro el id_user
+            public void obtenIDFELLOW (String ID_USER)
+            {
+                //Para el fellow
+                AsyncHttpClient conexion = new AsyncHttpClient();
+                final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+                final RequestParams requestParams =new RequestParams();
+                requestParams.add("id_user",ID_USER); //envio el parametro id_user
+
+                conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                        try {
+                            String CONSULTA="";//Acumulador de String
+
+                            jsonObject = new JSONObject(new String(responseBody));
+                            //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                            int tamanio =jsonObject.getJSONArray("datos").length();
+                            String id_fellows[] = new String[tamanio]; //Vector para almacenar los registros que regrese
+                            int cuentaOr=0;
+                            String OR;
+
+                            OR=", ";
+
+                            for (int i=0; i<tamanio; i++) {
+                                id_fellows[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                                CONSULTA = CONSULTA + id_fellows[i];
+                                if (cuentaOr<tamanio-1) {
+                                    CONSULTA= CONSULTA + OR;
+                                }
+
+                                cuentaOr++;
+                            }
+
+                            obtenIDLessons(CONSULTA);
+
+
+                        } catch (JSONException e) {
+                            Toast.makeText(Grafico.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+            }//FIN OBTENIDFELLOW
+
+            //SEGUNDO: Una vez que se obtienen los id_fellow se envian como parámetros para obtener los id_lesson
+            public void obtenIDLessons (String ID_FELLOW)
+            {
+                //Para el fellow
+                AsyncHttpClient conexion = new AsyncHttpClient();
+                final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
+                final RequestParams requestParams =new RequestParams();
+                requestParams.add("id_fellow",ID_FELLOW); //envio el parametro
+
+                conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                        try {
+                            String CONSULTA="";
+
+                            jsonObject = new JSONObject(new String(responseBody));
+                            //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                            int tamanio =jsonObject.getJSONArray("datos").length();
+                            String id_lessons[] = new String[tamanio];
+                            int cuentaOr=0;
+                            String OR;
+
+                            OR=", ";
+
+                            for (int i=0; i<tamanio; i++) {
+                                id_lessons[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                                CONSULTA = CONSULTA + id_lessons[i];
+                                if (cuentaOr<tamanio-1) {
+                                    CONSULTA= CONSULTA + OR;
+                                }
+
+                                cuentaOr++;
+                            }
+                            //Toast.makeText(Grafico.this, "LOADING..."+CONSULTA, Toast.LENGTH_SHORT).show();
+                            obtenLessonResult(CONSULTA);
+
+                        } catch (JSONException e) {
+                            Toast.makeText(Grafico.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+            }//FIN OBTENIDLessons
+
+            //TERCERO: Mandando id_lessons se obtiene id_lessons_result
+            public void obtenLessonResult (String ID_LESSON)
+            {
+                //Para el fellow
+                AsyncHttpClient conexion = new AsyncHttpClient();
+                final String url ="http://34.226.77.86/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
+                final RequestParams requestParams =new RequestParams();
+                requestParams.add("id_lesson",ID_LESSON); //envio el parametro
+
+                conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                        try {
+                            String CONSULTA="";
+
+                            jsonObject = new JSONObject(new String(responseBody));
+                            //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                            int tamanio =jsonObject.getJSONArray("datos").length();
+                            String id_lesson_result[] = new String[tamanio];
+                            int cuentaOr=0;
+                            String OR;
+
+                            OR=", ";
+
+                            for (int i=0; i<tamanio; i++) {
+                                id_lesson_result[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                                CONSULTA = CONSULTA + id_lesson_result[i];
+                                if (cuentaOr<tamanio-1) {
+                                    CONSULTA= CONSULTA + OR;
+                                }
+
+                                cuentaOr++;
+                            }
+                            //Toast.makeText(Grafico.this, "LOADING..."+CONSULTA, Toast.LENGTH_SHORT).show();
+                            obtenDatosAudio(CONSULTA);
+
+                        } catch (JSONException e) {
+                            Toast.makeText(Grafico.this, "Error 276: "+e, Toast.LENGTH_SHORT).show();
+
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+            }//FIN OBTENLESSONRESULT
+
+            //CUARTO: Obten datos de la tabla audio enviando id_lesson_result
+            public void obtenDatosAudio (String ID_LESSON_RESULT)
+            {
+                //Para el fellow
+                AsyncHttpClient conexion = new AsyncHttpClient();
+                final String url ="http://34.226.77.86/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
+                final RequestParams requestParams =new RequestParams();
+                requestParams.add("id_lesson_result",ID_LESSON_RESULT); //envio el parametro
+
+                conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                        try {
+                            String CONSULTA="";
+
+                            jsonObject = new JSONObject(new String(responseBody));
+                            //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                            int tamanio =jsonObject.getJSONArray("datos").length();
+                            String id_audio_analyst[] = new String[tamanio];
+                            int cuentaOr=0;
+                            String OR;
+
+                            OR=", ";
+
+                            for (int i=0; i<tamanio; i++) {
+                                id_audio_analyst[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                                CONSULTA = CONSULTA + id_audio_analyst[i];
+                                if (cuentaOr<tamanio-1) {
+                                    CONSULTA= CONSULTA + OR;
+                                }
+
+                                cuentaOr++;
+                            }
+                            cargarAudioDefect(CONSULTA);
+
+
+                        } catch (JSONException e) {
+                            Toast.makeText(Grafico.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+            }//FIN OBTENLESSONRESULT
+
+            //QUINTO: Obtiene los datos de audio_defect enviando id_audio_analyst
+            public void cargarAudioDefect(String ID_AUDIO_ANALYST) {
+
+                AsyncHttpClient conexion = new AsyncHttpClient();
+                final String url = "http://34.226.77.86/discere/Obten_datos_audio_defect.php"; //la url del web service
+                // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
+                final RequestParams requestParams = new RequestParams();
+                requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
+                conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        if (statusCode == 200) // Lo mismo que con LOGIN
+                        {
+
+
+                            try {
+                                jsonObject = new JSONObject(new String(responseBody));
+                                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+                                int tamanio=0;
+                                tamanio = jsonObject.getJSONArray("datos").length();
+                                String duration [] = new String[tamanio];
+                                String defect_priority [] = new String[tamanio];
+                                String defect_type [] = new String[tamanio];
+                                String defect_description [] = new String[tamanio];
+
+
+                                for (int i=0; i<tamanio; i++)
+                                {
+                                    duration[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("duration");
+                                    defect_priority[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_priority");
+                                    defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
+                                    defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
+
+
+                                    //PIE Acumulador
+
+                                    if (defect_type[i].substring(0,1).equalsIgnoreCase("1"))
+                                    {
+                                        t_Phontics++;
+                                    }
+                                    if (defect_type[i].substring(0,1).equalsIgnoreCase("2"))
+                                    {
+                                        t_Grammar++;
+                                    }
+
+                                    if (defect_type[i].substring(0,1).equalsIgnoreCase("3"))
+                                    {
+                                        t_Sintaxt++;
+
+                                    }
+                                    if (defect_type[i].substring(0,1).equalsIgnoreCase("4"))
+                                    {
+                                        t_Meaning++;
+                                    }
+
+
+                                    //PIE
+
+                                }
+
+
+                                t_p=10000/tamanio;
+
+                                //Sacar porcentaje
+                                p_PH=t_p*t_Phontics;
+                                p_GR=t_p*t_Grammar;
+                                p_SI=t_p*t_Sintaxt;
+                                p_ME=t_p*t_Meaning;
+
+
+                                dibujaGrafica(p_PH,p_GR,p_SI, p_ME);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(Grafico.this, "ERROR: " + e, Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                    }
+                });
+
+
+
+
+            }//FIN DATOSSC
+
+
+
 
 
 
