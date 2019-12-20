@@ -322,6 +322,7 @@ public class Grafico extends AppCompatActivity {
                             for (int i=0; i<tamanio; i++) {
                                 id_audio_analyst[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
+
                                 CONSULTA = CONSULTA + id_audio_analyst[i];
                                 if (cuentaOr<tamanio-1) {
                                     CONSULTA= CONSULTA + OR;
