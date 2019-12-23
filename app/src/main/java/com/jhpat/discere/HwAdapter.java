@@ -202,7 +202,7 @@ class HwAdapter extends BaseAdapter {
                     } else {
                         v.setBackgroundColor(Color.parseColor("#343434"));
 
-                       /* if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Ocupado"))
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Ocupado"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachaceptada);
                             txt.setTextColor(Color.parseColor("#696969"));
@@ -221,95 +221,14 @@ class HwAdapter extends BaseAdapter {
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
                             txt.setTextColor(Color.parseColor("#696969"));
-                        }*/
-
-                        switch (tipo)
-                        {
-                            case "Coaching":
-                                if (disponible.equalsIgnoreCase("Disponible"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachdisponible);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-
-                                if (disponible.equalsIgnoreCase("Ocupado"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachaceptada);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Pendiente"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachpendiente);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-
-
-
-                                break;
-
-                            case "Speaking":
-                                if (disponible.equalsIgnoreCase("Disponible"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Ocupado"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Pendiente"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-
-                                break;
-                            case "Coach":
-                                if (disponible.equalsIgnoreCase("Disponible"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachdisponible);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-
-                                if (disponible.equalsIgnoreCase("Ocupado"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachaceptada);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Pendiente"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_coachpendiente);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-
-                                break;
-
-                            case "Speaker":
-                                if (disponible.equalsIgnoreCase("Disponible"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakerdisponible);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Ocupado"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakeraceptada);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                if (disponible.equalsIgnoreCase("Pendiente"))
-                                {
-                                    v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
-                                    txt.setTextColor(Color.parseColor("#696969"));
-                                }
-                                break;
-
-
                         }
 
 
 
 
-                   /*     if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
+
+
+                      if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
@@ -341,8 +260,8 @@ class HwAdapter extends BaseAdapter {
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
-                        }*/
-                    /*    if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Pendiente"))
+                        }
+                        if (tipo.equalsIgnoreCase("Speaking")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
@@ -363,7 +282,7 @@ class HwAdapter extends BaseAdapter {
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
-                        }*/
+                        }
 
 
                     }
