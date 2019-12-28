@@ -227,7 +227,8 @@ class HwAdapter extends BaseAdapter {
 
 
 
-                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
+
+                      if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
