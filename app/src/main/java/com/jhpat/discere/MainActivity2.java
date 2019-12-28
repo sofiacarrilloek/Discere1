@@ -61,28 +61,6 @@ public class MainActivity2 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-         recycler= (RecyclerView) findViewById(R.id.Recyclerid);
-        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        listDatos = new ArrayList<String>();
-
-       /* listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");
-        listDatos.add("aqui van los datos");*/
-
-
-        AdaptarDatos adapter = new AdaptarDatos(listDatos);
-        recycler.setAdapter(adapter);
-
-        //Aqui llamamo al metodo
-
-
         cargarP();
 
 
@@ -405,7 +383,6 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if(status[i].equals("1"))
                         {
-                            listDatos.add(fechaInicio[i]);
                             cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
                                     fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i]);
                         }
@@ -661,8 +638,6 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void cargarNombreTeacherDisponible (final String fechaInicio, final String estado, final String tipo, final String user, final String hora, final String id_teacher)
     {
-        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
-
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_user", user);
@@ -689,7 +664,7 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio.substring(0,10) ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
 
                     }
 

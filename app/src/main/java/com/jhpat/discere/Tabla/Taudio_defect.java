@@ -11,6 +11,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jhpat.discere.Grafico;
+import com.jhpat.discere.MainActivity2;
 import com.razerdp.widget.animatedpieview.AnimatedPieView;
 import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig;
 import com.razerdp.widget.animatedpieview.callback.OnPieSelectListener;
@@ -34,31 +37,13 @@ import cz.msebera.android.httpclient.Header;
 
 public class Taudio_defect extends AppCompatActivity {
 
-    private String id,c,n,ape;
-    PieChart pieChart;
-
-    int[] colorClassArray = new int[]{Color.MAGENTA,Color.BLUE,Color.CYAN};
-    int[] sale = new int[]{29, 20};
-
-    //Pie
-    int t_critical=0, t_important=0, t_relevant=0, t_pertinent=0, t_desirable=0;
-    double p_c=0, p_i=0, p_r=0, p_p=0, p_d=0, t_p;
-
-    String color_critical="#fe6383", color_important="#63ff84", color_relevant="#7fff63",
-        color_pertinent="#8663fc", color_desirable="#6387ff";
-
-    String CRITICAL="Critical", IMPORTANT="Important", RELEVANT="Relevant", PERTINENT="Pertinent", DESIRABLE="Desirable";
-
-
-    //Pie
 
     JSONObject jsonObject;
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
 
 
     TextView DX1, DPX1, DTX1, DDX1;
-    EditText DX2, DPX2, DTX2, DDX2;
-    EditText DX3, DPX3, DTX3, DDX3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +62,265 @@ public class Taudio_defect extends AppCompatActivity {
         DDX1 = (TextView) findViewById(R.id.DD1);
         DDX1.setMovementMethod(new ScrollingMovementMethod());
 
-       cargarPreferencias();
+        cargarPreferencias();
         //
 
     }
 
+    private void cargarPreferencias() {
+        SharedPreferences preferencia = getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String user = preferencia.getString("ID2", "NO EXISTE");
+        obtenIDTEACHER(user);
+    }
 
+    //PARA EL FELLOW
+    /*En este apartado se encuentran las funcionalidades para el fellow*/
+
+    //PRIMERO: se obtienen TODOS los id_fellow de la tabla fellow pasando como parametro el id_user
+    public void obtenIDTEACHER (String ID_USER)
+    {
+        //PARA EL TEACHER
+
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_user",ID_USER); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    String CONSULTA="";
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String id_teachers[] = new String[tamanio];
+                    int cuentaOr=0;
+                    String OR;
+
+                    OR=", ";
+
+                    for (int i=0; i<tamanio; i++) {
+                        id_teachers[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                        CONSULTA = CONSULTA + id_teachers[i];
+                        if (cuentaOr < tamanio - 1) {
+                            CONSULTA = CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
+
+                    }
+                    obtenIDLessons(CONSULTA);
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Taudio_defect.this, "Error..."+e, Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }//FIN OBTEN_ID_TEACHER
+
+
+    //SEGUNDO: Una vez que se obtienen los id_fellow se envian como parámetros para obtener los id_lesson
+    public void obtenIDLessons (String ID_FELLOW)
+    {
+        //Para el fellow
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons_teacher.php";//la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_teacher",ID_FELLOW); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    String CONSULTA="";
+
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String id_lessons[] = new String[tamanio];
+                    int cuentaOr=0;
+                    String OR;
+
+                    OR=", ";
+
+                    for (int i=0; i<tamanio; i++) {
+                        id_lessons[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                        CONSULTA = CONSULTA + id_lessons[i];
+                        if (cuentaOr<tamanio-1) {
+                            CONSULTA= CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
+                    }
+                    //Toast.makeText(Grafico.this, "LOADING..."+CONSULTA, Toast.LENGTH_SHORT).show();
+                    obtenLessonResult(CONSULTA);
+
+                } catch (JSONException e) {
+                    Toast.makeText(Taudio_defect.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }//FIN OBTENIDLessons
+
+
+    //TERCERO: Mandando id_lessons se obtiene id_lessons_result
+    public void obtenLessonResult(String ID_LESSON) {
+        //Para el fellow
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://34.226.77.86/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        requestParams.add("id_lesson", ID_LESSON); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    String CONSULTA = "";
+
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio = jsonObject.getJSONArray("datos").length();
+                    String id_lesson_result[] = new String[tamanio];
+                    int cuentaOr = 0;
+                    String OR;
+
+                    OR = ", ";
+
+                    for (int i = 0; i < tamanio; i++) {
+                        id_lesson_result[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+                        CONSULTA = CONSULTA + id_lesson_result[i];
+                        if (cuentaOr < tamanio - 1) {
+                            CONSULTA = CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
+                    }
+                    //Toast.makeText(Grafico.this, "LOADING..."+CONSULTA, Toast.LENGTH_SHORT).show();
+                    obtenDatosAudio(CONSULTA);
+
+                } catch (JSONException e) {
+                    Toast.makeText(Taudio_defect.this, "Error 276: " + e, Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }//FIN OBTENLESSONRESULT
+
+    //CUARTO: Obten datos de la tabla audio enviando id_lesson_result
+    public void obtenDatosAudio(String ID_LESSON_RESULT) {
+        //Para el fellow
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url = "http://34.226.77.86/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        requestParams.add("id_lesson_result", ID_LESSON_RESULT); //envio el parametro
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    String CONSULTA = "";
+
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio = jsonObject.getJSONArray("datos").length();
+                    String id_audio_analyst[] = new String[tamanio];
+                    int cuentaOr = 0;
+                    String OR;
+
+                    OR = ", ";
+
+                    for (int i = 0; i < tamanio; i++) {
+                        id_audio_analyst[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+
+
+                        CONSULTA = CONSULTA + id_audio_analyst[i];
+                        if (cuentaOr < tamanio - 1) {
+                            CONSULTA = CONSULTA + OR;
+                        }
+
+                        cuentaOr++;
+                    }
+                    cargarAudioDefect(CONSULTA);
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(Taudio_defect.this, "Error al cargar los datos del teacher " + e, Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }//FIN OBTENLESSONRESULT
+
+    //QUINTO: Obtiene los datos de audio_defect enviando id_audio_analyst
     public void cargarAudioDefect(String ID_AUDIO_ANALYST) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/cas/audio_defect.php"; //la url del web service
-        // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
+        final String url = "http://34.226.77.86/discere/Obten_datos_audio_defect.php"; //la url del web service
         final RequestParams requestParams = new RequestParams();
-        requestParams.add("id_audio_analyst", "2"); //envio el parametro
+        requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
 
@@ -103,55 +334,33 @@ public class Taudio_defect extends AppCompatActivity {
                         jsonObject = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
 
-                        int tamanio=0;
+                        int tamanio = 0;
                         tamanio = jsonObject.getJSONArray("datos").length();
-                        String type="";
-                        String type2="";
-                        String type3="";
-                        String type4="";
-                        String duration [] = new String[tamanio];
-                        String defect_priority [] = new String[tamanio];
-                        String defect_type [] = new String[tamanio];
-                        String defect_description [] = new String[tamanio];
+                        String type = "";
+                        String type2 = "";
+                        String type3 = "";
+                        String type4 = "";
+                        String duration[] = new String[tamanio];
+                        String defect_priority[] = new String[tamanio];
+                        String defect_type[] = new String[tamanio];
+                        String defect_description[] = new String[tamanio];
 
 
-                        for (int i=0; i<tamanio; i++)
-                        {
-                            duration[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("duration");
-                            defect_priority[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_priority");
-                            defect_type[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
-                            defect_description[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
+                        for (int i = 0; i < tamanio; i++) {
+                            duration[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("duration");
+                            defect_priority[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_priority");
+                            defect_type[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_type");
+                            defect_description[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("defect_description");
 
-                            type=type+duration[i]+"\n"+"\n";
-                            type2=type2+defect_priority[i]+"\n"+"\n";
-                            type3=type3+defect_type[i]+"\n"+"\n";
-                            type4=type4+defect_description[i]+"\n"+"\n";
+                            type = type + duration[i] + "\n" + "\n";
+                            type2 = type2 + defect_priority[i] + "\n" + "\n";
+                            type3 = type3 + defect_type[i] + "\n" + "\n";
+                            type4 = type4 + defect_description[i] + "\n" + "\n";
 
 
                             //PIE Acumulador
 
-                            if (defect_priority[i].equalsIgnoreCase("desirable"))
-                            {
-                                t_desirable++;
-                            }
-                            if (defect_priority[i].equalsIgnoreCase("important"))
-                            {
-                                t_important++;
-                            }
 
-                            if (defect_priority[i].equalsIgnoreCase("critical"))
-                            {
-                                t_critical++;
-
-                            }
-                            if (defect_priority[i].equalsIgnoreCase("relevant"))
-                            {
-                                t_relevant++;
-                            }
-                            if (defect_priority[i].equalsIgnoreCase("pertinent"))
-                            {
-                                t_pertinent++;
-                            }
 
 
                             //PIE
@@ -159,25 +368,14 @@ public class Taudio_defect extends AppCompatActivity {
                         }
 
 
+                        // _________________________________________________________________________________________________________
 
-                       // _________________________________________________________________________________________________________
 
+                        DX1.setText("" + type);
+                        DPX1.setText("" + type2);
+                        DTX1.setText("" + type3);
+                        DDX1.setText("" + type4);
 
-                        DX1.setText(""+type);
-                        DPX1.setText(""+type2);
-                        DTX1.setText(""+type3);
-                        DDX1.setText(""+type4);
-
-                        t_p=10000/tamanio;
-
-                        //Sacar porcentaje
-                        p_c=t_p*t_critical;
-                        p_d=t_p*t_desirable;
-                        p_i=t_p*t_important;
-                        p_p=t_p*t_pertinent;
-                        p_r=t_p*t_relevant;
-
-                        dibujaGrafica(p_c,p_d,p_i, p_p, p_r );
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -196,68 +394,8 @@ public class Taudio_defect extends AppCompatActivity {
         });
 
 
-
-
-    }//FIN DATOSSC
-    private void cargarPreferencias()
-    {
-        SharedPreferences preferencia = getSharedPreferences("Credencialestabla", Context.MODE_PRIVATE);
-        String id_Analyst = preferencia.getString("Id_A", "NO EXISTE");
-        cargarAudioDefect(id_Analyst);
-    }
-
-    private void dibujaGrafica(double v_Critical, double v_Desirable,double
-            v_Important, double v_Pertinent, double v_Relevant)
-    {
-
-        //10,000 el valor
-
-        AnimatedPieView animatedPieView = findViewById(R.id.pieView);
-        AnimatedPieViewConfig config = new AnimatedPieViewConfig();
-        if (v_Critical>0)
-        {
-            config.addData(new SimplePieInfo(v_Critical, Color.parseColor(color_critical), CRITICAL+" "+v_Critical/100+"%"));
-        }
-        if (v_Desirable>0)
-        {
-            config.addData(new SimplePieInfo(v_Desirable, Color.parseColor(color_desirable), DESIRABLE+" "+v_Desirable/100+"%"));
-        }
-        if (v_Important>0)
-        {
-            config.addData(new SimplePieInfo(v_Important, Color.parseColor(color_important), IMPORTANT+" "+v_Important/100+"%"));
-        }
-        if (v_Pertinent>0)
-        {
-            config.addData(new SimplePieInfo(v_Pertinent, Color.parseColor(color_pertinent), PERTINENT+" "+v_Pertinent/100+"%"));
-        }
-        if (v_Relevant>0) {
-            config.addData(new SimplePieInfo(v_Relevant, Color.parseColor(color_relevant), RELEVANT + " " + v_Relevant / 100 + "%"));
-        }
-
-        config.duration(1000);
-        config.drawText(true);
-        config.strokeMode(false);
-        config.textSize(25);
-
-        config.selectListener(new OnPieSelectListener<IPieInfo>() {
-            @Override
-            public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
-
-
-
-
-                Toast.makeText(Taudio_defect.this, pieInfo.getDesc() + " - " + pieInfo.getValue()/100+"% ", Toast.LENGTH_SHORT).show();
-            }
-        });
-        config.startAngle(-180);
-
-        animatedPieView.applyConfig(config);
-        animatedPieView.start();
-
-
-    }
-
-
+    }//FIN AUDIOS DEFECT
 }
+
 
 
