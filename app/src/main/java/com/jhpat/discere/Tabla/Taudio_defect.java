@@ -64,6 +64,7 @@ public class Taudio_defect extends AppCompatActivity {
 
         cargarPreferencias();
         //
+        //En esta clase obtenemos los datos de los errores de la lista del fellow
 
     }
 
