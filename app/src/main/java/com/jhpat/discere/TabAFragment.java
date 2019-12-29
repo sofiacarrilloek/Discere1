@@ -44,12 +44,12 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     Button b1,b2,b3;
     String month;
     String day;
-    String mas,x_1,x_2,x_3,pasar;
-    String Minutos;
+    String mas,x_1,x_2,x_3,x_4,pasar;
+    String Minutos,Horas;
     //barra de progreso
     ProgressDialog progreso;
     private String usuario;
-    String tip;
+    String tip,tipos;
     String email;
     String nombre,apellido;
     //importante
@@ -57,7 +57,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     View rootView;
-    int comprobar_1=1,comprobar_2=1;
+    int comprobar_1=1,comprobar_2=1,minutes;
 
     public TabAFragment() {
         // Required empty public constructor
@@ -139,6 +139,13 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                //Comprueba la hora correcta para evitar errores
+                                //Horas
+                                if(hourOfDay>=10){
+                                    Horas=""+hourOfDay;
+                                }else{
+                                    Horas="0"+hourOfDay;
+                                }
+                                //Minutos
                                 if(minute>=10){
                                     Minutos=""+minute;
                                 }else{
@@ -146,7 +153,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                 }
                                 comprobar_2=2;
                                 //Muestra la hora
-                                te_2.setText(hourOfDay+":"+Minutos);
+                                te_2.setText(Horas+":"+Minutos);
 
                                 //agrega los 15 o 45 minutos
                                 if (tip.equals("Coach") ){
@@ -154,14 +161,43 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                         hourOfDay=hourOfDay+1;
                                         minute=minute-60;
                                     }
-
-                                    mas=(hourOfDay+":"+(minute+45));
+                                    //horas
+                                    if(hourOfDay>=10){
+                                        Horas=""+hourOfDay;
+                                    }else{
+                                        Horas="0"+hourOfDay;
+                                    }
+                                    //
+                                    minutes=(minute+45);
+                                    //Minutos
+                                    if(minutes>=10){
+                                        Minutos=""+minutes;
+                                    }else{
+                                        Minutos="0"+minutes;
+                                    }
+                                    //
+                                    mas=(Horas+":"+Minutos);
                                 }else{
                                     if(minute>45){
                                         hourOfDay=hourOfDay+1;
                                         minute=minute-60;
                                     }
-                                    mas=(hourOfDay+":"+(minute+15));
+                                    //Horas
+                                    if(hourOfDay>=10){
+                                        Horas=""+hourOfDay;
+                                    }else{
+                                        Horas="0"+hourOfDay;
+                                    }
+                                    //
+                                    minutes=(minute+15);
+                                    //Minutos
+                                    if(minutes>=10){
+                                        Minutos=""+minutes;
+                                    }else{
+                                        Minutos="0"+minutes;
+                                    }
+                                    //
+                                    mas=(Horas+":"+Minutos);
                                 }
 
                             }
@@ -226,6 +262,11 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         email=preferencia.getString("EMAIL2","No hay email");
         nombre=preferencia.getString("NAME2","no hay nombre");
         apellido=preferencia.getString("LAST_NAME2","hola");
+
+        //Damos Tipo
+        if (tip.equals("Coach")){
+            tipos="Coaching";
+        }
     }//Fin cargar preferencias
 
     private void cargarWebService() {
@@ -238,8 +279,10 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         String tipo="coach",titulo="pruebas",star="2019-06-15 01:40:00.000000",fin="2019-06-26 2000:02:00.000000";
          //Otorga el formato correcto a los datos
              x_1=te_1.getText().toString()+" "+te_2.getText().toString()+":00.000000";
-             x_3=te_1.getText().toString();
              x_2=te_1.getText().toString()+" "+mas+":00.000000";
+
+             x_3=te_1.getText().toString()+"T"+te_2.getText().toString()+":00";
+             x_4=te_1.getText().toString()+"T"+mas+":00";
 
 
 
@@ -247,11 +290,11 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         Date date = new Date();
 
         String fecha = dateFormat.format(date);
-        String x="http://34.226.77.86/discere/conexcion_coach/pruebas.php?id_="+usuario+"&type="+tip+"&title="+tip+"&start="+x_1+"&end_="+x_2+"&status="+0+"&email="+email+"&nombre="+nombre+"&apellido="+apellido;
         //URL donde se envian los datos a los php que estan conectados a la base de datos
 
         //String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
-        String URL="http://34.226.77.86/discere/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
+        //String URL="http://34.226.77.86/discere/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
+        String URL="http://puntosingular.mx/cas/conexcion_coach/registro_2.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day=Monday&status=1&start_date="+x_1+"&end_date="+x_2;
 
 //Envia los datos guardados en el URL
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
