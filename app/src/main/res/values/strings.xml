@@ -1,20 +1,20 @@
 <resources>
-  <string name="app_name">Discere</string>
-  <string name="title_activity_pantalla_principal">Discere</string>
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
-  <string name="nav_header_title">Android Studio</string>
-  <string name="nav_header_subtitle">android.studio@android.com</string>
-  <string name="nav_header_desc">Navigation header</string>
-  <string name="action_settings">Settings</string>
+    <string name="app_name">Discere</string>
+    <string name="title_activity_pantalla_principal">Discere</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
-  <string name="title_activity_tab_agendar">TabAgendar</string>
-  <string name="tab_text_1">Schedule</string>
-  <string name="tab_text_2">Fellow Sessions</string>
-  <string name="read_file">This app needs access to your file storage so that it can read files.</string>
-  <string name="choose_file">Choose File</string>
-  <string name="upload">Upload</string>
-  <string name="file_name">File Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_tab_agendar">TabAgendar</string>
+    <string name="tab_text_1">Schedule</string>
+    <string name="tab_text_2">Fellow Sessions</string>
+    <string name="read_file">This app needs access to your file storage so that it can read files.</string>
+    <string name="choose_file">Choose File</string>
+    <string name="upload">Upload</string>
+    <string name="file_name">File Name</string>
 </resources>

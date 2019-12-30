@@ -30,6 +30,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import com.jhpat.discere.Tabla.Prueba;
 import com.jhpat.discere.Tabla.Taudio_defect;
+import com.jhpat.discere.Tabla.splash;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -184,7 +185,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     }
 
     public void ver(View view){
-        Intent inten= new Intent(pantalla_principal.this,MainActivity2.class);
+        Intent inten= new Intent(pantalla_principal.this, splash.class);
         startActivity(inten);
     }
     public void agendar(View view){
