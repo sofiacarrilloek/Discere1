@@ -50,14 +50,14 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
     ProgressDialog progreso;
     private String usuario;
     String tip,tipos;
-    String email;
+    String email,dias_nombre;
     String nombre,apellido;
     //importante
     JSONObject jsonObject;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     View rootView;
-    int comprobar_1=1,comprobar_2=1,minutes;
+    int comprobar_1=1,comprobar_2=1,minutes,dias_s;
 
     public TabAFragment() {
         // Required empty public constructor
@@ -110,6 +110,34 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
                                     month="10";
                                 }
                                 //Muestra la fecha
+
+                                //Dias
+                                int i1=monthOfYear+1;
+                                c.set(year,i1,dayOfMonth);
+                                dias_s =  c.get(Calendar.DAY_OF_WEEK);
+                                if(dias_s== 1){
+                                    //Jueves
+                                    dias_nombre="Thursday";
+                                }else if(dias_s== 2){
+                                    //Viernes
+                                    dias_nombre="Friday";
+                                }else if(dias_s== 3){
+                                    //Sabado
+                                    dias_nombre="Saturday";
+                                }else if(dias_s== 4){
+                                    //Domingo
+                                    dias_nombre="Sunday";
+                                }else if(dias_s== 5){
+                                    //Lunes
+                                    dias_nombre="Monday";
+                                }else if(dias_s==6){
+                                    //Martes
+                                    dias_nombre="Tuesday";
+                                }else if(dias_s==7){
+                                    //Miercoles
+                                    dias_nombre="Wednesday";
+                                }
+                                //Dias
                                 te_1.setText(year+"-"+month+"-"+day);
                             }
                         }
@@ -266,7 +294,10 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         //Damos Tipo
         if (tip.equals("Coach")){
             tipos="Coaching";
+        }else if(tip.equals("Speaker")){
+            tipos="Speaking";
         }
+
     }//Fin cargar preferencias
 
     private void cargarWebService() {
@@ -294,8 +325,8 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
         //String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
         //String URL="http://34.226.77.86/discere/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
-        String URL="http://puntosingular.mx/cas/conexcion_coach/registro_2.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day=Monday&status=1&start_date="+x_1+"&end_date="+x_2;
-
+        //String URL="http://puntosingular.mx/cas/conexcion_coach/registro_2.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day=Monday&status=1&start_date="+x_1+"&end_date="+x_2;
+        String URL="http://34.226.77.86/discere/registro_horario.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day="+dias_nombre+"&status=1&start_date="+x_1+"&end_date="+x_2;
 //Envia los datos guardados en el URL
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         request.add(jsonObjectRequest);
