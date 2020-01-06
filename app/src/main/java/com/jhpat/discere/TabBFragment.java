@@ -72,7 +72,7 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "http://34.226.77.86/discere/upload.php";
+    private static final String SERVER_PATH = "http://pones-tu-ip/s3/s3.php";
     private File file;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
