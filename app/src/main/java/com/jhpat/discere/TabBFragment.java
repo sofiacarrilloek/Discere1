@@ -52,7 +52,10 @@ import org.json.JSONArray;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -72,8 +75,8 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "http://pones-tu-ip/s3/s3.php";
-    private File file;
+    private static final String SERVER_PATH = "http://34.226.77.86/discere/upload.php";
+    private File file,fileN;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
     private static final int REQUEST_FILE_CODE = 200;
@@ -119,7 +122,7 @@ public class TabBFragment extends Fragment {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-                    insertarAudio("http://34.226.77.86/discere/audios/"+file.getName());
+                    insertarAudio("https://s3-us-east-1-discere.s3.amazonaws.com"+fileN.getName());
 
                 } else {
                     Toast.makeText(getActivity(),
@@ -236,7 +239,13 @@ public class TabBFragment extends Fragment {
             String filePath = getRealPath(getContext(), fileUri);
             file = new File(filePath);
             Log.d(TAG, "Filename " + file.getName());
-            nombreA.setText(file.getName());
+            Date date = new Date();
+            DateFormat hourdateFormat = new SimpleDateFormat("yyyy-dd-MM");
+            String historial = hourdateFormat.format(date);
+            String nombreUsuario=spinner.getSelectedItem().toString();
+            fileN=new File("audio_"+nombreUsuario+"_"+historial);
+
+            nombreA.setText(fileN.getName());
             //insertarAudio(file.getName());
         }
     }
@@ -409,7 +418,7 @@ public class TabBFragment extends Fragment {
                 MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
 
                 // Add the file to be uploaded
-                multipartEntityBuilder.addPart("file", new FileBody(file));
+                multipartEntityBuilder.addPart("file", new FileBody(fileN));
 
                 // Progress listener - updates task's progress
                 MyHttpEntity.ProgressListener progressListener =

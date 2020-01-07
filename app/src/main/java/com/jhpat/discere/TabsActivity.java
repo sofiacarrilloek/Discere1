@@ -195,7 +195,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     //Se obtiene las preferencias para administrar los parametros
-    private  void cargarP()
+    public  void cargarP()
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         usuario= preferencia.getString("ID2", "NO EXISTE");
