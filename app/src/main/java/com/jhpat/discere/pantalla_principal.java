@@ -50,6 +50,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     FloatingActionMenu actionMenu;
     com.github.clans.fab.FloatingActionButton ver,Agendar;
     JSONObject jsonObject;
+    String tipo;
     private String id2,id3,id4,id5,id6;
     RequestQueue requestQueue;
 
@@ -181,8 +182,19 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         startActivity(inten);
     }
     public void agendar(View view){
-        Intent intent= new Intent(pantalla_principal.this,TabsActivity.class);
-        startActivity(intent);
+        cargarP();
+        if(tipo.equals("Coach") || tipo.equals("Speaker") ){
+            Intent intent= new Intent(pantalla_principal.this,TabsActivity.class);
+            startActivity(intent);
+        }else if(tipo.equals("Fellow")){
+            Toast.makeText(getApplicationContext(),"Error permisos insuficientes",Toast.LENGTH_LONG).show();
+            actionMenu.close(true);
+        }else {
+            Toast.makeText(getApplicationContext(),"Error contacte a un administrador para solucionar el problema",Toast.LENGTH_LONG).show();
+            actionMenu.close(true);
+        }
+
+
     }
     public void panta(){
         Intent intent=new Intent(pantalla_principal.this,pantalla_principal.class);
@@ -546,7 +558,12 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
     }
+    private  void cargarP()
+    {
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        tipo=preferencia.getString("TIPO2", "no existe");
 
+    }//Fin cargar preferencias
 
 
 }
