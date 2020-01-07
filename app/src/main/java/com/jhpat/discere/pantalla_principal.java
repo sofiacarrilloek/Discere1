@@ -41,7 +41,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class pantalla_principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,profile_principal.OnFragmentInteractionListener,fragment_principal.OnFragmentInteractionListener, Fragment_skype.OnFragmentInteractionListener, StreamingAudio.OnFragmentInteractionListener{
+public class pantalla_principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,profile_principal.OnFragmentInteractionListener,fragment_principal.OnFragmentInteractionListener, Fragment_skype.OnFragmentInteractionListener{
     private TextView N;
     private TextView C;
     private String id,c,n,ape;
@@ -65,7 +65,6 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         Agendar=(FloatingActionButton) findViewById(R.id.agendar);
         actionMenu=(FloatingActionMenu) findViewById(R.id.fab);
         actionMenu.setClosedOnTouchOutside(true);
-        listenaudio=(MenuItem) findViewById(R.id.listenaudio);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -132,13 +131,6 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
         } else if (id == R.id.nav_skype){
             Skype();
-            return true;
-        }else if (id == R.id.listenaudio){
-            miFragment = new StreamingAudio();
-            actionMenu.setVisibility(View.GONE);
-            fragmentSeleccionado = true;
-        }else if (id == R.id.listenaudio) {
-            SubirAudio();
             return true;
         }else if (id == R.id.nav_listafellows) {
             listafellows();
