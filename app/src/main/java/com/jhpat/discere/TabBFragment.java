@@ -108,6 +108,7 @@ public class TabBFragment extends Fragment {
         nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
         buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
         solicitarpermisos();
+        cargarPreferencias();
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +245,7 @@ public class TabBFragment extends Fragment {
             Date date = new Date();
             DateFormat hourdateFormat = new SimpleDateFormat("yyyy-dd-MM");
             String historial = hourdateFormat.format(date);
-            String nombreUsuario=spinner.getSelectedItem().toString();
+            String nombreUsuario=TIPO;
             fileN=new File("audio_"+nombreUsuario+"_"+historial);
 
             nombreA.setText(fileN.getName());
@@ -490,6 +491,8 @@ public class TabBFragment extends Fragment {
     {
         SharedPreferences preferencia =this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
+
+        Toast.makeText(this.getActivity(), "TIPO: "+TIPO, Toast.LENGTH_SHORT).show();
 
 
     }//Fin cargar preferencias
