@@ -272,6 +272,13 @@ class HwAdapter extends BaseAdapter {
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
 
+                        if (tipo.equalsIgnoreCase("Speaker 1")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+
                         if (tipo.equalsIgnoreCase("Coach")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
@@ -279,6 +286,12 @@ class HwAdapter extends BaseAdapter {
                         }
 
                         if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+                        if (tipo.equalsIgnoreCase("Coaching 1")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));

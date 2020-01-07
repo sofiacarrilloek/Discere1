@@ -63,10 +63,6 @@ public class MainActivity2 extends AppCompatActivity{
 
         cargarP();
 
-
-        //
-
-
         cal_month = (GregorianCalendar) GregorianCalendar.getInstance();
         cal_month_copy = (GregorianCalendar) cal_month.clone();
         hwAdapter = new HwAdapter(this, cal_month,HomeCollection.date_collection_arr);
@@ -166,6 +162,7 @@ public class MainActivity2 extends AppCompatActivity{
         if (TIPO.equalsIgnoreCase("Fellow")) {
 
             obtenIDFELLOW(ID_USER);
+            datosEnEspera(ID_USER);
 
             datosTeacher();
 
@@ -173,8 +170,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//Fin cargar preferencias
 
-
-
+//-------------------------------------------------------- PARA EL TEACHER --------------------------------------------------------
 
     public void obtenIDTEACHER (String ID_USER)
     {
@@ -216,7 +212,7 @@ public class MainActivity2 extends AppCompatActivity{
                     }
 
                     datosLessonsTeacher(CONSULTA);
-                    datosEnEsperaTeacher(CONSULTA);
+                    //datosEnEsperaTeacher(CONSULTA);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -234,8 +230,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
     }//FIN OBTEN_ID_TEACHER
-
-
 
     public void datosLessonsTeacher (String ID_TEACHER1)
     {
@@ -366,7 +360,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN VER TEACHER
 
-    // Datos en Espera para el Teacher
+   // Datos en Espera para el Teacher
     public void datosEnEsperaTeacher (String ID_TEACHER2)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
@@ -457,7 +451,146 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN SESIONES EN ESPERA PARA EL FELLOW :3
 
-    //----------------------------------PARTE FELLOW-------------------------------------------------
+    public void cargarIdUsercargarIdUserFellowOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora, final String id_fellow)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_fellow",id_fellow);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String user[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
+                        //Aqui es para cargar el datos del fellow
+                        cargarNombreTeacherOcupado(fechaInicio+"","Ocupado",""+tipo,""+user[i], hora, id_teacher, id_fellow);
+                    }
+
+
+                } catch (JSONException e) {
+                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+    public void cargarNombreTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String user,
+                                            final String hora, final String id_teacher, final String id_fellow) {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_user", user);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String nombre[]=new String[tamanio];
+                    String email[]=new String[tamanio];
+                    String last_name[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
+
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow,""));
+
+                    }
+
+
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+    public void cargarNombreTeacherDisponible (final String fechaInicio, final String estado, final String tipo, final String user, final String hora, final String id_teacher)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams("id_user", user);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String nombre[]=new String[tamanio];
+                    String email[]=new String[tamanio];
+                    String last_name[]=new String[tamanio];
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
+                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
+
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio.substring(0,10) ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+    }
+
+    //--------------------------------------------------------------PARTE FELLOW--------------------------------------------------------------
 
     public void obtenIDFELLOW (String ID_USER)
     {
@@ -500,15 +633,13 @@ public class MainActivity2 extends AppCompatActivity{
 
                         cuentaOr++;
                     }
-                    Toast.makeText(MainActivity2.this, "LOADING...", Toast.LENGTH_SHORT).show();
-
-                    datosEnEspera(CONSULTA);
+                   // datosEnEspera(CONSULTA);
                     datosLessons(CONSULTA);
 
 
 
                 } catch (JSONException e) {
-                    Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
 
                     e.printStackTrace();
                 }
@@ -592,58 +723,6 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN DATOS TEACHER
 
-
-
-
-
-    public void cargarNombreTeacherDisponible (final String fechaInicio, final String estado, final String tipo, final String user, final String hora, final String id_teacher)
-    {
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams("id_user", user);
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    int tamanio =jsonObject.getJSONArray("datos").length();
-                    String nombre[]=new String[tamanio];
-                    String email[]=new String[tamanio];
-                    String last_name[]=new String[tamanio];
-
-
-                    for (int i=0; i<tamanio; i++)
-                    {
-
-                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
-                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
-                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
-
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio.substring(0,10) ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
-
-                    }
-
-
-                } catch (JSONException e) {
-                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
-    }
 
     public void datosLessons (String ID_FELLOW2)
     {
@@ -755,112 +834,16 @@ public class MainActivity2 extends AppCompatActivity{
 
     }
 
-
-    public void cargarIdUsercargarIdUserFellowOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora, final String id_fellow)
-    {
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams("id_fellow",id_fellow);
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    int tamanio =jsonObject.getJSONArray("datos").length();
-                    String user[]=new String[tamanio];
-
-
-                    for (int i=0; i<tamanio; i++)
-                    {
-
-                        user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
-                        //Aqui es para cargar el datos del fellow
-                        cargarNombreTeacherOcupado(fechaInicio+"","Ocupado",""+tipo,""+user[i], hora, id_teacher, id_fellow);
-                    }
-
-
-                } catch (JSONException e) {
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
-    }
-
-
-    public void cargarNombreTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String user,
-                                            final String hora, final String id_teacher, final String id_fellow) {
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
-        final RequestParams requestParams =new RequestParams("id_user", user);
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    int tamanio =jsonObject.getJSONArray("datos").length();
-                    String nombre[]=new String[tamanio];
-                    String email[]=new String[tamanio];
-                    String last_name[]=new String[tamanio];
-
-
-                    for (int i=0; i<tamanio; i++)
-                    {
-
-                        nombre[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name");
-                        email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
-                        last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
-
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado+"",""+tipo,""+user,email[i]+"", nombre[i]+" "+last_name[i], hora, ""+id_teacher, ""+id_fellow,""));
-
-                    }
-
-
-                } catch (JSONException e) {
-
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
-    }
-
-
     // Datos en Espera para el FELLOW
-    public void datosEnEspera (String ID_FELLOW2)
+    public void datosEnEspera (final String ID_USER)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_sesionesEnEspera.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/cargar_sesiones_pendientes_fellow.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
+        requestParams.add("id_user",ID_USER); //envio el parametro
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
@@ -877,10 +860,7 @@ public class MainActivity2 extends AppCompatActivity{
                     String fechaInicio[]=new String[tamanio];
                     String fechaInicio2[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
-                    String id_teacher[]=new String[tamanio];
                     String id_fellow[]=new String[tamanio];
-                    String name_teacher[]=new String [tamanio];
-                    String email_teacher[]=new String [tamanio];
                     String status[]=new String [tamanio];
 
 
@@ -888,21 +868,15 @@ public class MainActivity2 extends AppCompatActivity{
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
-                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
-                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
-                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
-                        name_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("name_teacher");
-                        email_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
+                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("title");
+                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         fechaInicio2[i]=fechaInicio[i].substring(0,10);
                         //Aqui lo envio al HomeCollection
 
-                        if (status[i].equals("0")) {
-
-                            HomeCollection.date_collection_arr.add(new HomeCollection(fechaInicio2[i],
-                                    "Pendiente", "" + tipo[i], "" + id_teacher[i] + "", email_teacher[i] + " ", " " +
-
-                                    name_teacher[i], "" + fechaInicio2[i], "", "" + id_fellow[i],""));
+                        if (status[i].equals("1"))
+                        {
+                        cargarNombreTeacherDisponible(""+fechaInicio2[i], "Pendiente", ""+tipo[i], ""+ID_USER, ""+fechaInicio[i].substring(11, 19), "");
                         }
                     }
 
@@ -930,9 +904,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
 
-    }//FIN SESIONES EN ESPERA PARA EL FELLOW :3
-
-
+    }//FIN SESIONES EN ESPERA PARA EL FELLOW
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
     private void guardaridteacher()

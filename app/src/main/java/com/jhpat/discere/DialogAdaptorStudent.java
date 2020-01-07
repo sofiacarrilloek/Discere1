@@ -125,16 +125,17 @@ class DialogAdaptorStudent extends BaseAdapter {
                     String fecha=alCustom.get(position).getFecha_inicio()+"";
                     String diadelasemana;
 
+                    boton.setEnabled(false);
+                    boton.setBackgroundColor(000000);
 
-
-                    boton.setOnClickListener(new View.OnClickListener()
+                    /*boton.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
                         public void onClick(View v) {
                             String Fecha1=alCustom.get(position).getDia().substring(0,10);
                             id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
                         }
-                    });
+                    });*/
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setBackgroundColor(000000);
 
@@ -211,7 +212,6 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                         }
 
-//-----------------------
 
 
                     });
@@ -240,7 +240,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             String Fecha1 = alCustom.get(position).getDia().substring(0, 10);
 
 
-                            id_fellow_con_fecha(Fecha1 + " 00:00:00", Fecha1 + " 23:59:59", USER, position);
+                            //id_fellow_con_fecha(Fecha1 + " 00:00:00", Fecha1 + " 23:59:59", USER, position);
                             Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
                             props.put("mail.smtp.socketFactory.port", "465");
@@ -306,16 +306,11 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                          actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
+                          //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
-                           agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
+                           /*agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
                                     "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
-                                    ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));
-                            //Corregir end_time
-                        // Toast.makeText(context, " end_date: "+fechaFinal+" start_date: "+fecha, Toast.LENGTH_LONG).show();
-
-
-
+                                    ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));*/
                         }
                     });
 
@@ -325,7 +320,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
+                            //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
 
                             Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -512,11 +507,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         EMAIL_FELLOW=preferencia.getString("EMAIL2", "NO EXISTE");
     }//Fin cargar preferencias
 
-
-
-
-
-    //Actualizar status
+   /* //Actualizar status
     public void id_fellow_con_fecha (String fecha1, String fecha2, final String user, final int position)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
@@ -591,7 +582,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         });
 
 
-    }//FIN SESIONES
+    }//FIN SESIONES*/
 
     //--------------------------------------FIN PARA EL FELLOW------------------------------------------------
 
@@ -617,10 +608,6 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-
-                //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-
-
             }
 
 
@@ -635,7 +622,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN SESIONES
 
-    public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
+    /*public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
                                          final String type,final String day,final String status, final String create_date, final String start_date,
                                        final String end_date,  final String start_time, final String end_time)
     {
@@ -707,7 +694,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     }//FIN SESIONES
 
     //-------------FIN PARA EL TEACHER
-
+*/
 
     public void actualizarStatus (String id_teacher, String status)
     {
@@ -764,5 +751,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
         }
     }
+
+
 
 }

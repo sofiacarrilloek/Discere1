@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -85,6 +86,7 @@ public class TabBFragment extends Fragment {
     RequestQueue requestQueue;
     Bitmap bitmap;
     StringRequest stringRequest;
+    String TIPO;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -482,4 +484,16 @@ public class TabBFragment extends Fragment {
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
+
+
+    private  void cargarPreferencias()
+    {
+        SharedPreferences preferencia =this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        TIPO = preferencia.getString("TIPO2", "NO EXISTE");
+
+
+    }//Fin cargar preferencias
+
+
+
 }
