@@ -76,7 +76,7 @@ class HwAdapter extends BaseAdapter {
 
     public long getItemId(int position) {
 
-         return 0;
+        return 0;
     }
 
     // create a new view for each item referenced by the Adapter
@@ -227,8 +227,7 @@ class HwAdapter extends BaseAdapter {
 
 
 
-
-                      if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
+                        if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Disponible"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachdisponible);
                             txt.setTextColor(Color.parseColor("#696969"));
@@ -266,6 +265,8 @@ class HwAdapter extends BaseAdapter {
                             v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
+
+
                         if (tipo.equalsIgnoreCase("Speaker")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
@@ -286,12 +287,24 @@ class HwAdapter extends BaseAdapter {
                         }
 
                         if (tipo.equalsIgnoreCase("Coaching")&&disponible.equalsIgnoreCase("Pendiente"))
-                        {
+                        {//Speaking!Pending
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));
                         }
 
                         if (tipo.equalsIgnoreCase("Coaching 1")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_coachpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+
+                        ///PENDIENTE EN LA TABLA LESSONS
+                        if (tipo.equalsIgnoreCase("Speaking!Pending")&&disponible.equalsIgnoreCase("Pendiente"))
+                        {
+                            v.setBackgroundResource(R.drawable.circulo_speakerpendiente);
+                            txt.setTextColor(Color.parseColor("#696969"));
+                        }
+                        if (tipo.equalsIgnoreCase("Coaching!Pending")&&disponible.equalsIgnoreCase("Pendiente"))
                         {
                             v.setBackgroundResource(R.drawable.circulo_coachpendiente);
                             txt.setTextColor(Color.parseColor("#696969"));

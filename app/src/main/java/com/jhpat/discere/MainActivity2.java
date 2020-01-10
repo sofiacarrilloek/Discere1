@@ -162,8 +162,7 @@ public class MainActivity2 extends AppCompatActivity{
         if (TIPO.equalsIgnoreCase("Fellow")) {
 
             obtenIDFELLOW(ID_USER);
-            datosEnEspera(ID_USER);
-
+            datosEnEsperaFellow(ID_USER);
             datosTeacher();
 
         }
@@ -312,7 +311,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 try {
-                    Toast.makeText(MainActivity2.this, "LOADING...", Toast.LENGTH_SHORT).show();
 
                     jsonObject = new JSONObject(new String(responseBody));
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
@@ -327,7 +325,7 @@ public class MainActivity2 extends AppCompatActivity{
                     String end_time[]=new String[tamanio];
 
                     for (int i=0; i<tamanio; i++) {
-                        fechaInicio[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
+                        fechaInicio[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
@@ -337,7 +335,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if(status[i].equals("1"))
                         {
-                            cargarNombreTeacherDisponible(""+fechaInicio[i],"Disponible",""+tipo[i],user[i]+"",
+                            cargarNombreTeacherDisponible(""+fechaInicio[i].substring(0, 10),"Disponible",""+tipo[i],user[i]+"",
                                     fechaInicio[i]+" "+start_time[i]+"-"+end_time[i],""+id_teacher[i]);
                         }
                     }
@@ -345,7 +343,7 @@ public class MainActivity2 extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // Toast.makeText(MainActivity2.this, "Error: "+e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity2.this, "Error 347: "+e, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -360,17 +358,11 @@ public class MainActivity2 extends AppCompatActivity{
 
     }//FIN VER TEACHER
 
-   // Datos en Espera para el Teacher
+    // Datos en Espera para el Teacher
     public void datosEnEsperaTeacher (String ID_TEACHER2)
     {
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
-
-
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
-
-
-
-
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://34.226.77.86/discere/cas/calendar/cargar_sesion_pendiente_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
@@ -480,7 +472,6 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
-                    //    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -544,6 +535,7 @@ public class MainActivity2 extends AppCompatActivity{
     }
     public void cargarNombreTeacherDisponible (final String fechaInicio, final String estado, final String tipo, final String user, final String hora, final String id_teacher)
     {
+        HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_user", user);
@@ -570,13 +562,14 @@ public class MainActivity2 extends AppCompatActivity{
                         email[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("email");
                         last_name[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("last_name");
 
-                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio.substring(0,10) ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
+                        HomeCollection.date_collection_arr.add( new HomeCollection(fechaInicio ,estado,tipo,user,email[i]+"", nombre[i]+" "+last_name[i], ""+hora, ""+id_teacher, "",""));
 
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(MainActivity2.this, "Error 579: "+e, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -633,14 +626,13 @@ public class MainActivity2 extends AppCompatActivity{
 
                         cuentaOr++;
                     }
-                   // datosEnEspera(CONSULTA);
+
+                    datosEnEsperaFellow(CONSULTA);
                     datosLessons(CONSULTA);
 
 
 
                 } catch (JSONException e) {
-                   // Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
-
                     e.printStackTrace();
                 }
 
@@ -677,7 +669,7 @@ public class MainActivity2 extends AppCompatActivity{
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String fechaInicio[]=new String[tamanio];
-                    String hora2[]=new String[tamanio];
+                    String fechaFinal[]=new String[tamanio];
                     String status[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
@@ -687,28 +679,23 @@ public class MainActivity2 extends AppCompatActivity{
 
                     for (int i=0; i<tamanio; i++)
                     {
-                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start");
+                        fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
-                        String fe=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
-
 
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
 
-                        //Toast.makeText(getApplicationContext(),"dime que si "+id_teacher,Toast.LENGTH_LONG).show();
-
                         id_user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
-                        hora[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
-                        hora2[i]=hora[i].substring(10, 19);
+                        fechaFinal[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_date");
+                        hora[i]=fechaFinal[i].substring(10, 19);
 
-                        if(status[i].equals("1")) {
-                            cargarNombreTeacherDisponible(fechaInicio[i], "Disponible", tipo[i], id_user[i], fechaInicio[i] + " " + hora2[i], ""+id_teacher[i]);
+                        if(Integer.parseInt(status[i])==1) {
+                            cargarNombreTeacherDisponible(fechaInicio[i].substring(0, 10), "Disponible", tipo[i], id_user[i], fechaInicio[i] + "-"+hora[i], ""+id_teacher[i]);
                         }
                     }
 
 
                 } catch (JSONException e) {
-                    //  Toast.makeText(MainActivity2.this, "Error al cargar los datos del teacher "+e, Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -766,12 +753,17 @@ public class MainActivity2 extends AppCompatActivity{
                         id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
 
-                        if (status[i].equals("1"))
+                        if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Speaking"))
                         {
                             cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i],
                                     fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
                         }
 
+                        if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Coaching"))
+                        {
+                            cargarIdUserTeacherOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i],
+                                    fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
+                        }
 
                     }
 
@@ -814,7 +806,7 @@ public class MainActivity2 extends AppCompatActivity{
                     {
 
                         user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
-                        cargarNombreTeacherOcupado(fechaInicio+"","Ocupado",""+tipo,""+user[i], hora, id_teacher, id_fellow);
+                        cargarNombreTeacherOcupado(fechaInicio+"",""+estado,""+tipo,""+user[i], hora, id_teacher, id_fellow);
                     }
 
 
@@ -835,22 +827,24 @@ public class MainActivity2 extends AppCompatActivity{
     }
 
     // Datos en Espera para el FELLOW
-    public void datosEnEspera (final String ID_USER)
+
+    public void datosEnEsperaFellow (String ID_FELLOW2)
     {
-        //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
+        //PARA EL FELLOW    OBTIENE LAS LECCIONES YA AGENDADAS (AZUL O VERDE FUERTE)
+
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
+
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cargar_sesiones_pendientes_fellow.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_user",ID_USER); //envio el parametro
+        requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
 
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-
 
 
                 try {
@@ -858,53 +852,54 @@ public class MainActivity2 extends AppCompatActivity{
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String fechaInicio[]=new String[tamanio];
-                    String fechaInicio2[]=new String[tamanio];
                     String tipo[]=new String[tamanio];
+                    String id_teacher[]=new String[tamanio];
+                    String start_time[]=new String[tamanio];
+                    String  end_time[]=new String[tamanio];
+                    String  status[]=new String[tamanio];
+
                     String id_fellow[]=new String[tamanio];
-                    String status[]=new String [tamanio];
-
-
-
                     for (int i=0; i<tamanio; i++)
                     {
                         fechaInicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
-                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("title");
-                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+                        start_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_time");
+                        end_time[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_time");
+                        tipo[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
                         status[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
-                        fechaInicio2[i]=fechaInicio[i].substring(0,10);
-                        //Aqui lo envio al HomeCollection
+                        id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
-                        if (status[i].equals("1"))
+
+
+                        if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Speaking!Pending"))
                         {
-                        cargarNombreTeacherDisponible(""+fechaInicio2[i], "Pendiente", ""+tipo[i], ""+ID_USER, ""+fechaInicio[i].substring(11, 19), "");
+                            cargarIdUserTeacherOcupado("" + fechaInicio[i], "Pendiente", "Speaking", "" + id_teacher[i],
+                                    fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
                         }
+                        if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Coaching!Pending"))
+                        {
+                            cargarIdUserTeacherOcupado("" + fechaInicio[i], "Pendiente", "Coaching", "" + id_teacher[i],
+                                    fechaInicio[i] + " " + start_time[i] + "-" + end_time[i], "" + id_fellow[i]);
+                        }
+
+
                     }
-
-
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity2.this, "Error al cargar los datos"+e, Toast.LENGTH_SHORT).show();
-
-
                 }
-
 
             }
 
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
 
             }
         });
 
 
-
-
-    }//FIN SESIONES EN ESPERA PARA EL FELLOW
+    }//FIN DATOS LESSONS
 
     //------------------------------------FIN PARTE FELLOW------------------------------------------
     private void guardaridteacher()
@@ -918,6 +913,3 @@ public class MainActivity2 extends AppCompatActivity{
     }
 
 }
-
-
-

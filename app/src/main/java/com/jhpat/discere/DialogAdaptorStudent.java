@@ -68,7 +68,6 @@ class DialogAdaptorStudent extends BaseAdapter {
     public DialogAdaptorStudent(Activity context, ArrayList<Dialogpojo> alCustom) {
         this.context = context;
         this.alCustom = alCustom;
-
     }
 
     @Override
@@ -111,8 +110,39 @@ class DialogAdaptorStudent extends BaseAdapter {
         tvName.setText("Name: " + alCustom.get(position).getNombre_teacher());
         tvEmail.setText("Email: " + alCustom.get(position).getEmail_teacher());
         EMAIL = alCustom.get(position).getEmail_teacher();
-        tvDate.setText("Date " + alCustom.get(position).getDia());//
-        Tipo.setText(alCustom.get(position).getTipo().toUpperCase() + " SESSION");
+        tvDate.setText("Date " + alCustom.get(position).getDia());
+
+//
+        switch (alCustom.get(position).getEstado().toUpperCase())
+        {
+            case "DISPONIBLE":
+                if (alCustom.get(position).getTipo().equalsIgnoreCase("Coaching"))
+                {
+                    Tipo.setText("AVAILABLE COACHING SESSION");
+                }
+                else
+                {
+                    Tipo.setText("AVAILABLE SPEAKING SESSION");
+                }
+                break;
+
+            case "PENDIENTE":
+                if (alCustom.get(position).getTipo().equalsIgnoreCase("Coaching 1"))
+                {
+                    Tipo.setText("PENDING COACHING SESSION");
+                }
+                else
+                {
+                    Tipo.setText("PENDING SPEAKING SESSION");
+                }
+                break;
+
+            case "OCUPADO":
+
+                Tipo.setText(alCustom.get(position).getTipo().toUpperCase()+" SESSION");
+                break;
+
+        }
 
         if(TIPO.equalsIgnoreCase("Fellow"))
         {
@@ -125,17 +155,17 @@ class DialogAdaptorStudent extends BaseAdapter {
                     String fecha=alCustom.get(position).getFecha_inicio()+"";
                     String diadelasemana;
 
-                    boton.setEnabled(false);
-                    boton.setBackgroundColor(000000);
+                   /* boton.setEnabled(false);
+                    boton.setBackgroundColor(000000);*/
 
-                    /*boton.setOnClickListener(new View.OnClickListener()
+                    boton.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
                         public void onClick(View v) {
-                            String Fecha1=alCustom.get(position).getDia().substring(0,10);
-                            id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
+                            //String Fecha1=alCustom.get(position).getDia().substring(0,10);
+                            //id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
                         }
-                    });*/
+                    });
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setBackgroundColor(000000);
 
@@ -306,7 +336,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                          //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
+                            //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
 
                            /*agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
                                     "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
