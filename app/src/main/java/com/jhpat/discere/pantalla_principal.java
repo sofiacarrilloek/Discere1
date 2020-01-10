@@ -87,6 +87,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
 
         cargarp2();
+        payment();
 
 
         N.setText(c);
@@ -217,8 +218,57 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         obtenTipo(c);
         //Toast.makeText(getApplicationContext(),"El id del usuario es"+id,Toast.LENGTH_LONG).show();
 
+
+
     }
 
+
+
+    public void payment(){
+        SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        id=preferencia.getString("ID2", "NO EXISTE");
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/cas/payment_active.php"; //la url del web service
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("activeUser",id); //envio el parametro
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+            {
+
+                if (statusCode==200) // Lo mismo que con LOGIN
+                {
+
+                    try {
+                        jsonObject = new JSONObject(new String(responseBody));
+                        //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                        final String active= jsonObject.getJSONArray("tipo").getJSONObject(0).getString("active");
+                        Toast.makeText(getApplicationContext(),"Si es cero no has pagado wacho"+active,Toast.LENGTH_LONG).show();
+
+
+                    } catch (JSONException e) {
+
+                    }
+                }
+
+                else
+                {
+                    Toast.makeText(pantalla_principal.this, "No se pudo conectar al servidor", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+            {
+
+                Toast.makeText(pantalla_principal.this, "No se pudo conectar al servidor", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 
 
     public void obtenTipo (String Correo)
