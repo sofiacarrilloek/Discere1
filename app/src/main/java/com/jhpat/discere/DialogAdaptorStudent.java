@@ -151,21 +151,12 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                 case "DISPONIBLE":
 
-
-                    String fecha=alCustom.get(position).getFecha_inicio()+"";
-                    String diadelasemana;
-
-                   /* boton.setEnabled(false);
-                    boton.setBackgroundColor(000000);*/
-
                     boton.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
                         public void onClick(View v) {
-                            //String Fecha1=alCustom.get(position).getDia().substring(0,10);
-                            //id_fellow_con_fecha(Fecha1+" 00:00:00",Fecha1+" 23:59:59", USER, position);
-                        }
-                    });
+                            //Agendar sesionn ocupada
+                            }});
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setBackgroundColor(000000);
 
@@ -265,12 +256,10 @@ class DialogAdaptorStudent extends BaseAdapter {
                     boton_cancelar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+//***
                             actualizarStatus(alCustom.get(position).getId_teacher(), "0");//Cambia el status para que ya no este activo el registro
-                            String Fecha1 = alCustom.get(position).getDia().substring(0, 10);
 
 
-                            //id_fellow_con_fecha(Fecha1 + " 00:00:00", Fecha1 + " 23:59:59", USER, position);
                             Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
                             props.put("mail.smtp.socketFactory.port", "465");
@@ -336,11 +325,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "1");
-
-                           /*agendarSesionOcupada(alCustom.get(position).getId_fellow()+"",""+alCustom.get(position).getId_teacher(),""+alCustom.get(position).getTipo(),
-                                    "","1","",""+fecha.substring(0,10),""+fechaFinal.substring(0,10),
-                                    ""+fecha.substring(11,19),""+fechaFinal.substring(11,19));*/
+                            //Actualizar sesiones penientes
+                            //Agendar sesion ocupada
                         }
                     });
 
@@ -481,49 +467,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     //--------------------------------------PARA EL FELLOW------------------------------------------------
-    public void agendarSesionPendiente ( final String id_fellow, final String id_teacher,
-                                         final String type, final String name_teacher, final String last_name_teacher,
-                                         final String name_fellow, final String last_name_fellow,
-                                         final String start_date, final String status, final String email, final String email_fellow, final String end_date)
-    {
-
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/calendar/insertar_sesion_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams = new RequestParams();
-        //envio el parametro
-        requestParams.add("id_fellow", id_fellow);
-        requestParams.add("id_teacher", id_teacher);
-        requestParams.add("type", type);
-        requestParams.add("name_teacher", name_teacher);
-        requestParams.add("last_name_teacher", last_name_teacher);
-        requestParams.add("name_fellow", name_fellow);
-        requestParams.add("last_name_fellow", last_name_fellow);
-        requestParams.add("start_date", start_date);
-        requestParams.add("status", status);
-        requestParams.add("email", email);
-        requestParams.add("email_fellow", email_fellow);
-        requestParams.add("end_date",start_date);//Pruebas
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }//FIN
 
     private void cargarP ()
     {
@@ -537,82 +480,6 @@ class DialogAdaptorStudent extends BaseAdapter {
         EMAIL_FELLOW=preferencia.getString("EMAIL2", "NO EXISTE");
     }//Fin cargar preferencias
 
-   /* //Actualizar status
-    public void id_fellow_con_fecha (String fecha1, String fecha2, final String user, final int position)
-    {
-        //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/obten_id_fellow_enviando_fecha.php"; //la url del web service obtener_sesionesEnEspera.php
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("fecha1",fecha1);
-        requestParams.add("fecha2",fecha2);
-        requestParams.add("user",user);
-        //envio el parametro
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                try {
-                    jsonObject = new JSONObject(new String(responseBody));
-                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
-                    int tamanio =jsonObject.getJSONArray("datos").length();
-
-                    String id_fellow;
-                    ID_FELLOW=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
-                    agendarSesionPendiente(ID_FELLOW, "" + alCustom.get(position).getId_teacher(), "" + alCustom.get(position).getTipo(),
-                            "" + alCustom.get(position).getNombre_teacher(), "" + alCustom.get(position).getNombre_teacher(),
-                            "" + NAME, "" + LAST_NAME, "" + alCustom.get(position).getDia(), "0", "" + alCustom.get(position).getEmail_teacher(),
-                            EMAIL_FELLOW, ""+alCustom.get(position).getEnd_date());
-                   actualizarStatus(alCustom.get(position).getId_teacher(), "0");
-
-                   //Email
-                    Properties props = new Properties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");
-                    props.put("mail.smtp.socketFactory.port", "465");
-                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.port", "465");
-
-                    session = Session.getDefaultInstance(props, new Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                        }
-                    });
-
-                    pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                    RetreiveFeedTask task = new RetreiveFeedTask();
-                    task.execute();
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error: No se encontro fechas cercanas " + e, Toast.LENGTH_SHORT).show();
-
-
-                }
-
-
-            }
-
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-
-            }
-        });
-
-
-    }//FIN SESIONES*/
 
     //--------------------------------------FIN PARA EL FELLOW------------------------------------------------
 
@@ -652,82 +519,10 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN SESIONES
 
-    /*public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
-                                         final String type,final String day,final String status, final String create_date, final String start_date,
-                                       final String end_date,  final String start_time, final String end_time)
-    {
-
-
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams = new RequestParams();
-        //envio el parametro
-        requestParams.add("id_fellow", id_fellow);
-        requestParams.add("id_teacher", id_teacher);
-        requestParams.add("type", type);
-        requestParams.add("day", day);
-        requestParams.add("status", status);
-        requestParams.add("create_date", create_date);
-        requestParams.add("start_date", start_date);
-        requestParams.add("start_time", start_time);
-
-        requestParams.add("end_date", end_date);
-        requestParams.add("end_time", end_time);
-
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }//FIN
-
-    public void actualizarStatusPendiente (String id_teacher, String status)
-    {
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/actualizar_sesiones_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_teacher",id_teacher);
-        requestParams.add("status",status);
-
-        //envio el parametro
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Status cambiado correctamente ", Toast.LENGTH_SHORT).show();
-
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-    }//FIN SESIONES
-
-    //-------------FIN PARA EL TEACHER
-*/
 
     public void actualizarStatus (String id_teacher, String status)
     {
+        //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
         final String url ="http://34.226.77.86/discere/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
