@@ -202,64 +202,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
                     //EL teacher da de baja su sesión
-                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-//***
-                            actualizarStatusDisponibilidad(alCustom.get(position).getId_teacher(), "0");//Cambia el status para que ya no este activo el registro
-
-
-                            Properties props = new Properties();
-                            props.put("mail.smtp.host", "smtp.gmail.com");
-                            props.put("mail.smtp.socketFactory.port", "465");
-                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                            props.put("mail.smtp.auth", "true");
-                            props.put("mail.smtp.port", "465");
-
-                            session = Session.getDefaultInstance(props, new Authenticator() {
-                                protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                                }
-                            });
-
-                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                            RetreiveFeedTask task = new RetreiveFeedTask();
-                            task.execute();
-
-
-                        }
-
-                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                            @Override
-                            protected String doInBackground(String... params)
-                            {
-
-                                try {
-                                    Message message = new MimeMessage(session);
-                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                    message.setSubject(TITULO);
-                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
-                                    Transport.send(message);
-                                } catch (MessagingException e) {
-                                    e.printStackTrace();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String result) {
-                                pdialog.dismiss();
-
-                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                    });
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setVisibility(View.INVISIBLE);
                     break;
 
                 case "PENDIENTE":
