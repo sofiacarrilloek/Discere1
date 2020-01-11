@@ -13,6 +13,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.textservice.TextInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -99,12 +100,9 @@ class DialogAdaptorStudent extends BaseAdapter {
         Button boton = (Button) listViewItem.findViewById(R.id.btnaceptar);
         Button boton_cancelar=(Button)listViewItem.findViewById(R.id.btncancel);
 
-
-
         boton.setEnabled(true);
         boton_cancelar.setEnabled(true);
         cargarP();
-
 
         ESTADO_SESION=alCustom.get(position).getEstado();
         tvName.setText("Name: " + alCustom.get(position).getNombre_teacher());
@@ -217,18 +215,22 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
+                            TITULO="SESIÓN ACEPTADA";
+                            MENSAJE="TU SESIÓN HA SIDO ACEPTADA";
                             //Actualizar sesiones penientes
-                            //Agendar sesion ocupada
-                        }
-                    });
+                            String id_teacher=alCustom.get(position).getId_teacher();
+                            String id_fellow=alCustom.get(position).getId_fellow();
+                            String tipoSesion=alCustom.get(position).getTipo();
 
+                            if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
+                            {
+                                agendarSesionPendiente(id_fellow, id_teacher, "Coaching");
+                            }else
+                            {
+                                agendarSesionPendiente(id_fellow, id_teacher, "Speaking");
+                            }
 
-                    // Boton cancelar
-                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            //actualizarStatusPendiente(alCustom.get(position).getId_teacher(), "2");
+                            //Enviar correo
 
                             Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
@@ -259,8 +261,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                                     Message message = new MimeMessage(session);
                                     message.setFrom(new InternetAddress("testfrom354@gmail.com"));
                                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                    message.setSubject("Sesión Cancelada");
-                                    message.setContent(msgC, "text/html; charset=utf-8");
+                                    message.setSubject(TITULO);
+                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
                                     Transport.send(message);
                                 } catch (MessagingException e) {
                                     e.printStackTrace();
@@ -278,9 +280,12 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                         }
 
-
                     });
 
+
+                    // Boton cancelar
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setVisibility(View.INVISIBLE);
                     break;
 
                 case "OCUPADO":
@@ -290,7 +295,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
                     boton_cancelar.setEnabled(false);
-                    boton_cancelar.setVisibility(View.INVISIBLE);
+
 
 
                     break;
@@ -324,14 +329,16 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     //-----------------------PARA EL TEACHER---------------------
 
-    public void actualizarStatusDisponibilidad (String id_teacher, String status)
+    public void agendarSesionPendiente (String id_fellow, String id_teacher, String actualizacion)
     {
         //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/actualiza_status.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/calendar/actualiza_lessons_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
+        requestParams.add("tipoActualizado",actualizacion);
+        requestParams.add("id_fellow",id_fellow);
         requestParams.add("id_teacher",id_teacher);
-        requestParams.add("status",status);
+
 
         //envio el parametro
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -339,12 +346,13 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
+                Toast.makeText(context, "Sesión agendada", Toast.LENGTH_SHORT).show();
 
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                Toast.makeText(context, "Error status", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al agendar", Toast.LENGTH_SHORT).show();
             }
         });
 
