@@ -309,7 +309,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }
 
-
     //--------------------------------------PARA EL FELLOW------------------------------------------------
 
     private void cargarP ()
@@ -360,34 +359,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN SESIONES
 
-    class RetreiveFeedTask extends AsyncTask<String, Void, String>
-    {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            try {
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                message.setSubject(sub);
-                message.setContent(msg, "text/html; charset=utf-8");
-                Transport.send(message);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pdialog.dismiss();
-
-            Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-        }
-    }
 
 
 
