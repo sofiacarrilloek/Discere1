@@ -155,87 +155,35 @@ class DialogAdaptorStudent extends BaseAdapter {
                     {
                         @Override
                         public void onClick(View v) {
-                            //Agendar sesionn ocupada
+                            //Agendar sesion PENDIENTE
                             }});
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setBackgroundColor(000000);
+                    boton_cancelar.setVisibility(View.INVISIBLE);
 
                     break;
 
                 case "PENDIENTE":
                     boton.setEnabled(false);
                     boton.setBackgroundColor(000000);
+                    boton.setVisibility(View.INVISIBLE);
 
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setBackgroundColor(000000);
-
+                    boton_cancelar.setVisibility(View.INVISIBLE);
                     break;
 
                 case "OCUPADO":
                     MENSAJE="LO SENTIMOS, TU SESIÓN HA SIDO CANCELADA";
                     TITULO="SESIÓN CANCELADA";
-
+                    //Ocultar botón
                     boton.setEnabled(false);
                     boton.setBackgroundColor(000000);
+                    boton.setVisibility(View.INVISIBLE);
 
-                    boton_cancelar.setOnClickListener(new View.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View v) {
-
-                            actualizarStatusTeacher(alCustom.get(position).getId_teacher(),"0",""+alCustom.get(position).getId_fellow());
-                            //para enviar los correos
-                            Properties props = new Properties();
-                            props.put("mail.smtp.host", "smtp.gmail.com");
-                            props.put("mail.smtp.socketFactory.port", "465");
-                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                            props.put("mail.smtp.auth", "true");
-                            props.put("mail.smtp.port", "465");
-
-                            session = Session.getDefaultInstance(props, new Authenticator() {
-                                protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                                }
-                            });
-
-                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                            RetreiveFeedTask task = new RetreiveFeedTask();
-                            task.execute();
-                        }
-
-
-                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                            @Override
-                            protected String doInBackground(String... params) {
-
-                                try {
-                                    Message message = new MimeMessage(session);
-                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                    message.setSubject(TITULO);
-                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
-                                    Transport.send(message);
-                                } catch (MessagingException e) {
-                                    e.printStackTrace();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String result) {
-                                pdialog.dismiss();
-
-                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-
-
-                    });
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setBackgroundColor(000000);
+                    boton_cancelar.setVisibility(View.INVISIBLE);
 
                     break;
             }
@@ -253,11 +201,12 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
+                    //EL teacher da de baja su sesión
                     boton_cancelar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 //***
-                            actualizarStatus(alCustom.get(position).getId_teacher(), "0");//Cambia el status para que ya no este activo el registro
+                            actualizarStatusDisponibilidad(alCustom.get(position).getId_teacher(), "0");//Cambia el status para que ya no este activo el registro
 
 
                             Properties props = new Properties();
@@ -315,8 +264,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                 case "PENDIENTE":
 
-                    final String fecha=alCustom.get(position).getDia();
-                    final String fechaFinal=alCustom.get(position).getEnd_date();
+
                     boton.setEnabled(true);
                     boton.setVisibility(View.VISIBLE);
 
@@ -397,67 +345,14 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
-                    boton_cancelar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            actualizarStatusTeacher(alCustom.get(position).getId_teacher(), "0", "" + alCustom.get(position).getId_fellow());
-
-                            Properties props = new Properties();
-                            props.put("mail.smtp.host", "smtp.gmail.com");
-                            props.put("mail.smtp.socketFactory.port", "465");
-                            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                            props.put("mail.smtp.auth", "true");
-                            props.put("mail.smtp.port", "465");
-
-                            session = Session.getDefaultInstance(props, new Authenticator() {
-                                protected PasswordAuthentication getPasswordAuthentication() {
-                                    return new PasswordAuthentication("discerenc2019@gmail.com", "Adrian16");
-                                }
-                            });
-
-                            pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
-
-                            RetreiveFeedTask task = new RetreiveFeedTask();
-                            task.execute();
+                    boton_cancelar.setEnabled(false);
+                    boton_cancelar.setVisibility(View.INVISIBLE);
 
 
-                        }
-
-                        class RetreiveFeedTask extends AsyncTask<String, Void, String> {
-
-                            @Override
-                            protected String doInBackground(String... params) {
-
-                                try {
-                                    Message message = new MimeMessage(session);
-                                    message.setFrom(new InternetAddress("testfrom354@gmail.com"));
-                                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL));
-                                    message.setSubject( TITULO);
-                                    message.setContent(MENSAJE, "text/html; charset=utf-8");
-                                    Transport.send(message);
-                                } catch (MessagingException e) {
-                                    e.printStackTrace();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String result) {
-                                pdialog.dismiss();
-
-                                Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-
-                    });
                     break;
             }
 
         }
-
 
         return listViewItem;
 
@@ -484,43 +379,8 @@ class DialogAdaptorStudent extends BaseAdapter {
     //--------------------------------------FIN PARA EL FELLOW------------------------------------------------
 
     //-----------------------PARA EL TEACHER---------------------
-    public void actualizarStatusTeacher (String id_teacher, String status, String id_fellow)
-    {
 
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/actualizar_status_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
-        final RequestParams requestParams =new RequestParams();
-        requestParams.add("id_teacher",id_teacher);
-        requestParams.add("status",status);
-        requestParams.add("id_fellow",id_fellow);
-
-        //envio el parametro
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-
-
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-            }
-
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                Toast.makeText(context, "Error status"+error, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-    }//FIN SESIONES
-
-
-    public void actualizarStatus (String id_teacher, String status)
+    public void actualizarStatusDisponibilidad (String id_teacher, String status)
     {
         //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
