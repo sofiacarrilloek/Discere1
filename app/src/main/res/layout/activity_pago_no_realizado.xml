@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pago_no_realizado">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        //
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:cardBackgroundColor="#0A819C">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Info"
+                android:textColor="#FFFFFF"
+                />
+        </android.support.v7.widget.CardView>
+        //
+    <android.support.v7.widget.CardView
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#ffc439">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Make your payment on the web"
+                android:textColor="#FFFFFF" />
+        </android.support.v7.widget.CardView>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="77dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/paypal" />
+</LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

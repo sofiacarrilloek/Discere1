@@ -281,6 +281,10 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
 
     }
     //receptor
+    private  void payment(){
+        SharedPreferences preferencia =getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
+        String Pago = preferencia.getString("activeUser","NO EXISTE");
+    }
     //Carga preferencias
     private  void cargarP()
     {

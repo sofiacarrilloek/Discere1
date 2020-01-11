@@ -50,7 +50,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     FloatingActionMenu actionMenu;
     com.github.clans.fab.FloatingActionButton ver,Agendar;
     JSONObject jsonObject;
-    String tipo;
+    String tipo,Pago,pago;
     private String id2,id3,id4,id5,id6;
     RequestQueue requestQueue;
 
@@ -179,8 +179,30 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     }
 
     public void ver(View view){
-        Intent inten= new Intent(pantalla_principal.this, splash.class);
-        startActivity(inten);
+        cargarP();
+
+
+
+
+        if(tipo.equals("Coach") || tipo.equals("Speaker") ){
+            Intent intent= new Intent(pantalla_principal.this, MainActivity2.class);
+            startActivity(intent);
+        }else if(tipo.equals("Fellow")){
+            if (pago.equals("1")){
+                Intent intent= new Intent(pantalla_principal.this, MainActivity2.class);
+                startActivity(intent);
+            }else if(pago.equals("0")) {
+                Intent intent= new Intent(pantalla_principal.this, pago_no_realizado.class);
+                startActivity(intent);
+            }else {
+                Toast.makeText(getApplicationContext(),"Error favor de contactar a un administrador",Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(getApplicationContext(),"Error contacte a un administrador para solucionar el problema",Toast.LENGTH_LONG).show();
+
+        }
+
     }
     public void agendar(View view){
         cargarP();
@@ -243,7 +265,8 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
                         jsonObject = new JSONObject(new String(responseBody));
                         //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                         final String active= jsonObject.getJSONArray("tipo").getJSONObject(0).getString("active");
-                        Toast.makeText(getApplicationContext(),"Si es cero no has pagado wacho"+active,Toast.LENGTH_LONG).show();
+                        pago=active;
+                        //Toast.makeText(getApplicationContext(),"Si es cero no has pagado wacho"+active,Toast.LENGTH_LONG).show();
 
 
                     } catch (JSONException e) {
@@ -612,6 +635,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         tipo=preferencia.getString("TIPO2", "no existe");
+        Pago = preferencia.getString("activeUser","NO EXISTE");
 
     }//Fin cargar preferencias
 

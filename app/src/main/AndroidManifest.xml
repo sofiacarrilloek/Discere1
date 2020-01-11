@@ -18,8 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Tabla.splash"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".pago_no_realizado"
+            android:parentActivityName=".pantalla_principal" ></activity>
+        <activity
+            android:name=".Tabla.splash"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <uses-library
             android:name="org.apache.http.legacy"
