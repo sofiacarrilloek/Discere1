@@ -24,11 +24,10 @@
                 android:layout_height="120dp"
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FFF"
-                app:srcCompat="@drawable/usuariob"
                 android:onClick="onclick"
-                />
+                app:civ_border_color="#000"
+                app:civ_border_width="2dp"
+                app:srcCompat="@drawable/usuariob" />
 
         </LinearLayout>
 
