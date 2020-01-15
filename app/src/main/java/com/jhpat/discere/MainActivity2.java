@@ -255,12 +255,14 @@ public class MainActivity2 extends AppCompatActivity{
                     String id_teacher[]=new String[tamanio];
                     String id_fellow[]=new String[tamanio];
                     String start_time[]=new String[tamanio];
+                    String end_time[]=new String[tamanio];
                     String status[]=new String[tamanio];
                     for (int i=0; i<tamanio; i++) {
                         fechaInicio[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
                         tipo[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
                         start_time[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_time");
+                        end_time[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_time");
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
@@ -269,12 +271,12 @@ public class MainActivity2 extends AppCompatActivity{
 
                         if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Coaching")) {
                             cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
-                                    fechaInicio[i] + " " + start_time[i], id_fellow[i]);
+                                    fechaInicio[i] + " " + start_time[i]+"-"+end_time[i], id_fellow[i]);
                         }
 
                         if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Speaking")) {
                             cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Ocupado", "" + tipo[i], "" + id_teacher[i], "" +
-                                    fechaInicio[i] + " " + start_time[i], id_fellow[i]);
+                                    fechaInicio[i] + " " + start_time[i]+"-"+end_time[i], id_fellow[i]);
                         }
 
 
@@ -393,8 +395,9 @@ public class MainActivity2 extends AppCompatActivity{
                     String tipo[]=new String[tamanio];
                     String id_teacher[]=new String[tamanio];
                     String id_fellow[]=new String[tamanio];
-                    String status[]=new String [tamanio];String
-                    start_time[]=new String[tamanio];
+                    String status[]=new String [tamanio];
+                    String start_time[]=new String[tamanio];
+                    String end_time[]=new String[tamanio];
 
 
                     for (int i=0; i<tamanio; i++)
@@ -403,17 +406,18 @@ public class MainActivity2 extends AppCompatActivity{
                         tipo[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("type");
                         id_teacher[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_teacher");
                         start_time[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_time");
+                        end_time[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_time");
                         status[i] = jsonObject.getJSONArray("datos").getJSONObject(i).getString("status");
                         id_fellow[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_fellow");
 
                         if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Coaching!Pending")) {
                             cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Pendiente", "" + tipo[i], "" + id_teacher[i], "" +
-                                    fechaInicio[i] + " " + start_time[i], id_fellow[i]);
+                                    fechaInicio[i] + " " + start_time[i]+"-"+end_time[i], id_fellow[i]);
                         }
 
                         if (Integer.parseInt(status[i])==1&&tipo[i].equalsIgnoreCase("Speaking!Pending")) {
-                            cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio2[i], "Pendiente", "" + tipo[i], "" + id_teacher[i], "" +
-                                    fechaInicio[i] + " " + start_time[i], id_fellow[i]);
+                            cargarIdUsercargarIdUserFellowOcupado("" + fechaInicio[i], "Pendiente", "" + tipo[i], "" + id_teacher[i], "" +
+                                    fechaInicio[i] + " " + start_time[i]+"-"+end_time[i], id_fellow[i]);
                         }
                     }
 
@@ -468,10 +472,13 @@ public class MainActivity2 extends AppCompatActivity{
                         user[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("user");
                         //Aqui es para cargar el datos del fellow
                         cargarNombreUsuarioLessons(fechaInicio+"",""+estado,""+tipo,""+user[i], hora, id_teacher, id_fellow);
+
                     }
 
 
                 } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error 475: "+e, Toast.LENGTH_SHORT).show();
+
                     e.printStackTrace();
                 }
 
@@ -519,6 +526,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
                 } catch (JSONException e) {
+                    Toast.makeText(MainActivity2.this, "Error 525: "+e, Toast.LENGTH_SHORT).show();
 
                     e.printStackTrace();
                 }
