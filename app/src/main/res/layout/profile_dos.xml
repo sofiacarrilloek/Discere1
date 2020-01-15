@@ -18,12 +18,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ImageProfile"
                 android:layout_width="150dp"
                 android:layout_height="120dp"
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#000"
                 app:srcCompat="@drawable/usuariob"
                 android:onClick="onclick"
                 />

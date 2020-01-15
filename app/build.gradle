@@ -44,6 +44,7 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.1.17'
     implementation 'net.gotev:uploadservice:3.0'
     implementation 'pub.devrel:easypermissions:0.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
     //Apache httpclient-android library
     implementation group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'

@@ -212,7 +212,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
             Intent intent= new Intent(pantalla_principal.this,TabsActivity.class);
             startActivity(intent);
         }else if(tipo.equals("Fellow")){
-            Toast.makeText(getApplicationContext(),"Error permisos insuficientes",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"permisos insuficientes",Toast.LENGTH_LONG).show();
             actionMenu.close(true);
         }else {
             Toast.makeText(getApplicationContext(),"Error contacte a un administrador para solucionar el problema",Toast.LENGTH_LONG).show();

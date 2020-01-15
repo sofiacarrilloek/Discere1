@@ -41,12 +41,15 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 
@@ -76,17 +79,12 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "http://34.226.77.86/discere/upload.php";
+    private static final String SERVER_PATH = "http://34.226.77.86/discere/s3/s3.php";
     private File file,fileN;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
     private static final int REQUEST_FILE_CODE = 200;
-    private static final int READ_REQUEST_CODE = 300;
-    private ProgressDialog progreso;
-    RequestQueue requestQueue;
-    Bitmap bitmap;
-    StringRequest stringRequest;
-    String TIPO;
+    String TIPO,NOMBRE;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -117,11 +115,14 @@ public class TabBFragment extends Fragment {
             }
         });
 
+        httpHandler handler = new httpHandler();
+        String txt = handler.post("http://34.226.77.86/discere/s3/s3.php");
+
 
         añadirA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (file != null) {
+                if (fileN != null) {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
@@ -142,6 +143,36 @@ public class TabBFragment extends Fragment {
 
         return vista;
     }
+
+    public class httpHandler {
+        public String post(String posturl){
+
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+
+                /*Creamos el objeto de HttpClient que nos permitira conectarnos mediante peticiones http*/
+
+                HttpPost httppost = new HttpPost(posturl);
+
+                /*El objeto HttpPost permite que enviemos una peticion de tipo POST a una URL especificada*/
+
+                //AÑADIR PARAMETROS
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("nombre", NOMBRE));
+
+                /*Una vez añadidos los parametros actualizamos la entidad de httppost, esto quiere decir en pocas palabras anexamos los parametros al objeto para que al enviarse al servidor envien los datos que hemos añadido*/
+
+                httppost.setEntity(new UrlEncodedFormEntity(params));
+                /*Finalmente ejecutamos enviando la info al server*/
+                HttpResponse resp = httpclient.execute(httppost);
+                HttpEntity ent = resp.getEntity();/*y obtenemos una respuesta*/
+                String text = EntityUtils.toString(ent);
+                return text;
+            }
+      catch(Exception e) { return "error";}
+        }
+    }
+
 
     private void solicitarpermisos(){
         int perimisosExternal= ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -491,8 +522,9 @@ public class TabBFragment extends Fragment {
     {
         SharedPreferences preferencia =this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         TIPO = preferencia.getString("TIPO2", "NO EXISTE");
+        NOMBRE = preferencia.getString("NAME2","NO EXISTE");
 
-        Toast.makeText(this.getActivity(), "TIPO: "+TIPO, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(), "TIPO: "+TIPO+", "+NOMBRE, Toast.LENGTH_SHORT).show();
 
 
     }//Fin cargar preferencias
