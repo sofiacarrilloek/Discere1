@@ -251,7 +251,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
                             {
-                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -284,7 +284,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                             if (tipoSesion.equalsIgnoreCase("Speaking!Pending"))
                             {
-                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -310,11 +310,13 @@ class DialogAdaptorStudent extends BaseAdapter {
                                     cuentaOr++;
                                 }
 
+                                Toast.makeText(context, "total: "+total, Toast.LENGTH_SHORT).show();
 
-                                cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
+
+                      /*          cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
                                         ""+start, ""+end, null, ""+getNombreDia(Fecha), ""+getFechaActual(), "1", ""+start_date, ""+end_date);
 
-                            }
+                          */  }
 
                             //Enviar correo
 
@@ -532,7 +534,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error 529: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error 535: " + error, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -618,8 +620,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
 
-        //final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        //final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",user);
         requestParams.add("consulta",consulta);
@@ -637,7 +639,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                     //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
                     int tamanio =jsonObject.getJSONArray("datos").length();
                     String id_teacher[]=new String[tamanio];
-
+                    String fecha_inicio[]=new String [tamanio];
+                    String fecha_final[]=new String [tamanio];
                     String f="";
 
 
@@ -645,10 +648,16 @@ class DialogAdaptorStudent extends BaseAdapter {
                     {
 
                         id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
-                        agendarSesionOcupadaFellow(""+USER_FELLOW, ""+title, ""+start, ""+end, ""+constrain,
+                        fecha_inicio[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("start_date");
+                        fecha_final[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("end_date");
+
+                        agendarSesionOcupadaFellow(""+USER_FELLOW, ""+title, ""+fecha_inicio[i].substring(0,10)+"T"+fecha_inicio[i].substring(11,19), ""+fecha_final[0].substring(0,10)+"T"+fecha_final[0].substring(11,19), ""+constrain,
                                 ""+day, ""+create_date,""+status,
-                        ""+start_date, ""+end_date, ""+id_teacher[i]);
+                        ""+fecha_inicio[i], ""+fecha_final[i], ""+id_teacher[i]);
+
                     }
+
+                    //Toast.makeText(context, "Start: "+fecha_final[0].substring(0,10)+"T"+fecha_final[0].substring(11,19), Toast.LENGTH_SHORT).show();
 
 
                 } catch (JSONException e) {
@@ -693,6 +702,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     String id_user;
                     id_user=jsonObject.getJSONArray("datos").getJSONObject(0).getString("user");
+
                     cargaIDT(""+Userteacher,""+consulta,""+id_user,""+title, ""+start, ""+end, ""+constrain, ""+day,
                             ""+create_date, ""+status, ""+start_date, ""+end_date);
 
@@ -724,8 +734,8 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
-        //final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
-        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
+        //final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("user", user);
@@ -765,7 +775,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     agendarSesionOcupadaLessons(""+id_fellow, ""+id_teacher, ""+type, ""+day, ""+status, ""+create_date,
                             ""+start_date.substring(0, 10),
-                                ""+end_date.substring(0, 10) , ""+start_date.substring(10, 20), ""+end_date.substring(10, 19));
+                                ""+end_date.substring(0, 10) , ""+start_date.substring(10, 19), ""+end_date.substring(10, 19));
 
 
 
@@ -794,8 +804,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                                               final String end_date,  final String start_time, final String end_time)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        //final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
-        final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
+        //final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
 
         //envio el parametro
