@@ -254,7 +254,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
                             {
-                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                               // actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -287,7 +287,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                             if (tipoSesion.equalsIgnoreCase("Speaking!Pending"))
                             {
-                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -623,7 +623,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
         //final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://34.226.77.86/discere/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",user);
         requestParams.add("consulta",consulta);
@@ -673,7 +673,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                Toast.makeText(context, "Error"+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error 676: "+error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -721,7 +721,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                Toast.makeText(context, "Error"+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error 724 "+error, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -827,12 +827,12 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Session saved 830", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error 835: " + error, Toast.LENGTH_SHORT).show();
 
             }
         });
