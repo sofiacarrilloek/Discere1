@@ -36,9 +36,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -310,17 +313,14 @@ class DialogAdaptorStudent extends BaseAdapter {
                                     cuentaOr++;
                                 }
 
-                                Toast.makeText(context, "total: "+total, Toast.LENGTH_SHORT).show();
-
-
-                      /*          cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
+                                cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
                                         ""+start, ""+end, null, ""+getNombreDia(Fecha), ""+getFechaActual(), "1", ""+start_date, ""+end_date);
 
-                          */  }
+                          }
 
                             //Enviar correo
 
-                         /*   Properties props = new Properties();
+                            Properties props = new Properties();
                             props.put("mail.smtp.host", "smtp.gmail.com");
                             props.put("mail.smtp.socketFactory.port", "465");
                             props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -336,7 +336,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             pdialog = ProgressDialog.show(context, "", "Sending Mail...", true);
 
                             RetreiveFeedTask task = new RetreiveFeedTask();
-                            task.execute();*/
+                            task.execute();
                         }
 
 
