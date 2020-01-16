@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -53,10 +52,7 @@ import org.json.JSONArray;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -76,8 +72,8 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "http://34.226.77.86/discere/upload.php";
-    private File file,fileN;
+    private static final String SERVER_PATH = "https://samplexl.000webhostapp.com/Acceso/s3.php";
+    private File file;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
     private static final int REQUEST_FILE_CODE = 200;
@@ -86,7 +82,6 @@ public class TabBFragment extends Fragment {
     RequestQueue requestQueue;
     Bitmap bitmap;
     StringRequest stringRequest;
-    String TIPO;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -108,7 +103,6 @@ public class TabBFragment extends Fragment {
         nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
         buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
         solicitarpermisos();
-        cargarPreferencias();
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +119,7 @@ public class TabBFragment extends Fragment {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
-                    insertarAudio("https://s3-us-east-1-discere.s3.amazonaws.com"+fileN.getName());
+                    //insertarAudio("http://34.226.77.86/discere/audios/"+file.getName());
 
                 } else {
                     Toast.makeText(getActivity(),
@@ -242,13 +236,7 @@ public class TabBFragment extends Fragment {
             String filePath = getRealPath(getContext(), fileUri);
             file = new File(filePath);
             Log.d(TAG, "Filename " + file.getName());
-            Date date = new Date();
-            DateFormat hourdateFormat = new SimpleDateFormat("yyyy-dd-MM");
-            String historial = hourdateFormat.format(date);
-            String nombreUsuario=TIPO;
-            fileN=new File("audio_"+nombreUsuario+"_"+historial);
-
-            nombreA.setText(fileN.getName());
+            nombreA.setText(file.getName());
             //insertarAudio(file.getName());
         }
     }
@@ -287,7 +275,7 @@ public class TabBFragment extends Fragment {
     private void showFileChooserIntent() {
         Intent fileManagerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         //Choose any file
-        fileManagerIntent.setType("audio/*");
+        fileManagerIntent.setType("*/*");
         startActivityForResult(fileManagerIntent, REQUEST_FILE_CODE);
 
     }
@@ -416,12 +404,12 @@ public class TabBFragment extends Fragment {
             HttpEntity httpEntity = null;
             String responseString = null;
 
-            try {
+
                 HttpPost httpPost = new HttpPost(SERVER_PATH);
                 MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
 
                 // Add the file to be uploaded
-                multipartEntityBuilder.addPart("file", new FileBody(fileN));
+                multipartEntityBuilder.addPart("file", new FileBody(file));
 
                 // Progress listener - updates task's progress
                 MyHttpEntity.ProgressListener progressListener =
@@ -437,24 +425,17 @@ public class TabBFragment extends Fragment {
                         progressListener));
 
 
+            try {
                 httpResponse = httpClient.execute(httpPost);
-                httpEntity = httpResponse.getEntity();
-
-                int statusCode = httpResponse.getStatusLine().getStatusCode();
-                if (statusCode == 200) {
-                    // Server response
-                    responseString = EntityUtils.toString(httpEntity);
-                } else {
-                    responseString = "Error occurred! Http Status Code: "
-                            + statusCode;
-                }
-            } catch (UnsupportedEncodingException | ClientProtocolException e) {
-                e.printStackTrace();
-                Log.e("UPLOAD", e.getMessage());
-                this.exception = e;
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
+
+            //  httpEntity = httpResponse.getEntity();
+
+
+
 
             return responseString;
         }
@@ -474,8 +455,7 @@ public class TabBFragment extends Fragment {
 
             // Close dialog
             this.progressDialog.dismiss();
-            Toast.makeText(getContext(),
-                    result, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), result, Toast.LENGTH_LONG).show();
             buscarAudio();
         }
 
@@ -485,18 +465,4 @@ public class TabBFragment extends Fragment {
             this.progressDialog.setProgress((int) progress[0]);
         }
     }
-
-
-    private  void cargarPreferencias()
-    {
-        SharedPreferences preferencia =this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        TIPO = preferencia.getString("TIPO2", "NO EXISTE");
-
-        Toast.makeText(this.getActivity(), "TIPO: "+TIPO, Toast.LENGTH_SHORT).show();
-
-
-    }//Fin cargar preferencias
-
-
-
 }
