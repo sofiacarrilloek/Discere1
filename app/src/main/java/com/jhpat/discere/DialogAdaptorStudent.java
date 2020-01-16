@@ -254,7 +254,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
                             {
-                               // actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -287,7 +287,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                             if (tipoSesion.equalsIgnoreCase("Speaking!Pending"))
                             {
-                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -485,8 +485,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Sesión agendada", Toast.LENGTH_SHORT).show();
 
             }
             @Override
