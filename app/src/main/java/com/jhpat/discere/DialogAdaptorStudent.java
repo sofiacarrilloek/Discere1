@@ -382,6 +382,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
+                    //SE OCULTA EL BOTON CANCELAR
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setVisibility(View.INVISIBLE);
 
