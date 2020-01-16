@@ -154,7 +154,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             //Agendar sesion PENDIENTE
-                            String tipoSesion="";
+                            String tipoSesion="";//Variable para el tipo de sesion
 
                             if (alCustom.get(position).getTipo().equalsIgnoreCase("Coaching")) {
                                 tipoSesion = "Coaching 1";
@@ -163,15 +163,14 @@ class DialogAdaptorStudent extends BaseAdapter {
                                 tipoSesion="Speaking 1";
                             }
 
-                            String fecha = alCustom.get(position).getDia().substring(0, 10);
+                            String fecha = alCustom.get(position).getDia().substring(0, 10);//Obtiene la fecha en formato yyyy-MM-dd
                             String hora_inicio=alCustom.get(position).getDia().substring(11, 19);
                             String hora_final=alCustom.get(position).getDia().substring(21, 29);
                             String start_date=fecha+" "+hora_inicio;
                             String end_date=fecha+" "+hora_final;
-                            String start=fecha+"T"+hora_inicio;
+                            String start=fecha+"T"+hora_inicio;//Formato yyyy-MM-ddT00:00:00
                             String end=fecha+"T"+hora_final;
 
-                           // Toast.makeText(context, "Hora inicio:"+hora_inicio, Toast.LENGTH_SHORT).show();
                          agendarSesionPendienteFellow(""+USER, ""+tipoSesion, ""+start, ""+end, null,""+getNombreDia(fecha), ""+getFechaActual(),
                                   ""+1,""+start_date ,
                                    ""+end_date, ""+alCustom.get(position).getId_teacher());
@@ -223,7 +222,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
-                    //EL teacher da de baja su sesión
+                   //SE OCULTA EL BOTON CANCELAR
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setVisibility(View.INVISIBLE);
                     break;
@@ -244,57 +243,77 @@ class DialogAdaptorStudent extends BaseAdapter {
                             //Actualizar sesiones penientes
                             String Fecha= alCustom.get(position).getDia().substring(0,10);
                             String FechaCompleta=alCustom.get(position).getDia();
-                            Date Fecha1 = null, Fecha2, Fecha3, Fecha4;
 
                             String id_teacher=alCustom.get(position).getId_teacher();
                             String id_fellow=alCustom.get(position).getId_fellow();
                             String tipoSesion=alCustom.get(position).getTipo();
 
+
                             if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
                             {
-                                Toast.makeText(context, "Fecha:"+Fecha, Toast.LENGTH_SHORT).show();
-                                //agendarSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                String title = "Coaching 1";
+                                String hora_inicio=FechaCompleta.substring(10, 19);
+                                String hora_final=FechaCompleta.substring(20, 28);
+                                String start=Fecha+"T"+hora_inicio;
+                                String end=Fecha+"T"+hora_final;
+                                String start_date=Fecha+" "+hora_inicio;
+                                String end_date=Fecha+" "+hora_final;
+
+                                int cuentaOr=0;
+                                String OR;
+
+                                OR=", ";
+                                String FechasS[]= new String[11];
+                                FechasS[0]=Fecha;
+                                String total="";
+                                for (int i=1; i<10; i++){
+                                    FechasS[i]=getFecha7Dias(FechasS[i-1]);
+                                    total=total+"'"+FechasS[i]+" "+hora_inicio+"'";
+                                     if (cuentaOr < 8) {
+                                        total = total + OR;
+                                    }
+
+                                    cuentaOr++;
+                                }
+
+
+                                cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
+                                        ""+start, ""+end, null, ""+getNombreDia(Fecha), ""+getFechaActual(), "1", ""+start_date, ""+end_date);
+
                             }
                             if (tipoSesion.equalsIgnoreCase("Speaking!Pending"))
                             {
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                String title = "Coaching 1";
+                                String hora_inicio=FechaCompleta.substring(10, 19);
+                                String hora_final=FechaCompleta.substring(20, 28);
+                                String start=Fecha+"T"+hora_inicio;
+                                String end=Fecha+"T"+hora_final;
+                                String start_date=Fecha+" "+hora_inicio;
+                                String end_date=Fecha+" "+hora_final;
 
-                                //0btiene las 3 fechas
-                                String month = Fecha.substring(5,7);
-                                String day = Fecha.substring(8,10);
-                                String year = Fecha.substring(0,4);
+                                int cuentaOr=0;
+                                String OR;
 
-                                String hora_inicio=FechaCompleta.substring(12, 19);
-                                String hora_final=FechaCompleta.substring(21, 28);
+                                OR=", ";
+                                String FechasS[]= new String[11];
+                                FechasS[0]=Fecha;
+                                String total="";
+                                for (int i=1; i<10; i++){
+                                    FechasS[i]=getFecha7Dias(FechasS[i-1]);
+                                    total=total+"'"+FechasS[i]+" "+hora_inicio+"'";
+                                    if (cuentaOr < 8) {
+                                        total = total + OR;
+                                    }
 
-                                String inputDateStr = String.format("%s/%s/%s", day, month, year);
-                                Date inputDate = null;
-                                try {
-                                    inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStr);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                                    cuentaOr++;
                                 }
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.setTime(inputDate);
-                                Fecha1=calendar.getTime();
-
-                                calendar.add(Calendar.DAY_OF_YEAR, 7);
-                                Fecha2=calendar.getTime();
-
-                                calendar.add(Calendar.DAY_OF_YEAR, 7);
-                                Fecha3=calendar.getTime();
-
-                                calendar.add(Calendar.DAY_OF_YEAR, 7);
-                                Fecha4=calendar.getTime();
-
-                                String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
-
-                           /*     Toast.makeText(context, "Fecha 1: "+getFechaMod(Fecha1)+"Fecha 2 :"+getFechaMod(Fecha2)+
-                                   "Fecha 3: "+getFechaMod(Fecha3)+"Fecha 4 :"+getFechaMod(Fecha4)+"Dia: "+dayOfWeek+"Ahora: "+getFechaActual()+" 00:00:00", Toast.LENGTH_SHORT).show();
-*/
 
 
+                                cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
+                                        ""+start, ""+end, null, ""+getNombreDia(Fecha), ""+getFechaActual(), "1", ""+start_date, ""+end_date);
 
-                                //agendarSesionAceptada(id_fellow, id_teacher, "Speaking");
                             }
 
                             //Enviar correo
@@ -376,8 +395,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }
 
-    //--------------------------------------PARA EL FELLOW------------------------------------------------
-
     private void cargarP ()
     {
         //Cargar preferencias sirve para almacenar datos
@@ -391,11 +408,64 @@ class DialogAdaptorStudent extends BaseAdapter {
     }//Fin cargar preferencias
 
 
-    //--------------------------------------FIN PARA EL FELLOW------------------------------------------------
 
-    //-----------------------PARA EL TEACHER---------------------
 
-    public void agendarSesionAceptada (String id_fellow, String id_teacher, String actualizacion)
+
+    public static String getFechaMod(Date fechaMod){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        return sf.format(fechaMod);
+    }
+
+    public static String getFechaActual() {
+        Date ahora = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return formateador.format(ahora);
+    }
+    public static String getNombreDia(String Fecha) {
+        String month = Fecha.substring(5,7);
+        String day = Fecha.substring(8,10);
+        String year = Fecha.substring(0,4);
+
+        String inputDateStr = String.format("%s/%s/%s", day, month, year);
+        Date inputDate = null;
+        try {
+            inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(inputDate);
+        String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
+
+        return dayOfWeek;
+    }
+
+    public static String getFecha7Dias(String fecha)
+    {
+        //0btiene las 3 fechas
+        String month = fecha.substring(5,7);
+        String day = fecha.substring(8,10);
+        String year = fecha.substring(0,4);
+
+        String inputDateStr = String.format("%s/%s/%s", day, month, year);
+        Date inputDate = null;
+        try {
+            inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(inputDate);
+        fecha=calendar.getTime().toString();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        fecha=getFechaMod(calendar.getTime());
+
+        return fecha;
+    }
+
+
+    public void actualizaSesionAceptada (String id_fellow, String id_teacher, String actualizacion)
     {
         //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
@@ -426,74 +496,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
     }//FIN SESIONES
 
-    public String getFechaMod(Date fechaMod){
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        return sf.format(fechaMod);
-    }
-
-    public static String getFechaActual() {
-        Date ahora = new Date();
-        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return formateador.format(ahora);
-    }
-    public static String getNombreDia(String Fecha) {
-        String month = Fecha.substring(5,7);
-        String day = Fecha.substring(8,10);
-        String year = Fecha.substring(0,4);
-
-        String inputDateStr = String.format("%s/%s/%s", day, month, year);
-        Date inputDate = null;
-        try {
-            inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(inputDate);
-        String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US);
-
-        return dayOfWeek;
-    }
-
-    public void agendarSesionOcupada ( final String id_fellow, final String id_teacher,
-                                       final String type,final String day,final String status, final String create_date, final String start_date,
-                                       final String end_date,  final String start_time, final String end_time)
-    {
-        AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
-        final RequestParams requestParams =new RequestParams();
-
-        //envio el parametro
-        requestParams.add("id_fellow", id_fellow);
-        requestParams.add("id_teacher", id_teacher);
-        requestParams.add("type", type);
-        requestParams.add("day", day);
-        requestParams.add("status", status);
-        requestParams.add("create_date", create_date);
-        requestParams.add("start_date", start_date);
-        requestParams.add("start_time", start_time);
-
-        requestParams.add("end_date", end_date);
-        requestParams.add("end_time", end_time);
-
-
-        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }//FIN
 
     public void agendarSesionPendienteLessons ( final String id_fellow, final String id_teacher,
                                        final String type,final String day,final String status, final String create_date, final String start_date,
@@ -606,6 +608,222 @@ class DialogAdaptorStudent extends BaseAdapter {
                 Toast.makeText(context, "Error 598: " + error, Toast.LENGTH_SHORT).show();
 
         }
+        });
+
+
+    }//FIN
+
+    public void cargaIDT (String user, String consulta, final String USER_FELLOW, final String title,final String start, final String end, final String constrain,final String day , final String create_date, final String status, final String start_date,final String end_date)
+    {
+
+        AsyncHttpClient conexion = new AsyncHttpClient();
+
+        //final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("user",user);
+        requestParams.add("consulta",consulta);
+
+
+
+        //envio el parametro
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+                    int tamanio =jsonObject.getJSONArray("datos").length();
+                    String id_teacher[]=new String[tamanio];
+
+                    String f="";
+
+
+                    for (int i=0; i<tamanio; i++)
+                    {
+
+                        id_teacher[i]=jsonObject.getJSONArray("datos").getJSONObject(i).getString("id_");
+                        agendarSesionOcupadaFellow(""+USER_FELLOW, ""+title, ""+start, ""+end, ""+constrain,
+                                ""+day, ""+create_date,""+status,
+                        ""+start_date, ""+end_date, ""+id_teacher[i]);
+                    }
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Error 529: "+e, Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error"+error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
+
+    public void cargaIdUserMandandoIdFellow (final String id_fellow, final String Userteacher, final String consulta, final String title,
+                                             final String start, final String end, final String constrain, final String day, final String create_date, final String status,
+                                             final String start_date, final String end_date)
+    {
+        //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        final String url ="http://34.226.77.86/discere/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service obtener_sesionesEnEspera.php
+        final RequestParams requestParams =new RequestParams();
+        requestParams.add("id_fellow",id_fellow);
+
+        //envio el parametro
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+                    String id_user;
+                    id_user=jsonObject.getJSONArray("datos").getJSONObject(0).getString("user");
+                    cargaIDT(""+Userteacher,""+consulta,""+id_user,""+title, ""+start, ""+end, ""+constrain, ""+day,
+                            ""+create_date, ""+status, ""+start_date, ""+end_date);
+
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Error 577: "+e, Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+
+
+
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                Toast.makeText(context, "Error"+error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }//FIN SESIONES
+
+
+    public void agendarSesionOcupadaFellow (final String user,final String title,final String start, final String end, final String constrain,
+                                              final String day , final String create_date, final String status, final String start_date,final String end_date, final String id_teacher)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+
+        //final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
+        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams = new RequestParams();
+        //envio el parametro
+        requestParams.add("user", user);
+        requestParams.add("title", title);
+        requestParams.add("start", start);
+        requestParams.add("end", end);
+        requestParams.add("constrain", constrain);
+        requestParams.add("day", day);
+        requestParams.add("create_date", create_date);
+        requestParams.add("status", status);
+        requestParams.add("start_date", start_date);
+        requestParams.add("end_date", end_date);
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                // Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
+
+                try {
+                    jsonObject = new JSONObject(new String(responseBody));
+                    //Apartir de aqui, les asigno a los editText el valor que obtengo del webservice
+
+                    String id_fellow="";
+                    String type="";
+                    if (title.equalsIgnoreCase("Coaching 1"))
+                    {
+                        type="Coaching";
+                    }
+                    if (title.equalsIgnoreCase("Speaking 1"))
+                    {
+                        type="Speaking";
+                    }
+
+                        id_fellow=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
+
+                    agendarSesionOcupadaLessons(""+id_fellow, ""+id_teacher, ""+type, ""+day, ""+status, ""+create_date,
+                            ""+start_date.substring(0, 10),
+                                ""+end_date.substring(0, 10) , ""+start_date.substring(10, 20), ""+end_date.substring(10, 19));
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(context, "ERROR 589"+e, Toast.LENGTH_SHORT).show();
+                }
+
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                //error.toString();
+                Toast.makeText(context, "Error 598: " + error, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }//FIN
+
+    public void agendarSesionOcupadaLessons ( final String id_fellow, final String id_teacher,
+                                              final String type,final String day,final String status, final String create_date, final String start_date,
+                                              final String end_date,  final String start_time, final String end_time)
+    {
+        AsyncHttpClient conexion = new AsyncHttpClient();
+        //final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
+        final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final RequestParams requestParams =new RequestParams();
+
+        //envio el parametro
+        requestParams.add("id_fellow", id_fellow);
+        requestParams.add("id_teacher", id_teacher);
+        requestParams.add("type", type);
+        requestParams.add("day", day);
+        requestParams.add("status", status);
+        requestParams.add("create_date", create_date);
+        requestParams.add("start_date", start_date);
+        requestParams.add("start_time", start_time);
+        requestParams.add("end_date", end_date);
+        requestParams.add("end_time", end_time);
+
+
+        conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+
+            }
         });
 
 
