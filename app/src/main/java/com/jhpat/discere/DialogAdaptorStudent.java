@@ -174,11 +174,11 @@ class DialogAdaptorStudent extends BaseAdapter {
                             String start=fecha+"T"+hora_inicio;//Formato yyyy-MM-ddT00:00:00
                             String end=fecha+"T"+hora_final;
 
-                         agendarSesionPendienteFellow(""+USER, ""+tipoSesion, ""+start, ""+end, null,""+getNombreDia(fecha), ""+getFechaActual(),
-                                  ""+1,""+start_date ,
-                                   ""+end_date, ""+alCustom.get(position).getId_teacher());
+                            agendarSesionPendienteFellow(""+USER, ""+tipoSesion, ""+start, ""+end, null,""+getNombreDia(fecha), ""+getFechaActual(),
+                                    ""+1,""+start_date ,
+                                    ""+end_date, ""+alCustom.get(position).getId_teacher());
 
-                            }});
+                        }});
 
 
                     boton_cancelar.setEnabled(false);
@@ -225,7 +225,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     boton.setEnabled(false);
                     boton.setVisibility(View.INVISIBLE);
-                   //SE OCULTA EL BOTON CANCELAR
+                    //SE OCULTA EL BOTON CANCELAR
                     boton_cancelar.setEnabled(false);
                     boton_cancelar.setVisibility(View.INVISIBLE);
                     break;
@@ -273,7 +273,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                                 for (int i=1; i<10; i++){
                                     FechasS[i]=getFecha7Dias(FechasS[i-1]);
                                     total=total+"'"+FechasS[i]+" "+hora_inicio+"'";
-                                     if (cuentaOr < 8) {
+                                    if (cuentaOr < 8) {
                                         total = total + OR;
                                     }
 
@@ -316,7 +316,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                                 cargaIdUserMandandoIdFellow(""+alCustom.get(position).getId_fellow(), ""+USER, ""+total, ""+title,
                                         ""+start, ""+end, null, ""+getNombreDia(Fecha), ""+getFechaActual(), "1", ""+start_date, ""+end_date);
 
-                          }
+                            }
 
                             //Enviar correo
 
@@ -502,8 +502,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     public void agendarSesionPendienteLessons ( final String id_fellow, final String id_teacher,
-                                       final String type,final String day,final String status, final String create_date, final String start_date,
-                                       final String end_date,  final String start_time, final String end_time)
+                                                final String type,final String day,final String status, final String create_date, final String start_date,
+                                                final String end_date,  final String start_time, final String end_time)
     {
 
 
@@ -548,7 +548,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                                               final String day , final String create_date, final String status, final String start_date,final String end_date, final String id_teacher)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-       final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("user", user);
@@ -567,7 +567,7 @@ class DialogAdaptorStudent extends BaseAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
-               // Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "Session saved", Toast.LENGTH_SHORT).show();
 
                 try {
                     jsonObject = new JSONObject(new String(responseBody));
@@ -586,15 +586,15 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     }
 
-                   if (title.equalsIgnoreCase("Coaching 1")){
+                    if (title.equalsIgnoreCase("Coaching 1")){
                         type="Coaching!Pending";
                     }else
                     {
                         type="Speaking!Pending";
                     }
 
-                 agendarSesionPendienteLessons(""+id_fellow[0], ""+id_teacher, ""+type, ""+day, ""+status, ""+getFechaActual(), ""+start_date.substring(0, 10),
-                 ""+end_date.substring(0, 10) , ""+start_date.substring(10, 19), ""+end_date.substring(10, 19));
+                    agendarSesionPendienteLessons(""+id_fellow[0], ""+id_teacher, ""+type, ""+day, ""+status, ""+getFechaActual(), ""+start_date.substring(0, 10),
+                            ""+end_date.substring(0, 10) , ""+start_date.substring(10, 19), ""+end_date.substring(10, 19));
 
 
                 } catch (JSONException e) {
@@ -611,7 +611,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                 //error.toString();
                 Toast.makeText(context, "Error 598: " + error, Toast.LENGTH_SHORT).show();
 
-        }
+            }
         });
 
 
@@ -655,7 +655,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                         agendarSesionOcupadaFellow(""+USER_FELLOW, ""+title, ""+fecha_inicio[i].substring(0,10)+"T"+fecha_inicio[i].substring(11,19), ""+fecha_final[0].substring(0,10)+"T"+fecha_final[0].substring(11,19), ""+constrain,
                                 ""+day, ""+create_date,""+status,
-                        ""+fecha_inicio[i], ""+fecha_final[i], ""+id_teacher[i]);
+                                ""+fecha_inicio[i], ""+fecha_final[i], ""+id_teacher[i]);
 
                     }
 
@@ -732,7 +732,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
 
     public void agendarSesionOcupadaFellow (final String user,final String title,final String start, final String end, final String constrain,
-                                              final String day , final String create_date, final String status, final String start_date,final String end_date, final String id_teacher)
+                                            final String day , final String create_date, final String status, final String start_date,final String end_date, final String id_teacher)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
@@ -773,11 +773,11 @@ class DialogAdaptorStudent extends BaseAdapter {
                         type="Speaking";
                     }
 
-                        id_fellow=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
+                    id_fellow=jsonObject.getJSONArray("datos").getJSONObject(0).getString("id_");
 
                     agendarSesionOcupadaLessons(""+id_fellow, ""+id_teacher, ""+type, ""+day, ""+status, ""+create_date,
                             ""+start_date.substring(0, 10),
-                                ""+end_date.substring(0, 10) , ""+start_date.substring(10, 19), ""+end_date.substring(10, 19));
+                            ""+end_date.substring(0, 10) , ""+start_date.substring(10, 19), ""+end_date.substring(10, 19));
 
 
 
