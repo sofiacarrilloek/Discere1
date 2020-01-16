@@ -254,7 +254,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                             if (tipoSesion.equalsIgnoreCase("Coaching!Pending"))
                             {
-                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -287,7 +287,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                             }
                             if (tipoSesion.equalsIgnoreCase("Speaking!Pending"))
                             {
-                                //actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
+                                actualizaSesionAceptada(id_fellow, id_teacher, "Coaching");
                                 String title = "Coaching 1";
                                 String hora_inicio=FechaCompleta.substring(10, 19);
                                 String hora_final=FechaCompleta.substring(20, 28);
@@ -622,8 +622,8 @@ class DialogAdaptorStudent extends BaseAdapter {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
 
-        final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
-        //final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        //final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",user);
         requestParams.add("consulta",consulta);
@@ -659,7 +659,6 @@ class DialogAdaptorStudent extends BaseAdapter {
 
                     }
 
-                    //Toast.makeText(context, "Start: "+fecha_final[0].substring(0,10)+"T"+fecha_final[0].substring(11,19), Toast.LENGTH_SHORT).show();
 
 
                 } catch (JSONException e) {
@@ -736,8 +735,8 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
-        final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
-        //final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        //final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
+        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("user", user);
@@ -806,8 +805,8 @@ class DialogAdaptorStudent extends BaseAdapter {
                                               final String end_date,  final String start_time, final String end_time)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
-        //final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        //final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
+        final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
 
         //envio el parametro
