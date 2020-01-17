@@ -6,12 +6,9 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,7 +19,6 @@ import android.os.PowerManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -57,13 +53,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -80,12 +72,16 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "https://samplexl.000webhostapp.com/Acceso/s3.php";
-    private File file,fileN;
+    private static final String SERVER_PATH = "https://nomevasabloquearnada.000webhostapp.com/Upload/s3/s3/s3.php";
+    private File file;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
     private static final int REQUEST_FILE_CODE = 200;
-    String TIPO,NOMBRE;
+    private static final int READ_REQUEST_CODE = 300;
+    private ProgressDialog progreso;
+    RequestQueue requestQueue;
+    Bitmap bitmap;
+    StringRequest stringRequest;
 
     public TabBFragment() {
         // Required empty public constructor
@@ -107,9 +103,6 @@ public class TabBFragment extends Fragment {
         nombreA = (TextView) vista.findViewById(R.id.NombreAudio);
         buscarA= (Button) vista.findViewById(R.id.BuscarAudio);
         solicitarpermisos();
-        cargarPreferencias();
-        httpHandler handler = new httpHandler();
-        String txt = handler.post("https://samplexl.000webhostapp.com/Acceso/s3.php");
         buscarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +115,7 @@ public class TabBFragment extends Fragment {
         añadirA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fileN != null) {
+                if (file != null) {
                     UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(getContext());
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
@@ -142,44 +135,6 @@ public class TabBFragment extends Fragment {
 
 
         return vista;
-    }
-
-    private  void cargarPreferencias(){
-        SharedPreferences preferencia =this.getActivity().getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
-        TIPO = preferencia.getString("TIPO2", "NO EXISTE");
-        NOMBRE = preferencia.getString("NOMBRE", "NO EXISTE");
-
-        Toast.makeText(this.getActivity(), "TIPO: "+TIPO+","+NOMBRE, Toast.LENGTH_SHORT).show();
-
-
-    }//Fin cargar preferencias
-    public class httpHandler {
-        public String post(String posturl){
-
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-
-                /*Creamos el objeto de HttpClient que nos permitira conectarnos mediante peticiones http*/
-
-                HttpPost httppost = new HttpPost(posturl);
-
-                /*El objeto HttpPost permite que enviemos una peticion de tipo POST a una URL especificada*/
-
-                //AÑADIR PARAMETROS
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("nombre", NOMBRE));
-
-                /*Una vez añadidos los parametros actualizamos la entidad de httppost, esto quiere decir en pocas palabras anexamos los parametros al objeto para que al enviarse al servidor envien los datos que hemos añadido*/
-
-                httppost.setEntity((HttpEntity) new UrlEncodedFormEntity(params));
-                /*Finalmente ejecutamos enviando la info al server*/
-                HttpResponse resp = httpclient.execute(httppost);
-                HttpEntity ent = resp.getEntity();/*y obtenemos una respuesta*/
-                String text = EntityUtils.toString(ent);
-                return text;
-            }
-            catch(Exception e) { return "error";}
-        }
     }
 
     private void solicitarpermisos(){
@@ -273,7 +228,6 @@ public class TabBFragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Choose File"), VALOR_RETORNO);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
@@ -281,14 +235,8 @@ public class TabBFragment extends Fragment {
             // previewFile(fileUri);
             String filePath = getRealPath(getContext(), fileUri);
             file = new File(filePath);
-            Date date = new Date();
-            DateFormat hourdateFormat = new SimpleDateFormat("yyyy-dd-MM");
-            String historial = hourdateFormat.format(date);
-            String nombreUsuario=TIPO;
-            fileN=new File("audio_"+nombreUsuario+"_"+historial);
-
-            Log.d(TAG, "Filename " + fileN.getName());
-            nombreA.setText(fileN.getName());
+            Log.d(TAG, "Filename " + file.getName());
+            nombreA.setText(file.getName());
             //insertarAudio(file.getName());
         }
     }
@@ -457,24 +405,24 @@ public class TabBFragment extends Fragment {
             String responseString = null;
 
 
-                HttpPost httpPost = new HttpPost(SERVER_PATH);
-                MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+            HttpPost httpPost = new HttpPost(SERVER_PATH);
+            MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
 
-                // Add the file to be uploaded
-                multipartEntityBuilder.addPart("file", new FileBody(fileN));
+            // Add the file to be uploaded
+            multipartEntityBuilder.addPart("file", new FileBody(file));
 
-                // Progress listener - updates task's progress
-                MyHttpEntity.ProgressListener progressListener =
-                        new MyHttpEntity.ProgressListener() {
-                            @Override
-                            public void transferred(float progress) {
-                                publishProgress((int) progress);
-                            }
-                        };
+            // Progress listener - updates task's progress
+            MyHttpEntity.ProgressListener progressListener =
+                    new MyHttpEntity.ProgressListener() {
+                        @Override
+                        public void transferred(float progress) {
+                            publishProgress((int) progress);
+                        }
+                    };
 
-                // POST
-                httpPost.setEntity(new MyHttpEntity(multipartEntityBuilder.build(),
-                        progressListener));
+            // POST
+            httpPost.setEntity(new MyHttpEntity(multipartEntityBuilder.build(),
+                    progressListener));
 
 
             try {
@@ -508,7 +456,7 @@ public class TabBFragment extends Fragment {
             // Close dialog
             this.progressDialog.dismiss();
             //Toast.makeText(getContext(), result, Toast.LENGTH_LONG).show();
-            buscarAudio();
+
         }
 
         @Override

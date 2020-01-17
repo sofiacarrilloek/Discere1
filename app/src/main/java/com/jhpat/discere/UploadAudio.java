@@ -105,7 +105,7 @@ public class UploadAudio extends AppCompatActivity implements PermissionCallback
                     uploadAsyncTask.execute();
                     //UploadAsyncTask.setNotificationConfig(new UploadAsyncTask());
                     //Aqui en el método se inserta el link donde se guardará en la base de datos
-                    insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
+                    //insertarAudio("http://puntosingular.mx/cas/audios/"+file.getName());
 
                 } else {
                     Toast.makeText(getApplicationContext(),
