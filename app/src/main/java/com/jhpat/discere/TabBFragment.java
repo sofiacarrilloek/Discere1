@@ -72,7 +72,7 @@ public class TabBFragment extends Fragment {
     private static final String TAG = TabBFragment.class.getSimpleName();
     private String selectedFilePath;
     TextView tvFileName;
-    private static final String SERVER_PATH = "https://samplexl.000webhostapp.com/Acceso/s3.php";
+    private static final String SERVER_PATH = "https://nomevasabloquearnada.000webhostapp.com/Upload/s3/s3/s3.php";
     private File file;
     private int VALOR_RETORNO = 1;
     Uri fileUri;
@@ -456,7 +456,7 @@ public class TabBFragment extends Fragment {
             // Close dialog
             this.progressDialog.dismiss();
             //Toast.makeText(getContext(), result, Toast.LENGTH_LONG).show();
-            buscarAudio();
+
         }
 
         @Override
