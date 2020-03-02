@@ -154,7 +154,7 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
             //Verifica que el usuario sea un coach o un speaker
             if (tipo.equals("Coach") || tipo.equals("Speaker") ){
                 //Muestra los fracmentos correspondientes a cada uno dando el contador que crea las vistas
-                retorno =2;
+                retorno =1;
             }else{
                 retorno =1;
             }
