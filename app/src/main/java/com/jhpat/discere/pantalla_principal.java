@@ -222,7 +222,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
 
     }
     public void panta(){
-        Intent intent=new Intent(pantalla_principal.this,UploadAudio.class);
+        Intent intent=new Intent(pantalla_principal.this,pantalla_principal.class);
         startActivity(intent);
     }
     public void pant(){
