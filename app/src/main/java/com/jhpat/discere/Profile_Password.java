@@ -35,7 +35,7 @@ public class Profile_Password extends AppCompatActivity {
     Button btn_actualizarCon, btn_cancelCon;
 
     public static String NAME1, LAST_NAME1, GENDER1, ID1, EMAIL1, TEL1, PASSWORD1;//CLASE
-    private static final String UURL = "http://34.226.77.86/discere/consulta_password.php";
+    private static final String UURL = "http://100.26.2.12/discere/consulta_password.php";
     private static final String TAG_SUCCESS = "success";
     JSONObject jsonObject;
     // Clase JSONParser
@@ -78,7 +78,7 @@ public class Profile_Password extends AppCompatActivity {
     public void editarContraseña(String id_usu)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/consulta_password.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/consulta_password.php"; //la url del web service
         final RequestParams requestParams =new RequestParams();
 
 

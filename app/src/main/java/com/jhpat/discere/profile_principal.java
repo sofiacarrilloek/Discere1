@@ -149,7 +149,7 @@ public class profile_principal extends Fragment {
     }
 
     private void Cargarfoto() {
-        String url= " http://34.226.77.86/discere/imagenes/"+nombre.getText()+".jpg";
+        String url= " http://100.26.2.12/discere/imagenes/"+nombre.getText()+".jpg";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {

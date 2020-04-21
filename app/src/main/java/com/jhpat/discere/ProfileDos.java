@@ -64,7 +64,7 @@ public class ProfileDos extends AppCompatActivity
     final int COD_FOTO=20;
     int TIPO =1;
 
-    String UPLOAD_URL = "http://34.226.77.86/discere/imagen.php";
+    String UPLOAD_URL = "http://100.26.2.12/discere/imagen.php";
     RequestQueue requestQueue;
 
     String KEY_IMAGE = "photo";
@@ -134,7 +134,7 @@ public class ProfileDos extends AppCompatActivity
     }
 
     private void Cargarfoto() {
-        String url= "http://34.226.77.86/discere/imagenes/"+nombre.getText()+".jpg";
+        String url= "http://100.26.2.12/discere/imagenes/"+nombre.getText()+".jpg";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -372,7 +372,7 @@ public class ProfileDos extends AppCompatActivity
     public void editarDatos(final String id_usu)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/editar_usuario.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/editar_usuario.php"; //la url del web service
         final RequestParams requestParams =new RequestParams();
 
         //ENVIO LOS PARAMETROS

@@ -50,7 +50,7 @@ public class MainLista extends AppCompatActivity {
         id_teacher= preferencia.getString("ID2", "NO EXISTE");
        // Toast.makeText(getApplicationContext(),"hola"+id_teac,Toast.LENGTH_LONG).show();
 
-        String url="http://34.226.77.86/discere/Lista_nombre.php?user="+id_teacher+"";
+        String url="http://100.26.2.12/discere/Lista_nombre.php?user="+id_teacher+"";
 
 
 

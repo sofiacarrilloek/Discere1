@@ -43,7 +43,7 @@ public class MainFecha extends AppCompatActivity{
         SharedPreferences preferencia =getSharedPreferences("id_fellow", Context.MODE_PRIVATE);
         id_fellow= preferencia.getString("sariel", "NO EXISTE");
         Toast.makeText(getApplicationContext(),"Hola"+id_fellow,Toast.LENGTH_LONG).show();
-        String url="http://34.226.77.86/discere/Lista_fechas.php?id_fellow="+id_fellow+"";
+        String url="http://100.26.2.12/discere/Lista_fechas.php?id_fellow="+id_fellow+"";
 
 
 

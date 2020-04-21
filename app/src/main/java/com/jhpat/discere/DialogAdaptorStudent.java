@@ -473,7 +473,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
         //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/actualiza_lessons_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://100.26.2.12/discere/calendar/actualiza_lessons_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("tipoActualizado",actualizacion);
         requestParams.add("id_fellow",id_fellow);
@@ -507,7 +507,7 @@ class DialogAdaptorStudent extends BaseAdapter {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
 
-        final String url = "http://34.226.77.86/discere/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://100.26.2.12/discere/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("id_fellow", id_fellow);
@@ -546,7 +546,7 @@ class DialogAdaptorStudent extends BaseAdapter {
                                               final String day , final String create_date, final String status, final String start_date,final String end_date, final String id_teacher)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://100.26.2.12/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("user", user);
@@ -621,7 +621,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
         //final String url ="https://projectzerowaste.000webhostapp.com/app/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_sesionesEnEspera.php
-        final String url ="http://34.226.77.86/discere/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/calendar/cargar_id_teacher_btn_pendiente.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",user);
         requestParams.add("consulta",consulta);
@@ -685,7 +685,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
         //Este metodo actualiza el status a 0 cuando el teacher cancela una disponibilidad
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://100.26.2.12/discere/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_fellow",id_fellow);
 
@@ -734,7 +734,7 @@ class DialogAdaptorStudent extends BaseAdapter {
         AsyncHttpClient conexion = new AsyncHttpClient();
 
         //final String url = "https://projectzerowaste.000webhostapp.com/app/insertar_tabla_fellow.php";
-        final String url = "http://34.226.77.86/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://100.26.2.12/discere/calendar/insertar_tabla_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         //envio el parametro
         requestParams.add("user", user);
@@ -804,7 +804,7 @@ class DialogAdaptorStudent extends BaseAdapter {
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
         //final String url ="https://projectzerowaste.000webhostapp.com/app/insertar_sesion_aceptada.php";
-        final String url ="http://34.226.77.86/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/insertar_sesion_aceptada.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
 
         //envio el parametro

@@ -252,7 +252,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         id=preferencia.getString("ID2", "NO EXISTE");
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/payment_active.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/payment_active.php"; //la url del web service
         final RequestParams requestParams =new RequestParams();
         requestParams.add("activeUser",id); //envio el parametro
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -303,7 +303,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         //
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/obtener_tipo_usuario.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/obtener_tipo_usuario.php"; //la url del web service
         // final String urlimagen ="http://dominio.com/assets/img/perfil/"; //aqui se encuentran todas las imagenes de perfil. solo especifico la ruta por que el nombre de las imagenes se encuentra almacenado en la bd.
         final RequestParams requestParams =new RequestParams();
         requestParams.add("correo",Correo); //envio el parametro
@@ -400,7 +400,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro id_user
 
@@ -460,7 +460,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_fellow",ID_FELLOW); //envio el parametro
 
@@ -519,7 +519,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_lesson",ID_LESSON); //envio el parametro
 
@@ -578,7 +578,7 @@ public class pantalla_principal extends AppCompatActivity implements NavigationV
     {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_lesson_result",ID_LESSON_RESULT); //envio el parametro
 

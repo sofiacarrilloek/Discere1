@@ -177,7 +177,7 @@ public class MainActivity2 extends AppCompatActivity{
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro
 
@@ -235,7 +235,7 @@ public class MainActivity2 extends AppCompatActivity{
         //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",ID_TEACHER1); //envio el parametro
 
@@ -307,7 +307,7 @@ public class MainActivity2 extends AppCompatActivity{
         //PARA EL TEACHER
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/teacher_disponibilidad.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("user",ID_USER); //envio el parametro
 
@@ -372,7 +372,7 @@ public class MainActivity2 extends AppCompatActivity{
         //PARA EL FELLOW    OBTIENE LAS SESIONES EN ESPERA (COLOR NARANJA O AMARILLO) :'V
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons_teacher.php"; //la url del web service obtener_sesionesEnEspera.php
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",ID_TEACHER2); //envio el parametro
 
@@ -450,7 +450,7 @@ public class MainActivity2 extends AppCompatActivity{
     public void cargarIdUsercargarIdUserFellowOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora, final String id_fellow)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/calendar/cargar_id_user_mandando_id_fellow.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_fellow",id_fellow);
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -495,7 +495,7 @@ public class MainActivity2 extends AppCompatActivity{
     public void cargarNombreUsuarioLessons (final String fechaInicio, final String estado, final String tipo, final String user,
                                             final String hora, final String id_teacher, final String id_fellow) {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_user", user);
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -545,7 +545,7 @@ public class MainActivity2 extends AppCompatActivity{
     {
         HomeCollection.date_collection_arr=new ArrayList<HomeCollection>();
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/calendar/cargar_datos_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_user", user);
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -601,7 +601,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obten_id_fellow.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro
 
@@ -663,7 +663,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obten_disponibilidad_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -727,7 +727,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
 
@@ -794,7 +794,7 @@ public class MainActivity2 extends AppCompatActivity{
     public void cargarIdUserTeacherOcupado (final String fechaInicio, final String estado, final String tipo, final String id_teacher, final String hora, final String id_fellow)
     {
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/cargar_id_user_mandando_id_teacher.php"; //la url del web service
+        final String url ="http://100.26.2.12/discere/cas/calendar/cargar_id_user_mandando_id_teacher.php"; //la url del web service
         final RequestParams requestParams =new RequestParams("id_teacher", id_teacher);
 
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {
@@ -844,7 +844,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_fellow",ID_FELLOW2); //envio el parametro
 
