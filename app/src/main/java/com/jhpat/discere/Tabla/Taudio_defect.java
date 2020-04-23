@@ -85,7 +85,7 @@ public class Taudio_defect extends AppCompatActivity {
 
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obten_id_teacher.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_user",ID_USER); //envio el parametro
 
@@ -144,7 +144,7 @@ public class Taudio_defect extends AppCompatActivity {
     {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url ="http://34.226.77.86/discere/cas/calendar/obtener_fecha_lessons_teacher.php";//la url del web service obtener_fecha_lessons.ph
+        final String url ="http://100.26.2.12/discere/cas/calendar/obtener_fecha_lessons_teacher.php";//la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams =new RequestParams();
         requestParams.add("id_teacher",ID_FELLOW); //envio el parametro
 
@@ -203,7 +203,7 @@ public class Taudio_defect extends AppCompatActivity {
     public void obtenLessonResult(String ID_LESSON) {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://100.26.2.12/discere/Obten_lesson_result.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         requestParams.add("id_lesson", ID_LESSON); //envio el parametro
 
@@ -261,7 +261,7 @@ public class Taudio_defect extends AppCompatActivity {
     public void obtenDatosAudio(String ID_LESSON_RESULT) {
         //Para el fellow
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
+        final String url = "http://100.26.2.12/discere/Obten_datos_audio.php"; //la url del web service obtener_fecha_lessons.ph
         final RequestParams requestParams = new RequestParams();
         requestParams.add("id_lesson_result", ID_LESSON_RESULT); //envio el parametro
 
@@ -320,7 +320,7 @@ public class Taudio_defect extends AppCompatActivity {
     public void cargarAudioDefect(String ID_AUDIO_ANALYST) {
 
         AsyncHttpClient conexion = new AsyncHttpClient();
-        final String url = "http://34.226.77.86/discere/Obten_datos_audio_defect.php"; //la url del web service
+        final String url = "http://100.26.2.12/discere/Obten_datos_audio_defect.php"; //la url del web service
         final RequestParams requestParams = new RequestParams();
         requestParams.add("id_audio_analyst", ID_AUDIO_ANALYST); //envio el parametro
         conexion.post(url, requestParams, new AsyncHttpResponseHandler() {

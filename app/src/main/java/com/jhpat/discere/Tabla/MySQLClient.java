@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -14,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+import com.jhpat.discere.Tabla.Spacecraft;
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 
@@ -32,7 +34,7 @@ public class MySQLClient {
     public void cargarDatosTabla(){
         SharedPreferences preferencia =c.getSharedPreferences("idaudio", Context.MODE_PRIVATE);//obtengo las preferencias del IDAnalist
         id_=preferencia.getString("audio", "NO EXISTE");//esta es la preferencia y donde almaceno la variable del mismo
-        Data_RETRIVE_URL="http://34.226.77.86/discere/obtener_audio_defec.php?id_audio_analyst="+id_+"";//Realiza la consulta
+        Data_RETRIVE_URL="http://100.26.2.12/discere/obtener_audio_defec.php?id_audio_analyst="+id_+"";//Realiza la consulta
          //Toast.makeText(c.getApplicationContext(),"hola"+id_,Toast.LENGTH_LONG).show();
     }
 

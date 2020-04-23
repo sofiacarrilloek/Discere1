@@ -102,7 +102,7 @@ public class claseCuadroBD  extends AppCompatActivity {
     {
 //Conexion
         AsyncHttpClient conexion = new AsyncHttpClient();
-         final String url ="http://34.226.77.86/discere/obtenerS.php"; //la url del web service
+         final String url ="http://100.26.2.12/discere/obtenerS.php"; //la url del web service
         final RequestParams requestParams =new RequestParams();
         requestParams.add("fecha",Correo); //envio el parametro
 

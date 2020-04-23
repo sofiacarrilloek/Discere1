@@ -190,9 +190,9 @@ public class TabsActivity extends AppCompatActivity implements ActionBar.TabList
     {
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         usuario= preferencia.getString("ID2", "NO EXISTE");
-        tipo=preferencia.getString("TIPO2", "holaperro");
+        tipo=preferencia.getString("TIPO2", "hola");
         email=preferencia.getString("EMAIL2","No hay email");
-        nombre=preferencia.getString("NAME2","HOLA Crack");
+        nombre=preferencia.getString("NAME2","HOLA ");
         apellido=preferencia.getString("LAST_NAME2","hola");
     }//Fin cargar preferencias
 

@@ -34,7 +34,7 @@ import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.jhpat.discere.Login.TIPO1;
+
 
 public class Activity_Agendar extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener{
     EditText te_1,te_2;

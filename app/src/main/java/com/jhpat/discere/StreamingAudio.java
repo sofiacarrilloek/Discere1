@@ -116,7 +116,7 @@ public class StreamingAudio extends Fragment {
 
 
     public void llenarSpinner(){
-        String url="http://34.226.77.86/discere/obtener_audios.php";
+        String url="http://100.26.2.12/discere/obtener_audios.php";
         client.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

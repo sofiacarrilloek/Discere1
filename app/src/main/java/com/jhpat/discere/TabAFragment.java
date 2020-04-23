@@ -330,7 +330,7 @@ public class TabAFragment extends Fragment implements Response.Listener<JSONObje
         //String URL="http://puntosingular.mx/cas/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
         //String URL="http://34.226.77.86/discere/conexcion_coach/registro.php?user="+usuario+"&type="+tip+"&title="+tip+"&start="+x_3+"&end=10&start_date="+x_1+"&end_date="+x_2;
         //String URL="http://puntosingular.mx/cas/conexcion_coach/registro_2.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day=Monday&status=1&start_date="+x_1+"&end_date="+x_2;
-        String URL="http://34.226.77.86/discere/registro_horario.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day="+dias_nombre+"&status=1&start_date="+x_1+"&end_date="+x_2;
+        String URL="http://100.26.2.12/discere/registro_horario.php?user="+usuario+"&type="+tipos+"&title="+tipos+"&start="+x_3+"&end="+x_4+"&day="+dias_nombre+"&status=1&start_date="+x_1+"&end_date="+x_2;
 //Envia los datos guardados en el URL
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         request.add(jsonObjectRequest);

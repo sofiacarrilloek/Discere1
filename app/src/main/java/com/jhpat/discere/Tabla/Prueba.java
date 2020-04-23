@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.jhpat.discere.Grafico;
 import com.jhpat.discere.R;
 
 import org.json.JSONArray;
@@ -74,7 +73,7 @@ public class Prueba extends AppCompatActivity {
     public void cargarp2(){
         SharedPreferences preferencia =getSharedPreferences("Credenciales", Context.MODE_PRIVATE);
         id=preferencia.getString("ID2", "NO EXISTE");
-        obtener_en_fellow("http://34.226.77.86/discere/cas/tabla/elchido?user="+id+"");
+        obtener_en_fellow("http://100.26.2.12/discere/cas/tabla/elchido?user="+id+"");
 
     }
     public void obtener_en_fellow(String URL){
@@ -117,9 +116,9 @@ public class Prueba extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent (v.getContext(), Grafico.class);
-                        intent.putExtra("tam", id2);
-                        startActivity(intent);
+                        //Intent intent = new Intent (v.getContext(), Grafico.class);
+                        //intent.putExtra("tam", id2);
+                        //startActivity(intent);
                     }
                 });
         //
